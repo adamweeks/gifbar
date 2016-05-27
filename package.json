@@ -1,0 +1,36 @@
+{
+  "name": "gifbar",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress --profile --colors --display-error-details --display-cached",
+    "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
+    "electron": "electron src"
+  },
+  "author": "Adam Weeks",
+  "license": "MIT",
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.0",
+    "es6-shim": "^0.34.0",
+    "ts-loader": "^0.8.2",
+    "typescript": "^1.8.10",
+    "typings": "^0.8.1",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
+  },
+  "dependencies": {
+    "@angular/common": "2.0.0-rc.1",
+    "@angular/compiler": "2.0.0-rc.1",
+    "@angular/core": "2.0.0-rc.1",
+    "@angular/http": "2.0.0-rc.1",
+    "@angular/platform-browser": "2.0.0-rc.1",
+    "@angular/platform-browser-dynamic": "2.0.0-rc.1",
+    "@angular/router": "2.0.0-rc.1",
+    "es6-shim": "^0.35.0",
+    "reflect-metadata": "0.1.3",
+    "rxjs": "5.0.0-beta.6",
+    "systemjs": "0.19.26",
+    "zone.js": "^0.6.12"
+  }
+}
