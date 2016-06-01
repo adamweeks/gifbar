@@ -1,18 +1,10 @@
-import {bootstrap} from '@angular/platform-browser-dynamic';
-import {Component} from '@angular/core';
-import {NgFor} from '@angular/common';
+import { enableProdMode } from '@angular/core';
+import { bootstrap } from '@angular/platform-browser-dynamic';
 
-@Component({
-  selector: 'app',
-  template: `
-    <h1>Ready for Electron!</h1>
-  `
-})
+import { AppComponent } from './app.component';
 
-export class App {
+// enableProdMode();
 
-  constructor() {}
-
-}
-
-bootstrap(App);
+bootstrap(AppComponent)
+  .then(success => console.log(`Bootstrap success`))
+  .catch(error => console.log(error));

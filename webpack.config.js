@@ -11,7 +11,10 @@ module.exports = {
       'zone.js',
       'rxjs',
       'reflect-metadata',
-      '@angular/core'
+      '@angular/core',
+      '@angular/common',
+      '@angular/http',
+      '@angular/platform-browser-dynamic'
     ],
     'app': './src/app/index.ts'
   },

@@ -8,6 +8,7 @@
     "sourceMap": true
   },
   "files": [
-    "src/app/index.ts"
+    "src/app/index.ts",
+    "src/typings.d.ts"
   ]
 }
