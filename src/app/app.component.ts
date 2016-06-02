@@ -1,4 +1,5 @@
 import {SearchResultsComponent} from './searchResults.component';
+import { SearchHistoryComponent } from './searchHistory.component';
 import {SearchService} from './search.service';
 import { Component } from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
@@ -10,11 +11,12 @@ import {SearchBarComponent} from './searchBar.component';
     moduleId: module.id,
     selector: 'app',
     template: `
-        <h1>Ready for Electron!!</h1>
+        <h1>Ready for Gifs!!</h1>
         <search-bar></search-bar>
+        <search-history></search-history>
         <search-results></search-results>
     `,
-    directives: [SearchBarComponent, SearchResultsComponent],
+    directives: [SearchBarComponent, SearchResultsComponent, SearchHistoryComponent],
     providers: [
       HTTP_PROVIDERS,
       SearchService
