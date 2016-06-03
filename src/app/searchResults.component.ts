@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
     selector: 'search-results',
     directives: [ImageDisplayComponent],
     template: `
-    <h3>Results</h3>
     <div *ngFor="let item of results | async">
         <image-display [image]="item"></image-display>
     </div>

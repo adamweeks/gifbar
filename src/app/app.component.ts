@@ -12,9 +12,7 @@ import {SearchBarComponent} from './searchBar.component';
     moduleId: module.id,
     selector: 'app',
     template: `
-        <h1>Ready for Gifs!!</h1>
         <search-bar></search-bar>
-        <search-history></search-history>
         <search-results></search-results>
     `,
     directives: [SearchBarComponent, SearchResultsComponent, SearchHistoryComponent],

@@ -4,7 +4,12 @@ import {SearchService} from './search.service';
 @Component({
     moduleId: module.id,
     selector: 'search-bar',
-    template: `<input id="searchBar" [(ngModel)]="searchText"><button (click)="doSearch(searchText)">Search</button>`
+    template: `
+    <form (ngSubmit)="doSearch(searchText)" #searchBarForm="ngForm">
+        <input id="searchBar" [(ngModel)]="searchText" placeholder="Search for gifs">
+        <button type="submit">Search</button>
+    </form>
+    `
 })
 export class SearchBarComponent implements OnInit {
     constructor(private searchService: SearchService) { }

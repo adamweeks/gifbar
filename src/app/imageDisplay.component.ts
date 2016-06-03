@@ -5,14 +5,14 @@ import { ImageObject } from './imageObject.class';
     moduleId: module.id,
     selector: 'image-display',
     template: `
-        <img [src]="image.url">
-        <input readonly [value]="image.url">
+        <img [src]="image.displayUrl">
+        <input readonly [value]="image.fullSizedImageUrl">
+        <button (click)="copyUrl()">Copy</button>
     `,
     styles: [
         `
         img {
             width: 200px;
-            height: 200px;
             display: block;
         }
         `
@@ -26,4 +26,7 @@ export class ImageDisplayComponent implements OnInit {
 
     ngOnInit() { }
 
+    copyUrl() {
+
+    }
 }

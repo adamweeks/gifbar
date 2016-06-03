@@ -29,7 +29,11 @@ export class SearchService {
         this.giphyService.search(searchText)
             .then(results => {
             this.searchResults.next(results.map(giphyObject => {
-                return new ImageObject(giphyObject.images.fixed_width.url);
+                let image = new ImageObject(giphyObject.images.fixed_width.url);
+                image.fullSizedImageUrl = giphyObject.images.original.url;
+                image.sourceUrl = giphyObject.url;
+
+                return image;
             }));
         });
         // this.searchResults.next(fakeResults);
