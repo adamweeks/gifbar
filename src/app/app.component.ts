@@ -1,6 +1,7 @@
 import {SearchResultsComponent} from './searchResults.component';
 import { SearchHistoryComponent } from './searchHistory.component';
 import {SearchService} from './search.service';
+import { ClipboardService } from './clipboard.service';
 import { GiphyService } from './giphy.service';
 import { Component } from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
@@ -19,7 +20,8 @@ import {SearchBarComponent} from './searchBar.component';
     providers: [
       HTTP_PROVIDERS,
       SearchService,
-      GiphyService
+      GiphyService,
+      ClipboardService
     ]
 })
 

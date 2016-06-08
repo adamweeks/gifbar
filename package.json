@@ -14,11 +14,13 @@
   "devDependencies": {
     "electron-prebuilt": "^1.2.0",
     "es6-shim": "^0.34.0",
+    "minimist": "^1.2.0",
     "ts-loader": "^0.8.2",
     "typescript": "^1.8.10",
     "typings": "^0.8.1",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
+    "webpack-dev-server": "^1.14.0",
+    "webpack-target-electron-renderer": "^0.4.0"
   },
   "dependencies": {
     "@angular/common": "2.0.0-rc.1",

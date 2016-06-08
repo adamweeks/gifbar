@@ -1,8 +1,9 @@
 var path = require('path');
 var webpack = require('webpack');
+var webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 
-module.exports = {
+var options = {
   devtool: 'source-map',
   debug: true,
 
@@ -28,7 +29,8 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['','.ts','.js','.json', '.css', '.html']
+    extensions: ['','.ts','.js','.json', '.css', '.html'],
+    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
   },
 
   module: {
@@ -47,3 +49,7 @@ module.exports = {
   ],
   target:'node-webkit'
 };
+
+options.target = webpackTargetElectronRenderer(options);
+
+module.exports = options;

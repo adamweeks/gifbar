@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ImageObject } from './imageObject.class';
+import { ClipboardService } from './clipboard.service';
 
 @Component({
     moduleId: module.id,
@@ -22,11 +23,11 @@ export class ImageDisplayComponent implements OnInit {
 
     @Input() image: ImageObject;
 
-    constructor() { }
+    constructor(private clipboardService: ClipboardService) { }
 
     ngOnInit() { }
 
     copyUrl() {
-
+        this.clipboardService.writeText(this.image.fullSizedImageUrl);
     }
 }
