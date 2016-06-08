@@ -6,10 +6,27 @@ import {SearchService} from './search.service';
     selector: 'search-bar',
     template: `
     <form (ngSubmit)="doSearch(searchText)" #searchBarForm="ngForm">
-        <input id="searchBar" [(ngModel)]="searchText" placeholder="Search for gifs">
+        <div class="input-wrapper">
+            <input id="searchBar" [(ngModel)]="searchText" placeholder="Search for gifs">
+        </div>
         <button type="submit">Search</button>
     </form>
-    `
+    `,
+    styles: [
+        '.input-wrapper { margin-right: 72px; }',
+        `button {
+            padding: 6px 8px;
+            margin-top: 1px;
+            font-size: 14px;
+        }`,
+        `input {
+            float: left;
+            width: 100%;
+            padding: 5px;
+            margin-right: 5px;
+            font-size: 14px;
+        }`
+    ],
 })
 export class SearchBarComponent implements OnInit {
     constructor(private searchService: SearchService) { }
