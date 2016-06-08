@@ -7,6 +7,7 @@
     "build": "webpack --progress --profile --colors --display-error-details --display-cached",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
     "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --tmpdir=false --out=releases/",
+    "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --tmpdir=false --out=releases/",
     "electron": "electron src"
   },
   "author": "Adam Weeks",
