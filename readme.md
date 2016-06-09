@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/adamweeks/gifbar.png?label=ready&title=Ready)](https://waffle.io/adamweeks/gifbar)
 # Angular 2 + Electron Sample
 
 This is an Angular 2 and Electron sample app
