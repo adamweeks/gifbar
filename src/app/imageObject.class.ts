@@ -11,6 +11,11 @@ export class ImageObject {
      */
     sourceUrl: string;
 
+    /**
+     * The sizes for images
+     */
+    imageSizes: ImageObjectSizes;
+
     tags: string[];
 
 
@@ -23,4 +28,13 @@ export class ImageObject {
         this.fullSizedImageUrl = this.displayUrl;
         this.sourceUrl = this.displayUrl;
     }
+}
+
+interface ImageSizeValue {
+    width: number;
+    height: number;
+}
+
+interface ImageObjectSizes {
+    fullSize: ImageSizeValue
 }

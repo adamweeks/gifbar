@@ -4,6 +4,9 @@ import { Http } from '@angular/http';
 @Injectable()
 export class GiphyService {
 
+    // Sample API Search
+    // http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=dc6zaTOxFJmzC
+
     baseUrl:string = 'http://api.giphy.com/v1/gifs/';
     searchEndpoint: string = 'search';
     apiKey: string = 'dc6zaTOxFJmzC';
