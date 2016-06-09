@@ -17,9 +17,14 @@ export class SearchService {
 
     constructor(private giphyService: GiphyService) {
 
-     }
+    }
 
     doSearch(searchText: string) {
+        if (!searchText) {
+            this.searchResults.next([]);
+            return false;
+        }
+
         this.updateHistory(searchText);
         this.giphyService.search(searchText)
             .then(results => {
