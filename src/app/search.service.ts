@@ -21,22 +21,21 @@ export class SearchService {
 
     doSearch(searchText: string) {
         this.updateHistory(searchText);
-        let fakeResults = [
-            new ImageObject('https://media.giphy.com/media/xT4uQ7oPblpi3qz4w8/giphy.gif'),
-            new ImageObject('https://media.giphy.com/media/xTiQyDaDthYE21P8Uo/giphy.gif'),
-            new ImageObject('https://media.giphy.com/media/l3UcjQCnrQQLUfD0Y/giphy.gif')
-        ];
         this.giphyService.search(searchText)
             .then(results => {
             this.searchResults.next(results.map(giphyObject => {
                 let image = new ImageObject(giphyObject.images.fixed_width.url);
                 image.fullSizedImageUrl = giphyObject.images.original.url;
                 image.sourceUrl = giphyObject.url;
-
+                image.imageSizes = {
+                    fullSize: {
+                        width: parseInt(giphyObject.images.original.width),
+                        height: parseInt(giphyObject.images.original.height)
+                    }
+                };
                 return image;
             }));
         });
-        // this.searchResults.next(fakeResults);
     }
 
     updateHistory(searchText: string) {
