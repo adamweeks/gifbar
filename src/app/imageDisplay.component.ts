@@ -35,7 +35,7 @@ export class ImageDisplayComponent implements OnInit {
     ngOnInit() { }
 
     copyUrl() {
-        this.clipboardService.writeText(this.image.fullSizedImageUrl);
+        this.clipboardService.writeText(`${this.image.fullSizedImageUrl} #gifbar`);
     }
 
     openWindow() {
