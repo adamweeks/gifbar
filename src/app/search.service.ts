@@ -25,21 +25,30 @@ export class SearchService {
         }
 
         this.updateHistory(searchText);
-        this.giphyService.search(searchText)
+
+        return this.giphyService.search(searchText)
             .then(results => {
-            this.searchResults.next(results.map(giphyObject => {
-                let image = new ImageObject(giphyObject.images.fixed_width.url);
-                image.fullSizedImageUrl = giphyObject.images.original.url;
-                image.sourceUrl = giphyObject.url;
-                image.imageSizes = {
-                    fullSize: {
-                        width: parseInt(giphyObject.images.original.width),
-                        height: parseInt(giphyObject.images.original.height)
-                    }
-                };
-                return image;
-            }));
-        });
+                this.searchResults.next(results.map(giphyObject => {
+                    let image = new ImageObject(giphyObject.images.fixed_width.url);
+
+                    image.fullSizedImageUrl = giphyObject.images.original.url;
+                    image.sourceUrl         = giphyObject.url;
+                    image.imageSizes        = {
+                        fullSize: {
+                            width: parseInt(giphyObject.images.original.width),
+                            height: parseInt(giphyObject.images.original.height)
+                        }
+                    };
+
+                    return image;
+                }));
+
+                return results;
+            })
+            .catch(error => {
+                this.searchResults.next([]);
+                return error;
+            });
     }
 
     updateHistory(searchText: string) {
