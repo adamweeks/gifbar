@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {SearchService} from './search.service';
+import { ResponseError } from './responseError';
 
 @Component({
     moduleId: module.id,
@@ -11,6 +12,10 @@ import {SearchService} from './search.service';
         </div>
         <button type="submit">Search</button>
     </form>
+    <div *ngIf="searchError">
+        <p>{{searchError.message}}</p>
+        <p *ngIf="searchError.imageUrl"><img [src]="searchError.imageUrl"></p>
+    </div>
     `,
     styles: [
         '.input-wrapper { margin-right: 72px; }',
@@ -29,12 +34,22 @@ import {SearchService} from './search.service';
     ],
 })
 export class SearchBarComponent implements OnInit {
+    searchError: ResponseError;
+
     constructor(private searchService: SearchService) { }
 
     ngOnInit() { }
 
     doSearch(searchText) {
-        this.searchService.doSearch(searchText);
+        this.searchError = null;
+        this.searchService.doSearch(searchText)
+            .then((results: any) => {
+                if (results.length === 0) {
+                    this.searchError = new ResponseError('Could not find any gifs for that search term.', 'https://media3.giphy.com/media/l3V0HLYPfIKIVDyBG/giphy.gif');
+                }
+            })
+            .catch(error => {
+                this.searchError = error;
+            });
     }
-
 }
