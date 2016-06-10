@@ -4,14 +4,13 @@ import { Subject, Observer } from 'rxjs';
 
 import { ImageObject } from './imageObject.class';
 import { GiphyService } from './giphy.service';
+import { ResponseError } from './responseError';
 
 @Injectable()
 export class SearchService {
     searchResults: Subject<ImageObject[]> = new Subject<ImageObject[]>();
     searchHistory: Subject<string[]> = new Subject<string[]>();
     searches: string[] = [];
-
-
 
     private _searchResultsObserver: Observer<string[]>;
 
@@ -20,9 +19,9 @@ export class SearchService {
     }
 
     doSearch(searchText: string) {
-        if (!searchText) {
+        if (!searchText || searchText.trim() === '') {
             this.searchResults.next([]);
-            return false;
+            return Promise.reject(new ResponseError('Please enter a search term.', 'http://media4.giphy.com/media/12zV7u6Bh0vHpu/giphy.gif'));
         }
 
         this.updateHistory(searchText);
