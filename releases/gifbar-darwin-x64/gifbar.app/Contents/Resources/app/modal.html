@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+            function getParameterByName(name, url) {
+                if (!url) url = window.location.href;
+                name = name.replace(/[\[\]]/g, "\\$&");
+                var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+                if (!results) return null;
+                if (!results[2]) return '';
+                return decodeURIComponent(results[2].replace(/\+/g, " "));
+            }
+
+            var imageUrl = getParameterByName('url');
+            var image = document.createElement("img");
+            image.id = "id";
+            image.className = "class";
+            image.src = imageUrl;            // image.src = "IMAGE URL/PATH"
+            document.body.appendChild(image);
+        </script>
+    </body>
+</html>

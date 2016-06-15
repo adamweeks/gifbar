@@ -81,9 +81,11 @@ webpackJsonp([1,2],{
 	let SearchResultsComponent = class SearchResultsComponent {
 	    constructor(searchService) {
 	        this.searchService = searchService;
+	        this.totalResults = 0;
 	    }
 	    ngOnInit() {
 	        this.results = this.searchService.searchResults;
+	        this.totalResults = this.searchService.totalResults;
 	    }
 	};
 	SearchResultsComponent = __decorate([
@@ -95,6 +97,7 @@ webpackJsonp([1,2],{
 	    <div *ngFor="let item of results | async">
 	        <image-display [image]="item"></image-display>
 	    </div>
+	    <div>{{ searchService.totalResults }}</div>
 	    `,
 	        styles: [
 	            `
@@ -137,6 +140,7 @@ webpackJsonp([1,2],{
 	        this.searchResults = new rxjs_1.Subject();
 	        this.searchHistory = new rxjs_1.Subject();
 	        this.searches = [];
+	        this.totalResults = 0;
 	    }
 	    doSearch(searchText) {
 	        if (!searchText || searchText.trim() === '') {
@@ -145,7 +149,10 @@ webpackJsonp([1,2],{
 	        }
 	        this.updateHistory(searchText);
 	        return this.giphyService.search(searchText)
-	            .then(results => {
+	            .then(giphyData => {
+	            let results = giphyData.data;
+	            let pagination = giphyData.pagination;
+	            this.totalResults = pagination.total_count;
 	            this.searchResults.next(results.map(giphyObject => {
 	                let image = new imageObject_class_1.ImageObject(giphyObject.images.fixed_width.url);
 	                image.fullSizedImageUrl = giphyObject.images.original.url;
@@ -224,7 +231,7 @@ webpackJsonp([1,2],{
 	        let searchUrl = `${this.baseUrl}${this.searchEndpoint}?q=${searchText}&api_key=${this.apiKey}`;
 	        return this.http.get(searchUrl)
 	            .toPromise()
-	            .then(response => response.json().data);
+	            .then(response => response.json());
 	    }
 	};
 	GiphyService = __decorate([
