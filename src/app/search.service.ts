@@ -11,6 +11,7 @@ export class SearchService {
     searchResults: Subject<ImageObject[]> = new Subject<ImageObject[]>();
     searchHistory: Subject<string[]> = new Subject<string[]>();
     searches: string[] = [];
+    totalResults: number = 0;
 
     private _searchResultsObserver: Observer<string[]>;
 
@@ -27,7 +28,10 @@ export class SearchService {
         this.updateHistory(searchText);
 
         return this.giphyService.search(searchText)
-            .then(results => {
+            .then(giphyData => {
+                let results = giphyData.data;
+                let pagination = giphyData.pagination;
+                this.totalResults = pagination.total_count;
                 this.searchResults.next(results.map(giphyObject => {
                     let image = new ImageObject(giphyObject.images.fixed_width.url);
 

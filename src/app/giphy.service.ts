@@ -17,7 +17,7 @@ export class GiphyService {
         let searchUrl = `${this.baseUrl}${this.searchEndpoint}?q=${searchText}&api_key=${this.apiKey}`;
         return this.http.get(searchUrl)
                .toPromise()
-               .then(response => response.json().data);
+               .then(response => response.json());
     }
 
 }
