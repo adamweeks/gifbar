@@ -7,10 +7,8 @@ import { ResponseError } from './responseError';
     selector: 'search-bar',
     template: `
     <form (ngSubmit)="doSearch(searchText)" #searchBarForm="ngForm">
-        <div class="input-wrapper">
-            <input id="searchBar" [(ngModel)]="searchText" placeholder="Search for gifs">
-        </div>
-        <button type="submit">Search</button>
+        <input id="searchBar" [(ngModel)]="searchText" placeholder="Search for gifs">
+        <button type="button" (click)="cancelSearch()" class="cancel">X</button>
     </form>
     <div *ngIf="searchError">
         <p>{{searchError.message}}</p>
@@ -18,15 +16,19 @@ import { ResponseError } from './responseError';
     </div>
     `,
     styles: [
-        '.input-wrapper { margin-right: 72px; }',
-        `button {
+        `
+        form {
+            display: flex;
+            justify-content: space-between;
+        }
+        button {
+            flex: none;
             padding: 6px 8px;
             margin-top: 1px;
             font-size: 14px;
-        }`,
-        `input {
-            float: left;
-            width: 100%;
+        }
+        input {
+            flex: 1;
             padding: 5px;
             margin-right: 5px;
             font-size: 14px;
@@ -35,7 +37,7 @@ import { ResponseError } from './responseError';
 })
 export class SearchBarComponent implements OnInit {
     searchError: ResponseError;
-
+    searchText: string;
     constructor(private searchService: SearchService) { }
 
     ngOnInit() { }
@@ -51,5 +53,11 @@ export class SearchBarComponent implements OnInit {
             .catch(error => {
                 this.searchError = error;
             });
+    }
+
+    cancelSearch() {
+        this.searchText = '';
+        this.searchError = null;
+        this.searchService.cancelSearch();
     }
 }
