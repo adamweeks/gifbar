@@ -1,5 +1,6 @@
 import {SearchResultsComponent} from './searchResults.component';
 import { SearchHistoryComponent } from './searchHistory.component';
+import { SearchPaginationComponent } from './searchPagination.component';
 import {SearchService} from './search.service';
 import { ClipboardService } from './clipboard.service';
 import { ElectronWindowService } from './electronWindow.service';
@@ -14,10 +15,16 @@ import {SearchBarComponent} from './searchBar.component';
     moduleId: module.id,
     selector: 'app',
     template: `
+    <div class="main">
         <search-bar></search-bar>
         <search-results></search-results>
+        <search-pagination></search-pagination>
+    </div>
     `,
-    directives: [SearchBarComponent, SearchResultsComponent, SearchHistoryComponent],
+    styles: [
+        `.main { display: flex; flex-direction: column }`
+    ],
+    directives: [SearchBarComponent, SearchResultsComponent, SearchHistoryComponent, SearchPaginationComponent],
     providers: [
       HTTP_PROVIDERS,
       SearchService,

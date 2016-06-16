@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --progress --profile --colors --display-error-details --display-cached",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
-    "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --tmpdir=false --out=releases/",
+    "copy-build": "cp src/*.html src/main.js src/package.json build/",
+    "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=0.0.1",
     "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --tmpdir=false --out=releases/",
     "electron": "electron src"
   },

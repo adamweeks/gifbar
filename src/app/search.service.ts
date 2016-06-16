@@ -11,6 +11,12 @@ export class SearchService {
     searchResults: Subject<ImageObject[]> = new Subject<ImageObject[]>();
     searchHistory: Subject<string[]> = new Subject<string[]>();
     searches: string[] = [];
+    totalResults: number = 0;
+    currentOffset: number = 0;
+    currentSearchText: string;
+    resultAmount: number = 25;
+    forwardAvailable: boolean = false;
+    previousAvailable: boolean = false;
 
     private _searchResultsObserver: Observer<string[]>;
 
@@ -18,16 +24,25 @@ export class SearchService {
 
     }
 
-    doSearch(searchText: string) {
+    doSearch(searchText: string, offset: number = 0) {
         if (!searchText || searchText.trim() === '') {
             this.searchResults.next([]);
             return Promise.reject(new ResponseError('Please enter a search term.', 'http://media4.giphy.com/media/12zV7u6Bh0vHpu/giphy.gif'));
         }
-
+        this.currentSearchText = searchText;
+        this.currentOffset = offset;
         this.updateHistory(searchText);
 
-        return this.giphyService.search(searchText)
-            .then(results => {
+        return this.giphyService.search(searchText, offset)
+            .then(giphyData => {
+                let results = giphyData.data;
+                let pagination = giphyData.pagination;
+                this.totalResults = pagination.total_count;
+
+                let paginationResults = this.calcPaginationAvailability(this.totalResults, results.length, offset);
+                this.previousAvailable = paginationResults.previousAvailable;
+                this.forwardAvailable = paginationResults.forwardAvailable;
+
                 this.searchResults.next(results.map(giphyObject => {
                     let image = new ImageObject(giphyObject.images.fixed_width.url);
 
@@ -51,6 +66,14 @@ export class SearchService {
             });
     }
 
+    loadNext() {
+        this.doSearch(this.currentSearchText, this.currentOffset + this.resultAmount + 1);
+    }
+
+    loadPrevious() {
+        this.doSearch(this.currentSearchText, this.currentOffset - this.resultAmount - 1);
+    }
+
     updateHistory(searchText: string) {
         this.searches.unshift(searchText);
         if(this.searches.length > 5) {
@@ -59,4 +82,26 @@ export class SearchService {
         this.searchHistory.next(this.searches);
     }
 
+    calcPaginationAvailability(totalResults: number, currentResultCount: number, offset: number) : PaginationAvailability {
+        let result: PaginationAvailability = {
+            forwardAvailable: false,
+            previousAvailable: false,
+        };
+
+        if (currentResultCount + offset < totalResults) {
+            result.forwardAvailable = true;
+        }
+
+        if (offset > currentResultCount) {
+            result.previousAvailable = true;
+        }
+
+        return result;
+    }
+
+}
+
+interface PaginationAvailability {
+    forwardAvailable: boolean;
+    previousAvailable: boolean;
 }

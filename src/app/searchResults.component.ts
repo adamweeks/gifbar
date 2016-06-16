@@ -25,6 +25,7 @@ import { Observable } from 'rxjs';
 })
 export class SearchResultsComponent implements OnInit {
     results: Observable<ImageObject[]>;
+
     constructor(private searchService: SearchService) { }
 
     ngOnInit() {

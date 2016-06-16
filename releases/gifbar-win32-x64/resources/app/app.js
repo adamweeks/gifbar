@@ -27,15 +27,16 @@ webpackJsonp([1,2],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	const searchResults_component_1 = __webpack_require__(560);
-	const searchHistory_component_1 = __webpack_require__(568);
+	const searchHistory_component_1 = __webpack_require__(569);
+	const searchPagination_component_1 = __webpack_require__(565);
 	const search_service_1 = __webpack_require__(561);
-	const clipboard_service_1 = __webpack_require__(566);
-	const electronWindow_service_1 = __webpack_require__(567);
+	const clipboard_service_1 = __webpack_require__(567);
+	const electronWindow_service_1 = __webpack_require__(568);
 	const giphy_service_1 = __webpack_require__(563);
 	const core_1 = __webpack_require__(280);
 	const http_1 = __webpack_require__(418);
 	__webpack_require__(2);
-	const searchBar_component_1 = __webpack_require__(569);
+	const searchBar_component_1 = __webpack_require__(570);
 	let AppComponent = class AppComponent {
 	};
 	AppComponent = __decorate([
@@ -43,10 +44,16 @@ webpackJsonp([1,2],{
 	        moduleId: module.id,
 	        selector: 'app',
 	        template: `
+	    <div class="main">
 	        <search-bar></search-bar>
 	        <search-results></search-results>
+	        <search-pagination></search-pagination>
+	    </div>
 	    `,
-	        directives: [searchBar_component_1.SearchBarComponent, searchResults_component_1.SearchResultsComponent, searchHistory_component_1.SearchHistoryComponent],
+	        styles: [
+	            `.main { display: flex; flex-direction: column }`
+	        ],
+	        directives: [searchBar_component_1.SearchBarComponent, searchResults_component_1.SearchResultsComponent, searchHistory_component_1.SearchHistoryComponent, searchPagination_component_1.SearchPaginationComponent],
 	        providers: [
 	            http_1.HTTP_PROVIDERS,
 	            search_service_1.SearchService,
@@ -76,7 +83,7 @@ webpackJsonp([1,2],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	const search_service_1 = __webpack_require__(561);
-	const imageDisplay_component_1 = __webpack_require__(565);
+	const imageDisplay_component_1 = __webpack_require__(566);
 	const core_1 = __webpack_require__(280);
 	let SearchResultsComponent = class SearchResultsComponent {
 	    constructor(searchService) {
@@ -137,15 +144,28 @@ webpackJsonp([1,2],{
 	        this.searchResults = new rxjs_1.Subject();
 	        this.searchHistory = new rxjs_1.Subject();
 	        this.searches = [];
+	        this.totalResults = 0;
+	        this.currentOffset = 0;
+	        this.resultAmount = 25;
+	        this.forwardAvailable = false;
+	        this.previousAvailable = false;
 	    }
-	    doSearch(searchText) {
+	    doSearch(searchText, offset = 0) {
 	        if (!searchText || searchText.trim() === '') {
 	            this.searchResults.next([]);
 	            return Promise.reject(new responseError_1.ResponseError('Please enter a search term.', 'http://media4.giphy.com/media/12zV7u6Bh0vHpu/giphy.gif'));
 	        }
+	        this.currentSearchText = searchText;
+	        this.currentOffset = offset;
 	        this.updateHistory(searchText);
-	        return this.giphyService.search(searchText)
-	            .then(results => {
+	        return this.giphyService.search(searchText, offset)
+	            .then(giphyData => {
+	            let results = giphyData.data;
+	            let pagination = giphyData.pagination;
+	            this.totalResults = pagination.total_count;
+	            let paginationResults = this.calcPaginationAvailability(this.totalResults, results.length, offset);
+	            this.previousAvailable = paginationResults.previousAvailable;
+	            this.forwardAvailable = paginationResults.forwardAvailable;
 	            this.searchResults.next(results.map(giphyObject => {
 	                let image = new imageObject_class_1.ImageObject(giphyObject.images.fixed_width.url);
 	                image.fullSizedImageUrl = giphyObject.images.original.url;
@@ -165,12 +185,31 @@ webpackJsonp([1,2],{
 	            return error;
 	        });
 	    }
+	    loadNext() {
+	        this.doSearch(this.currentSearchText, this.currentOffset + this.resultAmount + 1);
+	    }
+	    loadPrevious() {
+	        this.doSearch(this.currentSearchText, this.currentOffset - this.resultAmount - 1);
+	    }
 	    updateHistory(searchText) {
 	        this.searches.unshift(searchText);
 	        if (this.searches.length > 5) {
 	            this.searches.pop();
 	        }
 	        this.searchHistory.next(this.searches);
+	    }
+	    calcPaginationAvailability(totalResults, currentResultCount, offset) {
+	        let result = {
+	            forwardAvailable: false,
+	            previousAvailable: false,
+	        };
+	        if (currentResultCount + offset < totalResults) {
+	            result.forwardAvailable = true;
+	        }
+	        if (offset > currentResultCount) {
+	            result.previousAvailable = true;
+	        }
+	        return result;
 	    }
 	};
 	SearchService = __decorate([
@@ -220,11 +259,11 @@ webpackJsonp([1,2],{
 	        this.searchEndpoint = 'search';
 	        this.apiKey = 'dc6zaTOxFJmzC';
 	    }
-	    search(searchText) {
-	        let searchUrl = `${this.baseUrl}${this.searchEndpoint}?q=${searchText}&api_key=${this.apiKey}`;
+	    search(searchText, offset = 0) {
+	        let searchUrl = `${this.baseUrl}${this.searchEndpoint}?q=${searchText}&api_key=${this.apiKey}&offset=${offset}`;
 	        return this.http.get(searchUrl)
 	            .toPromise()
-	            .then(response => response.json().data);
+	            .then(response => response.json());
 	    }
 	};
 	GiphyService = __decorate([
@@ -265,9 +304,86 @@ webpackJsonp([1,2],{
 	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 	};
 	const core_1 = __webpack_require__(280);
+	const search_service_1 = __webpack_require__(561);
+	let SearchPaginationComponent = class SearchPaginationComponent {
+	    constructor(searchService) {
+	        this.searchService = searchService;
+	    }
+	    ngOnInit() { }
+	    previousResults() {
+	        this.searchService.loadPrevious();
+	    }
+	    nextResults() {
+	        this.searchService.loadNext();
+	    }
+	};
+	SearchPaginationComponent = __decorate([
+	    core_1.Component({
+	        moduleId: module.id,
+	        selector: 'search-pagination',
+	        template: `
+	    <div id="pagination">
+	        <div class="container">
+	            <div class="item"><button (click)="previousResults()" [disabled]="!searchService.previousAvailable">Prev</button></div>
+	            <div class="item"><button (click)="nextResults()" [disabled]="!searchService.forwardAvailable">Next</button></div>
+	            <div class="item">Results: {{ searchService.totalResults }}</div>
+	        </div>
+	    </div>
+	    `,
+	        styles: [
+	            `
+	        button {
+	            min-width: 44px;
+	            min-height: 44px;
+	            padding: 6px 8px;
+	            margin-top: 1px;
+	            font-size: 14px;
+	        }
+	        #pagination {
+	            background-color: lightseagreen;
+	            min-height: 44px;
+	        }
+	        .container {
+	            display: flex;
+	            flex-direction: row;
+	            flex: 100;
+	            flex-wrap: nowrap;
+	            margin: 0;
+	            padding: 0;
+	            justify-content: space-around;
+	            align-items: center;
+	            min-height: 44px;
+	        }
+	        .item {
+	            min-width: 44px;
+	        }
+	        `
+	        ]
+	    }), 
+	    __metadata('design:paramtypes', [search_service_1.SearchService])
+	], SearchPaginationComponent);
+	exports.SearchPaginationComponent = SearchPaginationComponent;
+
+
+/***/ },
+
+/***/ 566:
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+	    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+	    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	};
+	var __metadata = (this && this.__metadata) || function (k, v) {
+	    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+	};
+	const core_1 = __webpack_require__(280);
 	const imageObject_class_1 = __webpack_require__(562);
-	const clipboard_service_1 = __webpack_require__(566);
-	const electronWindow_service_1 = __webpack_require__(567);
+	const clipboard_service_1 = __webpack_require__(567);
+	const electronWindow_service_1 = __webpack_require__(568);
 	let ImageDisplayComponent = class ImageDisplayComponent {
 	    constructor(clipboardService, electronWindowService) {
 	        this.clipboardService = clipboardService;
@@ -316,7 +432,7 @@ webpackJsonp([1,2],{
 
 /***/ },
 
-/***/ 566:
+/***/ 567:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -350,7 +466,7 @@ webpackJsonp([1,2],{
 
 /***/ },
 
-/***/ 567:
+/***/ 568:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -397,7 +513,7 @@ webpackJsonp([1,2],{
 
 /***/ },
 
-/***/ 568:
+/***/ 569:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -438,7 +554,7 @@ webpackJsonp([1,2],{
 
 /***/ },
 
-/***/ 569:
+/***/ 570:
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
