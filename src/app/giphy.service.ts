@@ -13,8 +13,8 @@ export class GiphyService {
 
     constructor(private http: Http) { }
 
-    search(searchText: string) {
-        let searchUrl = `${this.baseUrl}${this.searchEndpoint}?q=${searchText}&api_key=${this.apiKey}`;
+    search(searchText: string, offset: number = 0) {
+        let searchUrl = `${this.baseUrl}${this.searchEndpoint}?q=${searchText}&api_key=${this.apiKey}&offset=${offset}`;
         return this.http.get(searchUrl)
                .toPromise()
                .then(response => response.json());

@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
     <div *ngFor="let item of results | async">
         <image-display [image]="item"></image-display>
     </div>
-    <div>{{ searchService.totalResults }}</div>
     `,
     styles: [
         `
@@ -26,12 +25,11 @@ import { Observable } from 'rxjs';
 })
 export class SearchResultsComponent implements OnInit {
     results: Observable<ImageObject[]>;
-    totalResults: number = 0;
+
     constructor(private searchService: SearchService) { }
 
     ngOnInit() {
         this.results = this.searchService.searchResults;
-        this.totalResults = this.searchService.totalResults;
     }
 
 }
