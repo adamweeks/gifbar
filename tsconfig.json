@@ -9,6 +9,7 @@
   },
   "files": [
     "src/app/index.ts",
-    "src/typings.d.ts"
+    "src/typings.d.ts",
+    "src/app/giphy.d.ts"
   ]
 }

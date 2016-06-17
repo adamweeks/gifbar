@@ -24,7 +24,7 @@ export class SearchService {
 
     }
 
-    doSearch(searchText: string, offset: number = 0) {
+    doSearch(searchText: string, offset: number = 0) : Promise<any> {
         if (!searchText || searchText.trim() === '') {
             this.resetSearch();
             return Promise.reject(new ResponseError('Please enter a search term.', 'http://media4.giphy.com/media/12zV7u6Bh0vHpu/giphy.gif'));
