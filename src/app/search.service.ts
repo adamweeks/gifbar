@@ -26,7 +26,7 @@ export class SearchService {
 
     doSearch(searchText: string, offset: number = 0) {
         if (!searchText || searchText.trim() === '') {
-            this.searchResults.next([]);
+            this.resetSearch();
             return Promise.reject(new ResponseError('Please enter a search term.', 'http://media4.giphy.com/media/12zV7u6Bh0vHpu/giphy.gif'));
         }
         this.currentSearchText = searchText;
@@ -72,6 +72,19 @@ export class SearchService {
 
     loadPrevious() {
         this.doSearch(this.currentSearchText, this.currentOffset - this.resultAmount - 1);
+    }
+
+    cancelSearch() {
+        this.resetSearch();
+    }
+
+    resetSearch() {
+        this.currentSearchText = null;
+        this.currentOffset = 0;
+        this.totalResults = 0;
+        this.previousAvailable = false;
+        this.forwardAvailable = false;
+        this.searchResults.next([]);
     }
 
     updateHistory(searchText: string) {
