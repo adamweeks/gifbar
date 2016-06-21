@@ -1,66 +1,183 @@
-const electron = require('electron');
-const menubar = require('menubar');
+var path = require('path');
+var events = require('events');
+var fs = require('fs');
 
-const options = {
-  width: 436,
-  height: 600,
-  tooltip: 'GifBar',
-  'always-on-top': true
-}
+var electron = require('electron');
+var app = electron.app;
+var Tray = electron.Tray;
+var Menu = electron.Menu;
+var BrowserWindow = electron.BrowserWindow;
 
-const mb = menubar(options);
+var extend = require('extend');
+var Positioner = require('electron-positioner');
 
-mb.on('ready', () => {
+var options = {
+    width: 436,
+    height: 600,
+    tooltip: 'GifBar',
+    'always-on-top': true,
+    preloadWindow: true
+};
+
+var mb = create(options);
+
+mb.on('ready', function(){
 
 });
 
-// // Module to control application life.
-// const {app} = electron;
-// // Module to create native browser window.
-// const {BrowserWindow} = electron;
 
-// // Keep a global reference of the window object, if you don't, the window will
-// // be closed automatically when the JavaScript object is garbage collected.
-// let win;
+function create (opts) {
+    if (typeof opts === 'undefined') opts = {dir: app.getAppPath()};
+    if (typeof opts === 'string') opts = {dir: opts};
+    if (!opts.dir) opts.dir = app.getAppPath();
+    if (!(path.isAbsolute(opts.dir))) opts.dir = path.resolve(opts.dir);
+    if (!opts.index) opts.index = 'file://' + path.join(opts.dir, 'index.html');
+    if (!opts['window-position']) opts['window-position'] = (process.platform === 'win32') ? 'trayBottomCenter' : 'trayCenter';
+    if (typeof opts['show-dock-icon'] === 'undefined') opts['show-dock-icon'] = false;
 
-// function createWindow() {
-//   // Create the browser window.
-//   win = new BrowserWindow({width: 436, height: 600});
+    // set width/height on opts to be usable before the window is created
+    opts.width = opts.width || 400;
+    opts.height = opts.height || 400;
+    opts.tooltip = opts.tooltip || '';
 
-//   // and load the index.html of the app.
-//   win.loadURL(`file://${__dirname}/index.html`);
+    app.on('ready', appReady);
 
+    var menubar = new events.EventEmitter();
+    menubar.app = app;
 
-//   // Emitted when the window is closed.
-//   win.on('closed', () => {
-//     // Dereference the window object, usually you would store windows
-//     // in an array if your app supports multi windows, this is the time
-//     // when you should delete the corresponding element.
-//     win = null;
-//   });
-// }
+    // Set / get options
+    menubar.setOption = function (opt, val) {
+        opts[opt] = val;
+    };
 
-// // This method will be called when Electron has finished
-// // initialization and is ready to create browser windows.
-// // Some APIs can only be used after this event occurs.
-// app.on('ready', createWindow);
+    menubar.getOption = function (opt) {
+        return opts[opt];
+    };
 
-// // Quit when all windows are closed.
-// app.on('window-all-closed', () => {
-//   // On OS X it is common for applications and their menu bar
-//   // to stay active until the user quits explicitly with Cmd + Q
-//   if (process.platform !== 'darwin') {
-//     app.quit();
-//   }
-// });
+    return menubar;
 
-// app.on('activate', () => {
-//   // On OS X it's common to re-create a window in the app when the
-//   // dock icon is clicked and there are no other windows open.
-//   if (win === null) {
-//     createWindow();
-//   }
-// });
+    function appReady () {
+        if (app.dock && !opts['show-dock-icon']) app.dock.hide();
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+        var iconPath = opts.icon || path.join(opts.dir, 'IconTemplate.png');
+        if (!fs.existsSync(iconPath)) iconPath = path.join(__dirname, 'IconTemplate.png'); // default cat icon
+
+        var cachedBounds; // cachedBounds are needed for double-clicked event
+
+        menubar.tray = opts.tray || new Tray(iconPath);
+        menubar.tray.on('click', clicked);
+        menubar.tray.on('double-click', clicked);
+        menubar.tray.on('right-click', showDetailMenu);
+        menubar.tray.setToolTip(opts.tooltip);
+
+        if (opts.preloadWindow || opts['preload-window']) {
+            createWindow();
+        }
+
+        menubar.showWindow = showWindow;
+        menubar.hideWindow = hideWindow;
+        menubar.emit('ready');
+
+        function clicked (e, bounds) {
+            if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) return hideWindow();
+            if (menubar.window && menubar.window.isVisible()) return hideWindow();
+            cachedBounds = bounds || cachedBounds;
+            showWindow(cachedBounds);
+        }
+
+        function createWindow () {
+            menubar.emit('create-window');
+            var defaults = {
+                show: false,
+                frame: false
+            };
+
+            var winOpts = extend(defaults, opts);
+            menubar.window = new BrowserWindow(winOpts);
+
+            menubar.positioner = new Positioner(menubar.window);
+
+            if (!opts['always-on-top']) {
+                menubar.window.on('blur', hideWindow);
+            } else {
+                menubar.window.on('blur', emitBlur);
+            }
+
+            if (opts['show-on-all-workspaces'] !== false) {
+                menubar.window.setVisibleOnAllWorkspaces(true);
+            }
+
+            menubar.window.on('close', windowClear);
+            menubar.window.loadURL(opts.index);
+            menubar.emit('after-create-window');
+        }
+
+        function showWindow (trayPos) {
+            if (!menubar.window) {
+                createWindow();;
+            }
+
+            menubar.emit('show');
+
+            if (trayPos && trayPos.x !== 0) {
+                // Cache the bounds
+                cachedBounds = trayPos;
+            } else if (cachedBounds) {
+                // Cached value will be used if showWindow is called without bounds data
+                trayPos = cachedBounds;
+            }
+
+            // Default the window to the right if `trayPos` bounds are undefined or null.
+            var noBoundsPosition = null;
+            if ((trayPos === undefined || trayPos.x === 0) && opts['window-position'].substr(0, 4) === 'tray') {
+                noBoundsPosition = (process.platform === 'win32') ? 'bottomRight' : 'topRight';
+            }
+
+            var position = menubar.positioner.calculate(noBoundsPosition || opts['window-position'], trayPos);
+
+            var x = (opts.x !== undefined) ? opts.x : position.x;
+            var y = (opts.y !== undefined) ? opts.y : position.y;
+
+            menubar.window.setPosition(x, y);
+            menubar.window.show();
+            menubar.emit('after-show');
+            return;
+        }
+
+        function hideWindow () {
+            if (!menubar.window) return;
+            menubar.emit('hide');
+            menubar.window.hide();
+            menubar.emit('after-hide');
+        }
+
+        function windowClear () {
+            delete menubar.window;
+            menubar.emit('after-close');
+        }
+
+        function emitBlur () {
+            menubar.emit('focus-lost');
+        }
+
+        function showDetailMenu () {
+            var contextMenu = Menu.buildFromTemplate([
+                {
+                    label: 'Toggle DevTools',
+                    accelerator: 'Alt+Command+I',
+                    click: function() {
+                        menubar.window.show();
+                        menubar.window.toggleDevTools();
+                    }
+                },
+                {
+                    label: 'Quit',
+                    accelerator: 'Command+Q',
+                    selector: 'terminate:',
+                }
+            ]);
+
+                menubar.tray.popUpContextMenu(contextMenu);
+        }
+    }
+}
