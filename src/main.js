@@ -6,6 +6,7 @@ var electron = require('electron');
 var app = electron.app;
 var Tray = electron.Tray;
 var Menu = electron.Menu;
+var globalShortcut = electron.globalShortcut;
 var BrowserWindow = electron.BrowserWindow;
 
 var extend = require('extend');
@@ -19,12 +20,7 @@ var options = {
     preloadWindow: true
 };
 
-var mb = create(options);
-
-mb.on('ready', function(){
-
-});
-
+create(options);
 
 function create (opts) {
     if (typeof opts === 'undefined') opts = {dir: app.getAppPath()};
@@ -41,6 +37,9 @@ function create (opts) {
     opts.tooltip = opts.tooltip || '';
 
     app.on('ready', appReady);
+    app.on('will-quit', willQuit);
+
+    var shortcut = 'CommandOrControl+Alt+G';
 
     var menubar = new events.EventEmitter();
     menubar.app = app;
@@ -73,6 +72,11 @@ function create (opts) {
         if (opts.preloadWindow || opts['preload-window']) {
             createWindow();
         }
+
+        globalShortcut.register(shortcut, function() {
+            if (menubar.window && menubar.window.isVisible()) return hideWindow();
+            showWindow(cachedBounds);
+        });
 
         menubar.showWindow = showWindow;
         menubar.hideWindow = hideWindow;
@@ -179,5 +183,9 @@ function create (opts) {
 
                 menubar.tray.popUpContextMenu(contextMenu);
         }
+    }
+
+    function willQuit() {
+        globalShortcut.unregister(shortcut);
     }
 }
