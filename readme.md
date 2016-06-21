@@ -19,3 +19,13 @@ npm run watch
 # Start the Electron app
 npm run electron
 ```
+
+## Notes
+Currently, the build process is not working properly and requires
+manual intervention.
+
+Make sure to add these to the build folder:
+```
+cp -R node_modules/electron-positioner/ build/node_modules/electron-positioner
+cp -R node_modules/extend/ build/node_modules/extend
+```
