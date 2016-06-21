@@ -4,6 +4,7 @@ import { SearchPaginationComponent } from './searchPagination.component';
 import {SearchService} from './search.service';
 import { ClipboardService } from './clipboard.service';
 import { ElectronWindowService } from './electronWindow.service';
+import { ElectronIPCService } from './electronIpcRenders.service';
 import { GiphyService } from './giphy.service';
 import { Component } from '@angular/core';
 import { HTTP_PROVIDERS } from '@angular/http';
@@ -30,7 +31,8 @@ import {SearchBarComponent} from './searchBar.component';
       SearchService,
       GiphyService,
       ClipboardService,
-      ElectronWindowService
+      ElectronWindowService,
+      ElectronIPCService
     ]
 })
 

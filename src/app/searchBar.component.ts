@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer } from '@angular/core';
 import {SearchService} from './search.service';
 import { ResponseError } from './responseError';
+import { ElectronIPCService } from './electronIpcRenders.service';
 
 @Component({
     moduleId: module.id,
     selector: 'search-bar',
     template: `
     <form (ngSubmit)="doSearch(searchText)" #searchBarForm="ngForm">
-        <input id="searchBar" [(ngModel)]="searchText" placeholder="Search for gifs">
+        <input #searchBar id="searchBar" [(ngModel)]="searchText" placeholder="Search for gifs">
         <button type="button" (click)="cancelSearch()" class="cancel">X</button>
     </form>
     <div *ngIf="searchError">
@@ -38,9 +39,21 @@ import { ResponseError } from './responseError';
 export class SearchBarComponent implements OnInit {
     searchError: ResponseError;
     searchText: string;
-    constructor(private searchService: SearchService) { }
+    @ViewChild('searchBar') searchBar: ElementRef;
 
-    ngOnInit() { }
+    constructor(
+        private searchService: SearchService,
+        private electronIPCService: ElectronIPCService,
+        private renderer: Renderer
+    ) {
+
+    }
+
+    ngOnInit() {
+        this.electronIPCService.on('after-show', () => {
+            this.focusSearch();
+        });
+     }
 
     doSearch(searchText) {
         this.searchError = null;
@@ -59,5 +72,9 @@ export class SearchBarComponent implements OnInit {
         this.searchText = '';
         this.searchError = null;
         this.searchService.cancelSearch();
+    }
+
+    focusSearch() {
+        this.renderer.invokeElementMethod(this.searchBar.nativeElement, 'focus', []);
     }
 }

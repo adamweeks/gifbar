@@ -145,6 +145,8 @@ function create (opts) {
             menubar.window.setPosition(x, y);
             menubar.window.show();
             menubar.emit('after-show');
+            // Send an event that we have shown the window
+            menubar.window.webContents.send('after-show');
             return;
         }
 
