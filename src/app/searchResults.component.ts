@@ -9,7 +9,11 @@ import { Observable } from 'rxjs';
     selector: 'search-results',
     directives: [ImageDisplayComponent],
     template: `
-    <div *ngFor="let item of results | async">
+    <div *ngIf="searchService.searchError">
+        <p>{{searchService.searchError.message}}</p>
+        <p *ngIf="searchService.searchError.imageUrl"><img [src]="searchService.searchError.imageUrl"></p>
+    </div>
+    <div *ngFor="let item of searchService.searchResults | async">
         <image-display [image]="item"></image-display>
     </div>
     `,
@@ -24,12 +28,8 @@ import { Observable } from 'rxjs';
     ]
 })
 export class SearchResultsComponent implements OnInit {
-    results: Observable<ImageObject[]>;
-
     constructor(private searchService: SearchService) { }
 
-    ngOnInit() {
-        this.results = this.searchService.searchResults;
-    }
+    ngOnInit() {}
 
 }

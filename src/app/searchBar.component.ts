@@ -11,10 +11,6 @@ import { ElectronIPCService } from './electronIpcRenders.service';
         <input #searchBar id="searchBar" [(ngModel)]="searchText" placeholder="Search for gifs">
         <button type="button" (click)="cancelSearch()" class="cancel">X</button>
     </form>
-    <div *ngIf="searchError">
-        <p>{{searchError.message}}</p>
-        <p *ngIf="searchError.imageUrl"><img [src]="searchError.imageUrl"></p>
-    </div>
     `,
     styles: [
         `
@@ -45,9 +41,7 @@ export class SearchBarComponent implements OnInit {
         private searchService: SearchService,
         private electronIPCService: ElectronIPCService,
         private renderer: Renderer
-    ) {
-
-    }
+    ) {}
 
     ngOnInit() {
         this.electronIPCService.on('after-show', () => {
@@ -57,15 +51,7 @@ export class SearchBarComponent implements OnInit {
 
     doSearch(searchText) {
         this.searchError = null;
-        this.searchService.doSearch(searchText)
-            .then((results: any) => {
-                if (results.length === 0) {
-                    this.searchError = new ResponseError('Could not find any gifs for that search term.', 'https://media3.giphy.com/media/l3V0HLYPfIKIVDyBG/giphy.gif');
-                }
-            })
-            .catch(error => {
-                this.searchError = error;
-            });
+        this.searchService.doSearch(searchText);
     }
 
     cancelSearch() {
