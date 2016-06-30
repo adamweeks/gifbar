@@ -14,6 +14,7 @@ export class SearchService {
     searchError: ResponseError;
     totalResults: number = 0;
     currentOffset: number = 0;
+    currentSearch: Subject<string> = new Subject<string>();
     currentSearchText: string;
     resultAmount: number = 25;
     forwardAvailable: boolean = false;
@@ -23,6 +24,17 @@ export class SearchService {
 
     constructor(private giphyService: GiphyService) {
         this.searchResults.next([]);
+    }
+
+    liveSearch(searchString: Observable<string>, debounceDuration = 800) {
+        searchString
+            .debounceTime(debounceDuration)
+            .distinctUntilChanged()
+            .subscribe(searchText => {
+                if (searchText) {
+                    this.doSearch(searchText, 0);
+                }
+            });
     }
 
     doSearch(searchText: string, offset: number = 0) : Observable<any> {
@@ -36,6 +48,8 @@ export class SearchService {
         this.currentSearchText = searchText;
         this.currentOffset = offset;
         this.updateHistory(searchText);
+
+        this.currentSearch.next(searchText);
 
         this.giphyService.search(searchText, offset)
             .subscribe(

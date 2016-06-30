@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { Control } from '@angular/common';
 import {SearchService} from './search.service';
 import { ResponseError } from './responseError';
 import { ElectronIPCService } from './electronIpcRenders.service';
@@ -8,7 +9,7 @@ import { ElectronIPCService } from './electronIpcRenders.service';
     selector: 'search-bar',
     template: `
     <form (ngSubmit)="doSearch(searchText)" #searchBarForm="ngForm">
-        <input #searchBar id="searchBar" [(ngModel)]="searchText" placeholder="Search for gifs">
+        <input #searchBar id="searchBar" [ngFormControl]="searchControl" [(ngModel)]="searchText" placeholder="Search for gifs">
         <button type="button" (click)="cancelSearch()" class="cancel">X</button>
     </form>
     `,
@@ -35,13 +36,17 @@ import { ElectronIPCService } from './electronIpcRenders.service';
 export class SearchBarComponent implements OnInit {
     searchError: ResponseError;
     searchText: string;
+    searchControl = new Control();
     @ViewChild('searchBar') searchBar: ElementRef;
 
     constructor(
         private searchService: SearchService,
         private electronIPCService: ElectronIPCService,
         private renderer: Renderer
-    ) {}
+    ) {
+        // Sets up the observable control to pass to service
+        searchService.liveSearch(this.searchControl.valueChanges);
+    }
 
     ngOnInit() {
         this.electronIPCService.on('after-show', () => {
