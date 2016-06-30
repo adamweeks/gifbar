@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, Renderer } from '@angular/core';
+import { Control } from '@angular/common';
 import {SearchService} from './search.service';
 import { ResponseError } from './responseError';
 import { ElectronIPCService } from './electronIpcRenders.service';
@@ -8,13 +9,9 @@ import { ElectronIPCService } from './electronIpcRenders.service';
     selector: 'search-bar',
     template: `
     <form (ngSubmit)="doSearch(searchText)" #searchBarForm="ngForm">
-        <input #searchBar id="searchBar" [(ngModel)]="searchText" placeholder="Search for gifs">
+        <input #searchBar id="searchBar" [ngFormControl]="searchControl" [(ngModel)]="searchText" placeholder="Search for gifs">
         <button type="button" (click)="cancelSearch()" class="cancel">X</button>
     </form>
-    <div *ngIf="searchError">
-        <p>{{searchError.message}}</p>
-        <p *ngIf="searchError.imageUrl"><img [src]="searchError.imageUrl"></p>
-    </div>
     `,
     styles: [
         `
@@ -39,6 +36,7 @@ import { ElectronIPCService } from './electronIpcRenders.service';
 export class SearchBarComponent implements OnInit {
     searchError: ResponseError;
     searchText: string;
+    searchControl = new Control();
     @ViewChild('searchBar') searchBar: ElementRef;
 
     constructor(
@@ -46,7 +44,8 @@ export class SearchBarComponent implements OnInit {
         private electronIPCService: ElectronIPCService,
         private renderer: Renderer
     ) {
-
+        // Sets up the observable control to pass to service
+        searchService.liveSearch(this.searchControl.valueChanges);
     }
 
     ngOnInit() {
@@ -57,15 +56,7 @@ export class SearchBarComponent implements OnInit {
 
     doSearch(searchText) {
         this.searchError = null;
-        this.searchService.doSearch(searchText)
-            .then((results: any) => {
-                if (results.length === 0) {
-                    this.searchError = new ResponseError('Could not find any gifs for that search term.', 'https://media3.giphy.com/media/l3V0HLYPfIKIVDyBG/giphy.gif');
-                }
-            })
-            .catch(error => {
-                this.searchError = error;
-            });
+        this.searchService.doSearch(searchText);
     }
 
     cancelSearch() {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class GiphyService {
@@ -13,11 +14,10 @@ export class GiphyService {
 
     constructor(private http: Http) { }
 
-    search(searchText: string, offset: number = 0): Promise<Giphy.GiphyResponse> {
+    search(searchText: string, offset: number = 0): Observable<Giphy.GiphyResponse> {
         let searchUrl = `${this.baseUrl}${this.searchEndpoint}?q=${searchText}&api_key=${this.apiKey}&offset=${offset}`;
         return this.http.get(searchUrl)
-               .toPromise()
-               .then(response => response.json());
+               .map((res:Response) => res.json());
     }
 
 }
