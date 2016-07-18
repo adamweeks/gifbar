@@ -26,7 +26,7 @@ export class SearchService {
         this.searchResults.next([]);
     }
 
-    liveSearch(searchString: Observable<string>, debounceDuration = 800) {
+    liveSearch(searchString: Observable<string>, debounceDuration = 1500) {
         searchString
             .debounceTime(debounceDuration)
             .distinctUntilChanged()
