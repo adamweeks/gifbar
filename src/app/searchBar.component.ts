@@ -3,13 +3,20 @@ import { Control } from '@angular/common';
 import {SearchService} from './search.service';
 import { ResponseError } from './responseError';
 import { ElectronIPCService } from './electronIpcRenders.service';
+import { ElectronWindowService } from './electronWindow.service';
 
 @Component({
     moduleId: module.id,
     selector: 'search-bar',
     template: `
     <form (ngSubmit)="doSearch(searchText)" #searchBarForm="ngForm">
-        <input #searchBar id="searchBar" [ngFormControl]="searchControl" [(ngModel)]="searchText" placeholder="Search for gifs">
+        <input
+            #searchBar
+            id="searchBar"
+            [ngFormControl]="searchControl"
+            [(ngModel)]="searchText"
+            placeholder="Search for gifs"
+            (keyup.escape)="hideWindow()">
         <button type="button" (click)="cancelSearch()" class="cancel">X</button>
     </form>
     `,
@@ -35,14 +42,15 @@ import { ElectronIPCService } from './electronIpcRenders.service';
 })
 export class SearchBarComponent implements OnInit {
     searchError: ResponseError;
-    searchText: string;
+    searchText: string = '';
     searchControl = new Control();
     @ViewChild('searchBar') searchBar: ElementRef;
 
     constructor(
         private searchService: SearchService,
         private electronIPCService: ElectronIPCService,
-        private renderer: Renderer
+        private renderer: Renderer,
+        private electronWindowService: ElectronWindowService
     ) {
         // Sets up the observable control to pass to service
         searchService.liveSearch(this.searchControl.valueChanges);
@@ -60,9 +68,18 @@ export class SearchBarComponent implements OnInit {
     }
 
     cancelSearch() {
+        if (this.searchText.length === 0) {
+            this.hideWindow();
+            return;
+        }
         this.searchText = '';
         this.searchError = null;
         this.searchService.cancelSearch();
+        return;
+    }
+
+    hideWindow() {
+        this.electronWindowService.hideCurrentWindow();
     }
 
     focusSearch() {
