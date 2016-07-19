@@ -33,4 +33,9 @@ export class ElectronWindowService {
         win.loadURL(fileUrl);
         win.show();
     }
+
+    hideCurrentWindow() {
+        let win = this.BrowserWindow.getFocusedWindow();
+        win.hide();
+    }
 }

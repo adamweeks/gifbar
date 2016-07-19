@@ -15,7 +15,7 @@ export class GiphyService {
     constructor(private http: Http) { }
 
     search(searchText: string, offset: number = 0): Observable<Giphy.GiphyResponse> {
-        let searchUrl = `${this.baseUrl}${this.searchEndpoint}?q=${searchText}&api_key=${this.apiKey}&offset=${offset}`;
+        let searchUrl = `${this.baseUrl}${this.searchEndpoint}?q=${searchText}&api_key=${this.apiKey}&offset=${offset}&rating=r`;
         return this.http.get(searchUrl)
                .map((res:Response) => res.json());
     }
