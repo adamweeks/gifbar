@@ -18,9 +18,12 @@ export class ElectronWindowService {
         let options = {
             width: width,
             height: height,
+            maxWidth: width,
+            maxHeight: height,
             resizable: false,
             title: "Image",
-            webPreferences: webPreferences
+            webPreferences: webPreferences,
+            useContentSize: true
         };
         let win = new this.BrowserWindow(options);
         win.on('closed', () => {

@@ -7,10 +7,9 @@ import { ElectronWindowService } from './electronWindow.service';
     moduleId: module.id,
     selector: 'image-display',
     template: `
-        <img [src]="image.displayUrl">
+        <img (click)="openWindow()" [src]="image.displayUrl">
         <div class="actionItems">
             <button (click)="copyUrl()">Copy Url</button>
-            <button (click)="openWindow()">View</button>
         </div>
     `,
     styles: [
