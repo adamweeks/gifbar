@@ -23,3 +23,5 @@ npm run release
 ```
 
 ## Notes
+
+Pronunciation: Much like how the creator of the file format has told us that it's pronounced, 'jif'; you pronounce the name of this application, `jif-bar`.
