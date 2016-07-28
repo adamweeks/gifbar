@@ -69,11 +69,16 @@ export class SearchService {
                         let image = new ImageObject(giphyObject.images.fixed_width.url);
 
                         image.fullSizedImageUrl = giphyObject.images.original.url;
+                        image.fullSizedImageFileSize = this.getReadableFileSizeString(giphyObject.images.original.size);
                         image.sourceUrl         = giphyObject.url;
                         image.imageSizes        = {
                             fullSize: {
                                 width: parseInt(giphyObject.images.original.width),
                                 height: parseInt(giphyObject.images.original.height)
+                            },
+                            smallSize: {
+                                width: parseInt(giphyObject.images.fixed_width.width),
+                                height: parseInt(giphyObject.images.fixed_width.height)
                             }
                         };
 
@@ -132,6 +137,18 @@ export class SearchService {
         }
 
         return result;
+    }
+
+    getReadableFileSizeString(fileSize:string):string {
+        let fileSizeInBytes:number = parseInt(fileSize);
+        let i = -1;
+        const byteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+        do {
+            fileSizeInBytes = fileSizeInBytes / 1024;
+            i++;
+        } while (fileSizeInBytes > 1024);
+
+        return Math.max(fileSizeInBytes, 0.1).toFixed(1).toString() + byteUnits[i];
     }
 
 }

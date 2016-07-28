@@ -7,20 +7,52 @@ import { ElectronWindowService } from './electronWindow.service';
     moduleId: module.id,
     selector: 'image-display',
     template: `
-        <img (click)="openWindow()" [src]="image.displayUrl">
-        <div class="actionItems">
-            <button (click)="copyUrl()">Copy Url</button>
+    <div class="image-container" [style.height.px]="image.imageSizes.smallSize.height">
+        <div class="info">
+            {{ image.fullSizedImageFileSize }}
         </div>
+        <div class="action-items">
+            <button (click)="copyUrl()" title="Click to copy the Url">Copy</button>
+        </div>
+        <img (click)="openWindow()" [src]="image.displayUrl">
+    </div>
     `,
     styles: [
         `
+        .image-container {
+            display: flex;
+            position: relative;
+        }
+        .action-items {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            z-index: 10;
+        }
+        .info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 22px;
+            line-height: 20px;
+            font-size: 20px;
+            background-color: white;
+            text-align: center;
+            font-family: "Helvetica Neue";
+            opacity: 0.6;
+            padding: 0 5px;
+            z-index: 10;
+
+        }
         img {
             width: 200px;
             display: block;
+            z-index: 9;
         }
         button {
             height: 40px;
             line-height: 40px;
+            opacity: 0.6;
         }
         `
     ]

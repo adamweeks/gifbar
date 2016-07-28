@@ -6,6 +6,8 @@ export class ImageObject {
     */
     fullSizedImageUrl: string;
 
+    fullSizedImageFileSize: string;
+
     /**
      * The link back to the source of the location of the image
      */
@@ -36,5 +38,6 @@ interface ImageSizeValue {
 }
 
 interface ImageObjectSizes {
-    fullSize: ImageSizeValue
+    fullSize: ImageSizeValue,
+    smallSize: ImageSizeValue
 }
