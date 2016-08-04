@@ -5,6 +5,7 @@ import { Subject, Observer } from 'rxjs';
 import { ImageObject } from './imageObject.class';
 import { GiphyService } from './giphy.service';
 import { ResponseError } from './responseError';
+import { ElectronWindowService } from './electronWindow.service';
 
 @Injectable()
 export class SearchService {
@@ -22,7 +23,7 @@ export class SearchService {
 
     private _searchResultsObserver: Observer<string[]>;
 
-    constructor(private giphyService: GiphyService) {
+    constructor(private giphyService: GiphyService, private electronWindowService:ElectronWindowService) {
         this.searchResults.next([]);
     }
 
@@ -51,7 +52,9 @@ export class SearchService {
 
         this.currentSearch.next(searchText);
 
-        this.giphyService.search(searchText, offset)
+        let rating = this.electronWindowService.getGlobal('hideNSFW') ? 'g' : 'r';
+        
+        this.giphyService.search(searchText, offset, rating)
             .subscribe(
                 giphyData => {
                     let results = giphyData.data;

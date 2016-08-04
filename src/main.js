@@ -9,6 +9,10 @@ var Menu = electron.Menu;
 var globalShortcut = electron.globalShortcut;
 var BrowserWindow = electron.BrowserWindow;
 
+global.sharedObject = {
+    hideNSFW: true
+};
+
 var extend = require('extend');
 var Positioner = require('electron-positioner');
 
@@ -169,7 +173,18 @@ function create (opts) {
         function showDetailMenu () {
             var contextMenu = Menu.buildFromTemplate([
                 {
-                    label: 'Toggle DevTools',
+                    label: 'Hide NSFW',
+                    type: 'checkbox',
+                    checked: global.sharedObject.hideNSFW,
+                    click: function() {
+                        global.sharedObject.hideNSFW = !global.sharedObject.hideNSFW;
+                    }
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    label: 'Toggle DevToools',
                     accelerator: 'Alt+Command+I',
                     click: function() {
                         menubar.window.show();
