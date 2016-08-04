@@ -8,6 +8,7 @@ declare var dirname:any;
 export class ElectronWindowService {
 
     BrowserWindow = electron.remote.BrowserWindow;
+    remote = electron.remote;
 
     constructor() { }
 
@@ -37,5 +38,10 @@ export class ElectronWindowService {
     hideCurrentWindow() {
         let win = this.BrowserWindow.getFocusedWindow();
         win.hide();
+    }
+
+    getGlobal(propertyName: string) {
+        let sharedObject = this.remote.getGlobal('sharedObject');
+        return sharedObject[propertyName];
     }
 }
