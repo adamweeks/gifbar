@@ -67,6 +67,7 @@ export class ImageDisplayComponent implements OnInit {
 
     copyUrl() {
         this.clipboardService.writeText(`${this.image.fullSizedImageUrl} #gifbar`);
+        this.electronWindowService.hideCurrentWindow();
     }
 
     openWindow() {
