@@ -7,11 +7,11 @@ import { ElectronWindowService } from './electronWindow.service';
     moduleId: module.id,
     selector: 'image-display',
     template: `
-    <div class="image-container" [style.height.px]="image.imageSizes.smallSize.height">
-        <div class="info">
+    <div class="image-container" [style.height.px]="image.imageSizes.smallSize.height" (mouseover)="hidden=false" (mouseleave)="hidden=true">
+        <div class="info" *ngIf="!hidden">
             {{ image.fullSizedImageFileSize }}
         </div>
-        <div class="action-items">
+        <div class="action-items" *ngIf="!hidden">
             <button (click)="copyUrl()" title="Click to copy the Url">Copy</button>
         </div>
         <img (click)="openWindow()" [src]="image.displayUrl">
@@ -60,6 +60,8 @@ import { ElectronWindowService } from './electronWindow.service';
 export class ImageDisplayComponent implements OnInit {
 
     @Input() image: ImageObject;
+
+    public hidden: boolean = true;
 
     constructor(private clipboardService: ClipboardService, private electronWindowService: ElectronWindowService) { }
 
