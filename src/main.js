@@ -10,7 +10,8 @@ var globalShortcut = electron.globalShortcut;
 var BrowserWindow = electron.BrowserWindow;
 
 global.sharedObject = {
-    hideNSFW: true
+    hideNSFW: true,
+    includeHashTag: true,
 };
 
 var extend = require('extend');
@@ -179,6 +180,14 @@ function create (opts) {
                     checked: global.sharedObject.hideNSFW,
                     click: function() {
                         global.sharedObject.hideNSFW = !global.sharedObject.hideNSFW;
+                    }
+                },
+                {
+                    label: 'Append #gifbar on copy',
+                    type: 'checkbox',
+                    checked: global.sharedObject.includeHashTag,
+                    click: function() {
+                        global.sharedObject.includeHashTag = !global.sharedObject.includeHashTag;
                     }
                 },
                 {
