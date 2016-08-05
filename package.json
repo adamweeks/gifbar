@@ -1,6 +1,6 @@
 {
   "name": "gifbar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "build": "rm -r build/*; npm run copy-build; npm run copy-modules; npm run build-webpack",
     "build-webpack": "webpack --progress --profile --colors --display-error-details --display-cached",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
-    "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=$npm_package_version",
+    "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns",
     "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=$npm_package_version",
     "release": "npm run build; npm run release-mac; npm run release-win",
     "electron": "electron build"

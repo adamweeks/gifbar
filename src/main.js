@@ -21,7 +21,8 @@ var options = {
     height: 600,
     tooltip: 'GifBar',
     'always-on-top': true,
-    preloadWindow: true
+    preloadWindow: true,
+    icon: path.join(__dirname, 'gifbar-icon.png')
 };
 
 create(options);
