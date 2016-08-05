@@ -68,7 +68,8 @@ export class ImageDisplayComponent implements OnInit {
     ngOnInit() { }
 
     copyUrl() {
-        this.clipboardService.writeText(`${this.image.fullSizedImageUrl} #gifbar`);
+        let hashtag = this.electronWindowService.getGlobal('includeHashTag') ? ' #gifbar' : '';
+        this.clipboardService.writeText(`${this.image.fullSizedImageUrl}${hashtag}`);
         this.electronWindowService.hideCurrentWindow();
     }
 
