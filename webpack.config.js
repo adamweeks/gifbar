@@ -44,6 +44,10 @@ var options = {
         test: /\.jsx?$/,
         loaders: ['babel?cacheDirectory'],
         exclude: [ /node_modules/ ]
+      },
+      {
+         test: /\.css$/,
+         loader: "style-loader!css-loader"
       }
     ]
   },
