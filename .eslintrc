@@ -1,0 +1,21 @@
+{
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true
+    },
+    "ecmaFeatures": {
+        "jsx": true,
+        "modules": true
+    },
+    "parserOptions": {
+        "jsx": true,
+        "ecmaVersion": 6,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ]
+    ,
+    "extends": ["eslint:recommended", "plugin:react/recommended"]
+}
