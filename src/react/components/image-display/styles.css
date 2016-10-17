@@ -1,36 +1,11 @@
 .image-container {
     display: flex;
     position: relative;
-    padding: 5px;
+    margin: 5px;
 }
-.action-items {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 10;
-}
-.info {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 22px;
-    line-height: 20px;
-    font-size: 20px;
-    background-color: white;
-    text-align: center;
-    font-family: "Helvetica Neue";
-    opacity: 0.6;
-    padding: 0 5px;
-    z-index: 10;
 
-}
-img {
+.image-container img {
     width: 200px;
     display: block;
     z-index: 9;
-}
-button {
-    height: 40px;
-    line-height: 40px;
-    opacity: 0.6;
 }

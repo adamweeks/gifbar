@@ -8,6 +8,9 @@
         "jsx": true,
         "modules": true
     },
+    "globals": {
+        "electron": true
+    },
     "parserOptions": {
         "jsx": true,
         "ecmaVersion": 6,

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 
-import ImageDisplay from '../image-display';
+import MainImageDisplay from '../../containers/main-image-display';
 
 import './styles.css';
 
@@ -13,9 +13,10 @@ class SearchResults extends Component {
         }
     }
 
+
     render () {
         const displayMap = (gif) => {
-            return <ImageDisplay image={gif} key={gif.id} />
+            return <MainImageDisplay image={gif} key={gif.id} />
         };
         const displayLeft = this.state.searchResultsLeft.map(displayMap);
         const displayRight = this.state.searchResultsRight.map(displayMap);
