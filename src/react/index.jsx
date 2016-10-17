@@ -24,6 +24,8 @@ class Main extends Component {
         this.giphySearch.doSearch(searchTerm).then((results) => {
             const gifs = results.data.map((giphyObject) => {
                 return {
+                    id: giphyObject.id,
+                    displayUrl: giphyObject.images.fixed_width.url,
                     fullSizedImageUrl: giphyObject.images.original.url,
                     fullSizedImageFileSize: getReadableFileSizeString(giphyObject.images.original.size),
                     sourceUrl: giphyObject.url,
