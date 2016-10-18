@@ -5,13 +5,10 @@ import ImageDisplay from '../../components/image-display';
 
 class MainImageDisplay extends Component {
 
+    // TODO: Revert this back to simple image display (copyurl goes to main)
     copyUrl(image) {
         const hashTag = electron.remote.getGlobal('sharedObject').includeHashTag ? ' #gifbar' : '';
         electron.clipboard.writeText(`${image.fullSizedImageUrl}${hashTag}`);
-    }
-
-    openModal(image) {
-        // TODO: Function
     }
 
     render() {
@@ -19,14 +16,19 @@ class MainImageDisplay extends Component {
 
         return (
             <div>
-                <ImageDisplay handleOnClick={this.openModal.bind(this, image)} image={image} onCopy={this.copyUrl.bind(this, image)} />
+                <ImageDisplay
+                    handleClick={this.props.openModal.bind(this, image)}
+                    image={image}
+                    onCopy={this.copyUrl.bind(this, image)}
+                />
             </div>
         );
     }
 }
 
 MainImageDisplay.propTypes = {
-    image: PropTypes.object.isRequired
+    image: PropTypes.object.isRequired,
+    openModal: PropTypes.func.isRequired
 };
 
 export default MainImageDisplay;

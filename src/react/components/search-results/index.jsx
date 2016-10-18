@@ -16,7 +16,7 @@ class SearchResults extends Component {
 
     render () {
         const displayMap = (gif) => {
-            return <MainImageDisplay image={gif} key={gif.id} />
+            return <MainImageDisplay image={gif} key={gif.id} openModal={this.props.openModal} />
         };
         const displayLeft = this.state.searchResultsLeft.map(displayMap);
         const displayRight = this.state.searchResultsRight.map(displayMap);
@@ -60,6 +60,7 @@ class SearchResults extends Component {
 }
 
 SearchResults.propTypes = {
+    openModal: PropTypes.func.isRequired,
     results: PropTypes.array.isRequired
 }
 

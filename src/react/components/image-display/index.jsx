@@ -28,6 +28,7 @@ class ImageDisplay extends Component {
 
     render () {
         const {
+            handleClick,
             image,
             onCopy
         } = this.props;
@@ -51,7 +52,12 @@ class ImageDisplay extends Component {
         }
 
         return (
-            <div className="image-container" style={divStyle} onMouseOver={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
+            <div
+                className="image-container"
+                style={divStyle}
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseLeave}
+                onClick={handleClick}>
                 <img src={image.displayUrl} />
                 {info}
             </div>
@@ -61,8 +67,9 @@ class ImageDisplay extends Component {
 }
 
 ImageDisplay.propTypes = {
-    onCopy: PropTypes.func.isRequired,
-    image: PropTypes.object.isRequired
+    handleClick: PropTypes.func.isRequired,
+    image: PropTypes.object.isRequired,
+    onCopy: PropTypes.func.isRequired
 }
 
 export default ImageDisplay
