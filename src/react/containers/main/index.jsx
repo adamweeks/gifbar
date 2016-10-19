@@ -5,7 +5,7 @@ import SearchResults from '../../components/search-results';
 import SearchPagination from '../../components/search-pagination';
 
 import GiphySearch from '../../giphy-search';
-import {getReadableFileSizeString} from '../../utils';
+import {getReadableFileSizeString, getGlobalElectronProperty} from '../../utils';
 
 const GIPHY_API_KEY = `dc6zaTOxFJmzC`;
 
@@ -16,43 +16,67 @@ class Main extends Component {
         super(props);
 
         this.giphySearch = new GiphySearch(GIPHY_API_KEY);
+        this.copyUrl = this.copyUrl.bind(this);
         this.doSearch = this.doSearch.bind(this);
         this.hideCurrentWindow = this.hideCurrentWindow.bind(this);
-        this.openModal = this.openModal.bind(this);
         this.showModal = this.showModal.bind(this);
-        this.state = {gifs: []};
+        this.state = {gifs: [], error: false};
     }
 
-    doSearch(searchTerm) {
-        this.giphySearch.doSearch(searchTerm).then((results) => {
-            const gifs = results.data.map((giphyObject) => {
-                return {
-                    id: giphyObject.id,
-                    displayUrl: giphyObject.images.fixed_width.url,
-                    fullSizedImageUrl: giphyObject.images.original.url,
-                    fullSizedImageFileSize: getReadableFileSizeString(giphyObject.images.original.size),
-                    sourceUrl: giphyObject.url,
-                    imageSizes: {
-                        fullSize: {
-                            width: parseInt(giphyObject.images.original.width),
-                            height: parseInt(giphyObject.images.original.height)
-                        },
-                        smallSize: {
-                            width: parseInt(giphyObject.images.fixed_width.width),
-                            height: parseInt(giphyObject.images.fixed_width.height)
+    /**
+     * Handles the actual searching on giphy
+     *
+     * @param {any} searchTerm
+     *
+     * @memberOf Main
+
+     */
+    doSearch(searchTerm, offset = 0) {
+        if (searchTerm) {
+            const rating = getGlobalElectronProperty('hideNSFW') ? 'g' : 'r';
+            this.giphySearch.doSearch(searchTerm, offset, rating).then((results) => {
+                const gifs = results.data.map((giphyObject) => {
+                    return {
+                        id: giphyObject.id,
+                        displayUrl: giphyObject.images.fixed_width.url,
+                        fullSizedImageUrl: giphyObject.images.original.url,
+                        fullSizedImageFileSize: getReadableFileSizeString(giphyObject.images.original.size),
+                        sourceUrl: giphyObject.url,
+                        imageSizes: {
+                            fullSize: {
+                                width: parseInt(giphyObject.images.original.width),
+                                height: parseInt(giphyObject.images.original.height)
+                            },
+                            smallSize: {
+                                width: parseInt(giphyObject.images.fixed_width.width),
+                                height: parseInt(giphyObject.images.fixed_width.height)
+                            }
                         }
-                    }
-                };
+                    };
+                });
+                this.setState({gifs, error: false});
             });
-            this.setState({gifs});
-        });
+        }
+        else {
+            const error = {
+                message: 'Please enter a search term.',
+                imageUrl: 'http://media4.giphy.com/media/12zV7u6Bh0vHpu/giphy.gif'
+            }
+            this.setState({gifs: [], error})
+        }
     }
 
+    /**
+     * Shows the detail window
+     *
+     * @param {any} gif
+     *
+     * @memberOf Main
+     */
     showModal(gif) {
-        this.openModal(gif.fullSizedImageUrl, gif.imageSizes.fullSize.width, gif.imageSizes.fullSize.height);
-    }
-
-    openModal(url, width = 200, height = 200) {
+        const url = gif.fullSizedImageUrl;
+        const width = gif.imageSizes.fullSize.width ? gif.imageSizes.fullSize.width : 200;
+        const height = gif.imageSizes.fullSize.height ? gif.imageSizes.fullSize.height : 200;
         let webPreferences = {
             zoomFactor: 1.0
         };
@@ -80,11 +104,23 @@ class Main extends Component {
         win.hide();
     }
 
+    /**
+     * Copies image object's url to system clipboard
+     *
+     * @param {any} image
+     *
+     * @memberOf Main
+     */
+    copyUrl(image) {
+        const hashTag = getGlobalElectronProperty('includeHashTag') ? ' #gifbar' : '';
+        electron.clipboard.writeText(`${image.fullSizedImageUrl}${hashTag}`);
+    }
+
     render() {
         return (
             <div>
                 <SearchBar doSearch={this.doSearch} />
-                <SearchResults openModal={this.showModal} results={this.state.gifs}/>
+                <SearchResults copyUrl={this.copyUrl} error={this.state.error} openModal={this.showModal} results={this.state.gifs}/>
                 <SearchPagination />
             </div>
         );

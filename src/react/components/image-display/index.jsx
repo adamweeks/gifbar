@@ -57,8 +57,8 @@ class ImageDisplay extends Component {
                 style={divStyle}
                 onMouseOver={this.handleMouseOver}
                 onMouseLeave={this.handleMouseLeave}
-                onClick={handleClick}>
-                <img src={image.displayUrl} />
+            >
+                <img src={image.displayUrl} onClick={handleClick} />
                 {info}
             </div>
 

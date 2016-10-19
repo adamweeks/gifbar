@@ -9,3 +9,8 @@ export function getReadableFileSizeString(fileSize) {
 
     return Math.max(fileSizeInBytes, 0.1).toFixed(1).toString() + byteUnits[i];
 }
+
+export function getGlobalElectronProperty(propertyName) {
+    let sharedObject = electron.remote.getGlobal('sharedObject');
+    return sharedObject[propertyName];
+}

@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react'
 
-import MainImageDisplay from '../../containers/main-image-display';
+import ImageDisplay from '../image-display';
 
 import './styles.css';
 
@@ -15,21 +15,40 @@ class SearchResults extends Component {
 
 
     render () {
-        const displayMap = (gif) => {
-            return <MainImageDisplay image={gif} key={gif.id} openModal={this.props.openModal} />
-        };
-        const displayLeft = this.state.searchResultsLeft.map(displayMap);
-        const displayRight = this.state.searchResultsRight.map(displayMap);
-        return (
-             <div className="image-grid">
-                <div className="col">
-                    {displayLeft}
+        const {error, openModal, copyUrl} = this.props;
+        let display;
+        if (error) {
+            display = (
+                <div>
+                    <p>{error.message}</p>
+                    <p><img src={error.imageUrl} /></p>
                 </div>
-                <div className="col">
-                    {displayRight}
+            )
+        }
+        else {
+            const displayMap = (image) => {
+                return <ImageDisplay
+                            handleClick={openModal.bind(this, image)}
+                            image={image}
+                            key={image.id}
+                            onCopy={copyUrl.bind(this, image)}
+                        />
+            };
+            const displayLeft = this.state.searchResultsLeft.map(displayMap);
+            const displayRight = this.state.searchResultsRight.map(displayMap);
+            display = (
+                    <div className="image-grid">
+                    <div className="col">
+                        {displayLeft}
+                    </div>
+                    <div className="col">
+                        {displayRight}
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
+        return display;
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -60,6 +79,8 @@ class SearchResults extends Component {
 }
 
 SearchResults.propTypes = {
+    copyUrl: PropTypes.func.isRequired,
+    error: PropTypes.object,
     openModal: PropTypes.func.isRequired,
     results: PropTypes.array.isRequired
 }
