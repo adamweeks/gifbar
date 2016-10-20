@@ -119,7 +119,7 @@ class Main extends Component {
     render() {
         return (
             <div>
-                <SearchBar doSearch={this.doSearch} />
+                <SearchBar doExit={this.hideCurrentWindow} doSearch={this.doSearch} />
                 <SearchResults copyUrl={this.copyUrl} error={this.state.error} openModal={this.showModal} results={this.state.gifs}/>
                 <SearchPagination />
             </div>

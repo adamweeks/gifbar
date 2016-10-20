@@ -43,7 +43,12 @@ class SearchBar extends Component {
             event.preventDefault();
         }
         if (event.keyCode === ESCAPE_KEY) {
-            this.clearSearch();
+            if (this.state.value.length > 0) {
+                this.clearSearch();
+            }
+            else {
+                this.props.doExit();
+            }
             event.preventDefault();
         }
     }
@@ -60,5 +65,6 @@ class SearchBar extends Component {
 export default SearchBar
 
 SearchBar.propTypes = {
+    doExit: PropTypes.func.isRequired,
     doSearch: PropTypes.func.isRequired
 }
