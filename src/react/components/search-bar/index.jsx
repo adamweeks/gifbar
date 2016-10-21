@@ -55,6 +55,7 @@ class SearchBar extends Component {
 
     clearSearch() {
         this.setState({value: ''});
+        this.props.doClear();
     }
 
     doSearch() {
@@ -65,6 +66,7 @@ class SearchBar extends Component {
 export default SearchBar
 
 SearchBar.propTypes = {
+    doClear: PropTypes.func.isRequired,
     doExit: PropTypes.func.isRequired,
     doSearch: PropTypes.func.isRequired
 }

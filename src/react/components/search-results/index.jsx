@@ -17,7 +17,7 @@ class SearchResults extends Component {
     render () {
         const {error, openModal, copyUrl} = this.props;
         let display;
-        if (error) {
+        if (error.message) {
             display = (
                 <div>
                     <p>{error.message}</p>
