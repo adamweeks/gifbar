@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react'
-
+import ReactDOM from 'react-dom';
 import './styles.css';
 
 const ESCAPE_KEY = 27;
@@ -15,12 +15,29 @@ class SearchBar extends Component {
         this.clearSearch = this.clearSearch.bind(this);
     }
 
+    componentDidMount() {
+        this.doFocus();
+    }
+
+    componentWillReceiveProps (nextProps) {
+        if (nextProps.shouldFocus && !this.props.shouldFocus) {
+            this.doFocus();
+        }
+    }
+
+    doFocus() {
+        ReactDOM.findDOMNode(this.refs.searchBar).focus();
+        this.props.onFocus();
+    }
+
+
     render () {
         return (
             <div>
                 <form>
                     <input
                         id="searchBar"
+                        ref="searchBar"
                         type="text"
                         placeholder="Search for gifs"
                         value={this.state.value}
@@ -68,5 +85,7 @@ export default SearchBar
 SearchBar.propTypes = {
     doClear: PropTypes.func.isRequired,
     doExit: PropTypes.func.isRequired,
-    doSearch: PropTypes.func.isRequired
+    doSearch: PropTypes.func.isRequired,
+    onFocus: PropTypes.func.isRequired,
+    shouldFocus: PropTypes.bool
 }

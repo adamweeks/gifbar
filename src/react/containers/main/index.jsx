@@ -16,6 +16,7 @@ const initialState = {
     gifs: [],
     error: {},
     offset: 0,
+    shouldFocus: false,
     totalResults: 0
 };
 
@@ -29,21 +30,16 @@ class Main extends Component {
         this.copyUrl = this.copyUrl.bind(this);
         this.doClear = this.doClear.bind(this);
         this.doSearch = this.doSearch.bind(this);
+        this.handleSearchBarFocus = this.handleSearchBarFocus.bind(this);
         this.hideCurrentWindow = this.hideCurrentWindow.bind(this);
         this.searchRequest = this.searchRequest.bind(this);
         this.showModal = this.showModal.bind(this);
 
         this.state = initialState;
-    }
 
-    initialState() {
-        return {
-            currentSearchTerm: ``,
-            gifs: [],
-            error: {},
-            offset: 0,
-            totalResults: 0
-        };
+        electron.ipcRenderer.on('after-show', () => {
+            this.setState({shouldFocus: true});
+        });
     }
 
     doClear() {
@@ -160,6 +156,10 @@ class Main extends Component {
         electron.clipboard.writeText(`${image.fullSizedImageUrl}${hashTag}`);
     }
 
+    handleSearchBarFocus() {
+        this.setState({shouldFocus: false});
+    }
+
     calcPaginationAvailability(totalResults, currentResultCount, offset) {
         let result = {
             forwardAvailable: false,
@@ -190,7 +190,13 @@ class Main extends Component {
 
         return (
             <div>
-                <SearchBar doClear={this.doClear} doExit={this.hideCurrentWindow} doSearch={this.doSearch} />
+                <SearchBar
+                    doClear={this.doClear}
+                    doExit={this.hideCurrentWindow}
+                    doSearch={this.doSearch}
+                    onFocus={this.handleSearchBarFocus}
+                    shouldFocus={this.state.shouldFocus}
+                />
                 <SearchResults
                     copyUrl={this.copyUrl}
                     error={this.state.error}
