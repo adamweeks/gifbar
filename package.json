@@ -35,13 +35,6 @@
     "webpack-target-electron-renderer": "^0.4.0"
   },
   "dependencies": {
-    "@angular/common": "2.0.0-rc.1",
-    "@angular/compiler": "2.0.0-rc.1",
-    "@angular/core": "2.0.0-rc.1",
-    "@angular/http": "2.0.0-rc.1",
-    "@angular/platform-browser": "2.0.0-rc.1",
-    "@angular/platform-browser-dynamic": "2.0.0-rc.1",
-    "@angular/router": "2.0.0-rc.1",
     "electron-packager": "^7.0.3",
     "electron-positioner": "^3.0.0",
     "es6-shim": "^0.35.0",

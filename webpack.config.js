@@ -1,4 +1,3 @@
-var path = require('path');
 var webpack = require('webpack');
 var webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
@@ -8,16 +7,7 @@ var options = {
   debug: true,
 
   entry: {
-    'angular2': [
-      'zone.js',
-      'rxjs',
-      'reflect-metadata',
-      '@angular/core',
-      '@angular/common',
-      '@angular/http',
-      '@angular/platform-browser-dynamic'
-    ],
-    'app': './src/react/index.jsx'
+    'app': './src/app/index.jsx'
   },
 
   output: {
@@ -53,7 +43,6 @@ var options = {
   },
 
   plugins: [
-    new CommonsChunkPlugin({ name: 'angular2', filename: 'angular2.js', minChunks: Infinity }),
     new CommonsChunkPlugin({ name: 'common',   filename: 'common.js' })
   ],
   target:'node-webkit'
