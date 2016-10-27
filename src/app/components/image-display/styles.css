@@ -1,0 +1,11 @@
+.image-container {
+    display: flex;
+    position: relative;
+    margin: 5px;
+}
+
+.image-container img {
+    width: 200px;
+    display: block;
+    z-index: 9;
+}

@@ -1,0 +1,13 @@
+.image-grid {
+    display: flex;
+    flex-direction: row;
+}
+.col {
+    display: flex;
+    flex-direction: column;
+}
+image-display {
+    display: block;
+    padding: 5px;
+    float: left;
+}
