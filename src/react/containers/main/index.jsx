@@ -68,32 +68,41 @@ class Main extends Component {
         if (searchTerm) {
             const rating = getGlobalElectronProperty('hideNSFW') ? 'g' : 'r';
             this.giphySearch.doSearch(searchTerm, offset, rating, SEARCH_LIMIT).then((results) => {
-                const gifs = results.data.map((giphyObject) => {
-                    return {
-                        id: giphyObject.id,
-                        displayUrl: giphyObject.images.fixed_width.url,
-                        fullSizedImageUrl: giphyObject.images.original.url,
-                        fullSizedImageFileSize: getReadableFileSizeString(giphyObject.images.original.size),
-                        sourceUrl: giphyObject.url,
-                        imageSizes: {
-                            fullSize: {
-                                width: parseInt(giphyObject.images.original.width),
-                                height: parseInt(giphyObject.images.original.height)
-                            },
-                            smallSize: {
-                                width: parseInt(giphyObject.images.fixed_width.width),
-                                height: parseInt(giphyObject.images.fixed_width.height)
+                if (results.data.length === 0) {
+                    const error = {
+                        message: 'Could not find any gifs for that search term.',
+                        imageUrl: 'https://media3.giphy.com/media/l3V0HLYPfIKIVDyBG/giphy.gif'
+                    }
+                    this.setState({gifs: [], error})
+                }
+                else {
+                    const gifs = results.data.map((giphyObject) => {
+                        return {
+                            id: giphyObject.id,
+                            displayUrl: giphyObject.images.fixed_width.url,
+                            fullSizedImageUrl: giphyObject.images.original.url,
+                            fullSizedImageFileSize: getReadableFileSizeString(giphyObject.images.original.size),
+                            sourceUrl: giphyObject.url,
+                            imageSizes: {
+                                fullSize: {
+                                    width: parseInt(giphyObject.images.original.width),
+                                    height: parseInt(giphyObject.images.original.height)
+                                },
+                                smallSize: {
+                                    width: parseInt(giphyObject.images.fixed_width.width),
+                                    height: parseInt(giphyObject.images.fixed_width.height)
+                                }
                             }
-                        }
-                    };
-                });
-                const pagination = results.pagination;
-                this.setState({
-                    currentSearchTerm: searchTerm,
-                    gifs,
-                    error: {},
-                    totalResults: pagination.total_count
-                });
+                        };
+                    });
+                    const pagination = results.pagination;
+                    this.setState({
+                        currentSearchTerm: searchTerm,
+                        gifs,
+                        error: {},
+                        totalResults: pagination.total_count
+                    });
+                }
                 window.scrollTo(0,0);
             });
         }
