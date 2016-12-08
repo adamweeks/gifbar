@@ -163,6 +163,9 @@ class Main extends Component {
     copyUrl(image) {
         const hashTag = getGlobalElectronProperty('includeHashTag') ? ' #gifbar' : '';
         electron.clipboard.writeText(`${image.fullSizedImageUrl}${hashTag}`);
+        if (getGlobalElectronProperty('hideOnCopy')) {
+            this.hideCurrentWindow();
+        }
     }
 
     handleSearchBarFocus() {

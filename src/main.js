@@ -12,6 +12,7 @@ var BrowserWindow = electron.BrowserWindow;
 global.sharedObject = {
     hideNSFW: true,
     includeHashTag: true,
+    hideOnCopy: true
 };
 
 var extend = require('extend');
@@ -124,7 +125,7 @@ function create (opts) {
 
         function showWindow (trayPos) {
             if (!menubar.window) {
-                createWindow();;
+                createWindow();
             }
 
             menubar.emit('show');
@@ -188,6 +189,14 @@ function create (opts) {
                     checked: global.sharedObject.includeHashTag,
                     click: function() {
                         global.sharedObject.includeHashTag = !global.sharedObject.includeHashTag;
+                    }
+                },
+                {
+                    label: 'Hide on copy',
+                    type: 'checkbox',
+                    checked: global.sharedObject.hideOnCopy,
+                    click: function() {
+                        global.sharedObject.hideOnCopy = !global.sharedObject.hideOnCopy;
                     }
                 },
                 {
