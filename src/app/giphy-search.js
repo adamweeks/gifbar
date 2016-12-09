@@ -20,7 +20,7 @@ export default class GiphySearch {
      * @memberOf GiphySearch
      */
     doSearch(searchText, offset = 0, rating = 'r', limit = 25) {
-        let searchUrl = `${baseUrl}${searchEndpoint}?q=${searchText}&api_key=${this.apiKey}&offset=${offset}&rating=${rating}&limit=${limit}`;
+        let searchUrl = `${baseUrl}${searchEndpoint}?q=${searchText}&api_key=${this.apiKey}&offset=${offset}&rating=${rating}&limit=${limit}&sort=relevant`;
         const myRequest = new Request(searchUrl);
         return fetch(myRequest).then((response) => response.json());
     }
