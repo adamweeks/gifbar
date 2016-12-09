@@ -12,7 +12,8 @@ var BrowserWindow = electron.BrowserWindow;
 global.sharedObject = {
     hideNSFW: true,
     includeHashTag: true,
-    hideOnCopy: true
+    hideOnCopy: true,
+    globalShortcut: true
 };
 
 var extend = require('extend');
@@ -82,7 +83,9 @@ function create (opts) {
 
         globalShortcut.register(shortcut, function() {
             if (menubar.window && menubar.window.isVisible()) return hideWindow();
-            showWindow(cachedBounds);
+            if (global.sharedObject.globalShortcut) {
+                showWindow(cachedBounds);
+            }
         });
 
         menubar.showWindow = showWindow;
@@ -200,6 +203,14 @@ function create (opts) {
                     }
                 },
                 {
+                    label: 'Global Shortcut ⌘-Alt-G',
+                    type: 'checkbox',
+                    checked: global.sharedObject.globalShortcut,
+                    click: function() {
+                        global.sharedObject.globalShortcut = !global.sharedObject.globalShortcut;
+                    }
+                },
+                {
                     type: 'separator'
                 },
                 {
@@ -213,7 +224,7 @@ function create (opts) {
                 {
                     label: 'Quit',
                     accelerator: 'Command+Q',
-                    selector: 'terminate:',
+                    selector: 'terminate:'
                 }
             ]);
 
