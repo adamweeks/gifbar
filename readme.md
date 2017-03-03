@@ -1,7 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/adamweeks/gifbar.png?label=ready&title=Ready)](https://waffle.io/adamweeks/gifbar)
 # GifBar
 
-GifBar is an Angular 2 based Electron menubar app.
+GifBar is an React based Electron menubar app.
 
 ## Installation
 
