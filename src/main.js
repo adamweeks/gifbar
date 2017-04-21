@@ -22,6 +22,7 @@ var Positioner = require('electron-positioner');
 var options = {
     width: 436,
     height: 600,
+    resizable: false,
     tooltip: 'GifBar',
     'always-on-top': true,
     preloadWindow: true,
