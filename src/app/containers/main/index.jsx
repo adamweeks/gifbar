@@ -198,7 +198,16 @@ class Main extends Component {
         const paginationResults = this.calcPaginationAvailability(this.state.totalResults, this.state.gifs.length, this.state.offset);
         const previousAvailable = paginationResults.previousAvailable;
         const forwardAvailable = paginationResults.forwardAvailable;
-
+        const searchPagination = (
+            <SearchPagination
+                amount={SEARCH_LIMIT}
+                changeOffset={this.changeOffset}
+                currentOffset={this.state.offset}
+                forwardAvailable={forwardAvailable}
+                previousAvailable={previousAvailable}
+                totalResults={this.state.totalResults}
+            />
+        )
 
         return (
             <div>
@@ -215,14 +224,9 @@ class Main extends Component {
                     openModal={this.showModal}
                     results={this.state.gifs}
                 />
-                <SearchPagination
-                    amount={SEARCH_LIMIT}
-                    changeOffset={this.changeOffset}
-                    currentOffset={this.state.offset}
-                    forwardAvailable={forwardAvailable}
-                    previousAvailable={previousAvailable}
-                    totalResults={this.state.totalResults}
-                />
+                if (this.state.totalResults) {
+                    {searchPagination}
+                }
             </div>
         );
     }
