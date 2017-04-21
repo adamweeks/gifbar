@@ -198,17 +198,7 @@ class Main extends Component {
         const paginationResults = this.calcPaginationAvailability(this.state.totalResults, this.state.gifs.length, this.state.offset);
         const previousAvailable = paginationResults.previousAvailable;
         const forwardAvailable = paginationResults.forwardAvailable;
-        const searchPagination = (
-            <SearchPagination
-                amount={SEARCH_LIMIT}
-                changeOffset={this.changeOffset}
-                currentOffset={this.state.offset}
-                forwardAvailable={forwardAvailable}
-                previousAvailable={previousAvailable}
-                totalResults={this.state.totalResults}
-            />
-        )
-
+        const showPagination = this.state.totalResults > 0;
         return (
             <div>
                 <SearchBar
@@ -224,8 +214,16 @@ class Main extends Component {
                     openModal={this.showModal}
                     results={this.state.gifs}
                 />
-                if (this.state.totalResults) {
-                    {searchPagination}
+                {
+                    showPagination &&
+                    <SearchPagination
+                        amount={SEARCH_LIMIT}
+                        changeOffset={this.changeOffset}
+                        currentOffset={this.state.offset}
+                        forwardAvailable={forwardAvailable}
+                        previousAvailable={previousAvailable}
+                        totalResults={this.state.totalResults}
+                    />
                 }
             </div>
         );
