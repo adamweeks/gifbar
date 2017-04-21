@@ -5,6 +5,7 @@ import './styles.css';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
+const A_KEY = 65;
 
 class SearchBar extends Component {
 
@@ -13,6 +14,7 @@ class SearchBar extends Component {
         this.state = {value: ''};
         this.handleChange = this.handleChange.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleFocus = this.handleFocus.bind(this);
         this.clearSearch = this.clearSearch.bind(this);
     }
 
@@ -42,6 +44,7 @@ class SearchBar extends Component {
                         type="text"
                         placeholder="Search for gifs"
                         value={this.state.value}
+                        onFocus={this.handleFocus}
                         onKeyDown={this.handleKeyDown}
                         onChange={this.handleChange}
                     />
@@ -53,6 +56,10 @@ class SearchBar extends Component {
 
     handleChange(event) {
         this.setState({value: event.target.value});
+    }
+
+    handleFocus(event) {
+        event.target.select();
     }
 
     handleKeyDown(event) {
@@ -68,6 +75,9 @@ class SearchBar extends Component {
                 this.props.doExit();
             }
             event.preventDefault();
+        }
+        if (event.metaKey && event.keyCode === A_KEY ) {
+            event.target.select();
         }
     }
 
