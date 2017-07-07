@@ -19,7 +19,7 @@ global.sharedObject = {
 
 var extend = require('extend');
 var Positioner = require('electron-positioner');
-var AutoLaunch = require('auto-launch');
+var AutoLaunch = require('auto-launch-patched');
 
 var options = {
     width: 436,

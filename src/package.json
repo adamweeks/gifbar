@@ -4,7 +4,7 @@
   "main": "main.js",
   "dependencies": {
     "applescript": "^1.0.0",
-    "auto-launch": "~5.0.2",
+    "auto-launch-patched": "~5.0.2",
     "electron-positioner": "^3.0.0",
     "extend": "^3.0.0",
     "mkdirp": "^0.5.1",

@@ -7,7 +7,7 @@ cp -r src/* build/
 
 mkdir build/node_modules
 cp -a node_modules/applescript build/node_modules/
-cp -a node_modules/auto-launch build/node_modules/
+cp -a node_modules/auto-launch-patched build/node_modules/
 cp -a node_modules/electron-positioner build/node_modules/
 cp -a node_modules/extend build/node_modules/
 cp -a node_modules/mkdirp build/node_modules/
