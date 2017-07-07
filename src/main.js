@@ -215,12 +215,15 @@ function create (opts) {
                     type: 'separator'
                 },
                 {
-                    label: 'Toggle DevToools',
+                    label: 'Toggle DevTools',
                     accelerator: 'Alt+Command+I',
                     click: function() {
                         menubar.window.show();
                         menubar.window.toggleDevTools();
                     }
+                },
+                {
+                    type: 'separator'
                 },
                 {
                     label: 'Quit',
