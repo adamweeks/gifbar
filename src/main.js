@@ -13,11 +13,13 @@ global.sharedObject = {
     hideNSFW: true,
     includeHashTag: true,
     hideOnCopy: true,
+    launchAtLogin: false,
     globalShortcut: true
 };
 
 var extend = require('extend');
 var Positioner = require('electron-positioner');
+var AutoLaunch = require('auto-launch');
 
 var options = {
     width: 436,
@@ -88,6 +90,17 @@ function create (opts) {
                 showWindow(cachedBounds);
             }
         });
+
+        var gifbarAutoLauncher = new AutoLaunch({
+            name: 'GifBar',
+        });
+
+        gifbarAutoLauncher.isEnabled()
+            .then(function(isEnabled) {
+                if (isEnabled) {
+                    global.sharedObject.launchAtLogin = true;
+                }
+            });
 
         menubar.showWindow = showWindow;
         menubar.hideWindow = hideWindow;
@@ -209,6 +222,19 @@ function create (opts) {
                     checked: global.sharedObject.globalShortcut,
                     click: function() {
                         global.sharedObject.globalShortcut = !global.sharedObject.globalShortcut;
+                    }
+                },
+                {
+                    label: 'Launch at Login',
+                    type: 'checkbox',
+                    checked: global.sharedObject.launchAtLogin,
+                    click: function() {
+                        global.sharedObject.launchAtLogin = !global.sharedObject.launchAtLogin;
+                        if (global.sharedObject.launchAtLogin) {
+                            gifbarAutoLauncher.enable();
+                        } else {
+                            gifbarAutoLauncher.disable();
+                        }
                     }
                 },
                 {
