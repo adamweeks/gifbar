@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "copy-build": "mkdir build; cp src/* build/; exit 0;",
-    "copy-modules": "mkdir build/node_modules; cp -a node_modules/electron-positioner/. build/node_modules/electron-positioner; cp -a node_modules/extend/. build/node_modules/extend; exit 0;",
-    "build": "rm -r build/*; npm run copy-build; npm run copy-modules; npm run build-webpack",
+    "build": "./build.sh",
     "build-webpack": "webpack --progress --profile --colors --display-error-details --display-cached",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
     "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns",
