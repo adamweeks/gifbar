@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import './styles.css';
 
 const ESCAPE_KEY = 27;
@@ -29,7 +28,11 @@ class SearchBar extends Component {
     }
 
     doFocus() {
-        ReactDOM.findDOMNode(this.refs.searchBar).focus();
+        // Refs don't render properly in jest
+        // TODO: https://stackoverflow.com/questions/40852131/refs-are-null-in-jest-snapshot-tests-with-react-test-renderer/40854433#40854433
+        if (this.searchBar) {
+            this.searchBar.focus();
+        }
         this.props.onFocus();
     }
 
@@ -40,7 +43,7 @@ class SearchBar extends Component {
                 <form>
                     <input
                         id="searchBar"
-                        ref="searchBar"
+                        ref={node => this.searchBar = node}
                         type="text"
                         placeholder="Search for gifs"
                         value={this.state.value}

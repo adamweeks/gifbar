@@ -10,12 +10,14 @@
     "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns",
     "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=$npm_package_version",
     "release": "npm run build; npm run release-mac; npm run release-win",
-    "electron": "electron build"
+    "electron": "electron build",
+    "test": "jest"
   },
   "author": "Adam Weeks",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.17.0",
+    "babel-jest": "^20.0.3",
     "babel-loader": "^6.2.5",
     "babel-preset-es2015": "^6.16.0",
     "babel-preset-react": "^6.16.0",
@@ -23,8 +25,12 @@
     "electron": "^1.6.5",
     "electron-prebuilt": "^1.4.11",
     "es6-shim": "^0.34.0",
+    "eslint": "^4.2.0",
     "eslint-plugin-react": "^6.3.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^20.0.4",
     "minimist": "^1.2.0",
+    "react-test-renderer": "^15.6.1",
     "style-loader": "^0.13.1",
     "ts-loader": "^1.3.0",
     "typescript": "^2.0.3",
@@ -58,5 +64,23 @@
     "webpack": "^1.15.0",
     "webpack-dev-server": "^1.16.3",
     "zone.js": "^0.6.12"
+  },
+  "jest": {
+    "globals": {
+      "electron": {
+        "remote": {
+          "BrowserWindow": true
+        }
+      }
+    },
+    "roots": [
+      "<rootDir>/src/app/"
+    ],
+    "testPathIgnorePatterns": ["<rootDir>/node_modules/"],
+    "transformIgnorePatterns": ["<rootDir>/node_modules/"],
+    "moduleNameMapper": {
+      "^.+\\.(css|less)$": "identity-obj-proxy"
+    },
+    "verbose": true
   }
 }
