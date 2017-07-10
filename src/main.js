@@ -9,7 +9,7 @@ var Menu = electron.Menu;
 var globalShortcut = electron.globalShortcut;
 var BrowserWindow = electron.BrowserWindow;
 
-const settings = require('electron-settings');
+var settings = require('electron-settings');
 
 global.sharedObject = {
     alwaysOnTop:    settings.get('alwaysOnTop', false),
