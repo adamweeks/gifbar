@@ -14,3 +14,7 @@ export function getGlobalElectronProperty(propertyName) {
     let sharedObject = electron.remote.getGlobal('sharedObject');
     return sharedObject[propertyName];
 }
+
+export function setGlobalElectronProperty(propertyName, value) {
+    electron.remote.getGlobal('sharedObject')[propertyName] = value;
+}

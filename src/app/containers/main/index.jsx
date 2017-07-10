@@ -5,7 +5,7 @@ import SearchResults from '../../components/search-results';
 import SearchPagination from '../../components/search-pagination';
 
 import GiphySearch from '../../giphy-search';
-import {getReadableFileSizeString, getGlobalElectronProperty} from '../../utils';
+import {getReadableFileSizeString, getGlobalElectronProperty, setGlobalElectronProperty} from '../../utils';
 
 const GIPHY_API_KEY = `dc6zaTOxFJmzC`;
 const SEARCH_LIMIT = 25;
@@ -123,6 +123,12 @@ class Main extends Component {
      * @memberOf Main
      */
     showModal(gif) {
+        const alwaysOnTop = getGlobalElectronProperty('alwaysOnTop');
+        if (!alwaysOnTop) {
+            // The main window shouldn't disappear when clicking to preview a gif.
+            setGlobalElectronProperty('autoHideEnabled', false);
+        }
+
         const url = gif.fullSizedImageUrl;
         const width = gif.imageSizes.fullSize.width ? gif.imageSizes.fullSize.width : 200;
         const height = gif.imageSizes.fullSize.height ? gif.imageSizes.fullSize.height : 200;
@@ -139,13 +145,19 @@ class Main extends Component {
             webPreferences: webPreferences,
             useContentSize: true
         };
+
         let win = new BrowserWindow(options);
+
         win.on('closed', () => {
             win = null;
         });
         let fileUrl = `file://${dirname}/modal.html?url=${url}&width=${width}&height=${height}`;
         win.loadURL(fileUrl);
         win.show();
+        win.setAlwaysOnTop(alwaysOnTop, 'floating');
+
+        // restore window hiding stuff.
+        setGlobalElectronProperty('autoHideEnabled', !alwaysOnTop);
     }
 
     hideCurrentWindow() {

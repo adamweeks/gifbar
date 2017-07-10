@@ -12,13 +12,14 @@ var BrowserWindow = electron.BrowserWindow;
 var settings = require('electron-settings');
 
 global.sharedObject = {
-    alwaysOnTop:    settings.get('alwaysOnTop', false),
-    hideNSFW:       settings.get('hideNSFW', true),
-    includeHashTag: settings.get('includeHashTag', true),
-    hideOnCopy:     settings.get('hideOnCopy', true),
-    launchAtLogin:  false, // setting not necessary as the OS handles that.
-    globalShortcut: settings.get('globalShortcut', true)
+    alwaysOnTop:     settings.get('alwaysOnTop', false),
+    hideNSFW:        settings.get('hideNSFW', true),
+    includeHashTag:  settings.get('includeHashTag', true),
+    hideOnCopy:      settings.get('hideOnCopy', true),
+    launchAtLogin:   false, // setting not necessary as the OS handles that.
+    globalShortcut:  settings.get('globalShortcut', true),
 };
+global.sharedObject.autoHideEnabled = !global.sharedObject.alwaysOnTop;
 
 var extend = require('extend');
 var Positioner = require('electron-positioner');
@@ -87,7 +88,10 @@ function create (opts) {
         }
 
         globalShortcut.register(shortcut, function() {
-            if (menubar.window && menubar.window.isVisible()) return hideWindow();
+            if (menubar.window && menubar.window.isVisible() && menubar.window.isFocused()) {
+                return hideWindow();
+            }
+
             if (global.sharedObject.globalShortcut) {
                 showWindow(cachedBounds);
             }
@@ -109,8 +113,12 @@ function create (opts) {
         menubar.emit('ready');
 
         function clicked (e, bounds) {
-            if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) return hideWindow();
-            if (menubar.window && menubar.window.isVisible()) return hideWindow();
+            if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) {
+                return hideWindow();
+            }
+            if (menubar.window && menubar.window.isVisible() && menubar.window.isFocused()) {
+                return hideWindow();
+            }
             cachedBounds = bounds || cachedBounds;
             showWindow(cachedBounds);
         }
@@ -127,7 +135,7 @@ function create (opts) {
 
             menubar.positioner = new Positioner(menubar.window);
 
-            setWindowAlwaysOnTop();
+            menubar.window.on('blur', autoHideWindow);
 
             if (opts['show-on-all-workspaces'] !== false) {
                 menubar.window.setVisibleOnAllWorkspaces(true);
@@ -139,16 +147,8 @@ function create (opts) {
         }
 
         function setWindowAlwaysOnTop() {
-            menubar.window.removeListener('blur', emitBlur);
-            menubar.window.removeListener('blur', hideWindow);
-
             menubar.window.setAlwaysOnTop(global.sharedObject.alwaysOnTop, 'floating');
-
-            if (global.sharedObject.alwaysOnTop) {
-                menubar.window.on('blur', emitBlur);
-            } else {
-                menubar.window.on('blur', hideWindow);
-            }
+            global.sharedObject.autoHideEnabled = !global.sharedObject.alwaysOnTop;
         }
 
         function showWindow (trayPos) {
@@ -185,20 +185,22 @@ function create (opts) {
             return;
         }
 
-        function hideWindow () {
+        function hideWindow() {
             if (!menubar.window) return;
             menubar.emit('hide');
             menubar.window.hide();
             menubar.emit('after-hide');
         }
 
+        function autoHideWindow() {
+            if (global.sharedObject.autoHideEnabled) {
+                hideWindow();
+            }
+        }
+
         function windowClear () {
             delete menubar.window;
             menubar.emit('after-close');
-        }
-
-        function emitBlur () {
-            menubar.emit('focus-lost');
         }
 
         function showDetailMenu () {
