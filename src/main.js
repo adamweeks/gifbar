@@ -12,12 +12,12 @@ var BrowserWindow = electron.BrowserWindow;
 var settings = require('electron-settings');
 
 global.sharedObject = {
-    alwaysOnTop:     settings.get('alwaysOnTop', false),
-    hideNSFW:        settings.get('hideNSFW', true),
-    includeHashTag:  settings.get('includeHashTag', true),
-    hideOnCopy:      settings.get('hideOnCopy', true),
-    launchAtLogin:   false, // setting not necessary as the OS handles that.
-    globalShortcut:  settings.get('globalShortcut', true),
+    alwaysOnTop:    settings.get('alwaysOnTop', false),
+    hideNSFW:       settings.get('hideNSFW', true),
+    includeHashTag: settings.get('includeHashTag', true),
+    hideOnCopy:     settings.get('hideOnCopy', true),
+    launchAtLogin:  false, // setting not necessary as the OS handles that.
+    globalShortcut: settings.get('globalShortcut', true),
 };
 global.sharedObject.autoHideEnabled = !global.sharedObject.alwaysOnTop;
 
@@ -135,12 +135,13 @@ function create (opts) {
 
             menubar.positioner = new Positioner(menubar.window);
 
-            menubar.window.on('blur', autoHideWindow);
+            setWindowAlwaysOnTop();
 
             if (opts['show-on-all-workspaces'] !== false) {
                 menubar.window.setVisibleOnAllWorkspaces(true);
             }
 
+            menubar.window.on('blur', autoHideWindow);
             menubar.window.on('close', windowClear);
             menubar.window.loadURL(opts.index);
             menubar.emit('after-create-window');
