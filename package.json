@@ -1,7 +1,8 @@
 {
   "name": "gifbar",
   "version": "1.1.0",
-  "description": "",
+  "repository": "https://github.com/adamweeks/gifbar",
+  "description": "GifBar is a gif searching utility that lives in your menubar.",
   "main": "index.js",
   "scripts": {
     "build": "./build.sh",
@@ -11,7 +12,8 @@
     "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=$npm_package_version",
     "release": "npm run build; npm run release-mac; npm run release-win",
     "electron": "electron build",
-    "test": "jest"
+    "test": "jest",
+    "eslint": "eslint src"
   },
   "author": "Adam Weeks",
   "license": "MIT",
@@ -26,7 +28,7 @@
     "electron-prebuilt": "^1.4.11",
     "es6-shim": "^0.34.0",
     "eslint": "^4.2.0",
-    "eslint-plugin-react": "^6.3.0",
+    "eslint-plugin-react": "^7.1.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^20.0.4",
     "minimist": "^1.2.0",
@@ -49,7 +51,7 @@
     "electron-positioner": "^3.0.0",
     "electron-prebuilt": "^1.4.13",
     "es6-shim": "^0.35.3",
-    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-react": "^7.1.0",
     "extend": "^3.0.0",
     "menubar": "^5.2.3",
     "prop-types": "^15.5.8",
@@ -76,8 +78,12 @@
     "roots": [
       "<rootDir>/src/app/"
     ],
-    "testPathIgnorePatterns": ["<rootDir>/node_modules/"],
-    "transformIgnorePatterns": ["<rootDir>/node_modules/"],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
     "moduleNameMapper": {
       "^.+\\.(css|less)$": "identity-obj-proxy"
     },
