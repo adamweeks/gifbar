@@ -9,13 +9,15 @@ var Menu = electron.Menu;
 var globalShortcut = electron.globalShortcut;
 var BrowserWindow = electron.BrowserWindow;
 
+const settings = require('electron-settings');
+
 global.sharedObject = {
-    alwaysOnTop: false,
-    hideNSFW: true,
-    includeHashTag: true,
-    hideOnCopy: true,
-    launchAtLogin: false,
-    globalShortcut: true
+    alwaysOnTop:    settings.get('alwaysOnTop', false),
+    hideNSFW:       settings.get('hideNSFW', true),
+    includeHashTag: settings.get('includeHashTag', true),
+    hideOnCopy:     settings.get('hideOnCopy', true),
+    launchAtLogin:  false, // setting not necessary as the OS handles that.
+    globalShortcut: settings.get('globalShortcut', true)
 };
 
 var extend = require('extend');
@@ -221,6 +223,7 @@ function create (opts) {
                     click: function() {
                         global.sharedObject.alwaysOnTop = !global.sharedObject.alwaysOnTop;
                         setWindowAlwaysOnTop();
+                        settings.set('alwaysOnTop', global.sharedObject.alwaysOnTop);
                     }
                 },
                 {
@@ -229,6 +232,7 @@ function create (opts) {
                     checked: global.sharedObject.hideNSFW,
                     click: function() {
                         global.sharedObject.hideNSFW = !global.sharedObject.hideNSFW;
+                        settings.set('hideNSFW', global.sharedObject.hideNSFW);
                     }
                 },
                 {
@@ -237,6 +241,7 @@ function create (opts) {
                     checked: global.sharedObject.includeHashTag,
                     click: function() {
                         global.sharedObject.includeHashTag = !global.sharedObject.includeHashTag;
+                        settings.set('includeHashTag', global.sharedObject.includeHashTag);
                     }
                 },
                 {
@@ -245,6 +250,7 @@ function create (opts) {
                     checked: global.sharedObject.hideOnCopy,
                     click: function() {
                         global.sharedObject.hideOnCopy = !global.sharedObject.hideOnCopy;
+                        settings.set('hideOnCopy', global.sharedObject.hideOnCopy);
                     }
                 },
                 {
@@ -253,6 +259,7 @@ function create (opts) {
                     checked: global.sharedObject.globalShortcut,
                     click: function() {
                         global.sharedObject.globalShortcut = !global.sharedObject.globalShortcut;
+                        settings.set('globalShortcut', global.sharedObject.globalShortcut);
                     }
                 },
                 {
