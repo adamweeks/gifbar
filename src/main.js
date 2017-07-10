@@ -10,6 +10,7 @@ var globalShortcut = electron.globalShortcut;
 var BrowserWindow = electron.BrowserWindow;
 
 global.sharedObject = {
+    alwaysOnTop: false,
     hideNSFW: true,
     includeHashTag: true,
     hideOnCopy: true,
@@ -26,7 +27,6 @@ var options = {
     height: 600,
     resizable: false,
     tooltip: 'GifBar',
-    'always-on-top': true,
     preloadWindow: true,
     icon: path.join(__dirname, 'gifbar-icon.png')
 };
@@ -125,11 +125,7 @@ function create (opts) {
 
             menubar.positioner = new Positioner(menubar.window);
 
-            if (!opts['always-on-top']) {
-                menubar.window.on('blur', hideWindow);
-            } else {
-                menubar.window.on('blur', emitBlur);
-            }
+            setWindowAlwaysOnTop();
 
             if (opts['show-on-all-workspaces'] !== false) {
                 menubar.window.setVisibleOnAllWorkspaces(true);
@@ -138,6 +134,19 @@ function create (opts) {
             menubar.window.on('close', windowClear);
             menubar.window.loadURL(opts.index);
             menubar.emit('after-create-window');
+        }
+
+        function setWindowAlwaysOnTop() {
+            menubar.window.removeListener('blur', emitBlur);
+            menubar.window.removeListener('blur', hideWindow);
+
+            menubar.window.setAlwaysOnTop(global.sharedObject.alwaysOnTop, 'floating');
+
+            if (global.sharedObject.alwaysOnTop) {
+                menubar.window.on('blur', emitBlur);
+            } else {
+                menubar.window.on('blur', hideWindow);
+            }
         }
 
         function showWindow (trayPos) {
@@ -192,6 +201,28 @@ function create (opts) {
 
         function showDetailMenu () {
             var contextMenu = Menu.buildFromTemplate([
+                {
+                    label: 'Show GifBar',
+                    click: function() {
+                        showWindow(cachedBounds);
+                    }
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    label: 'Preferences',
+                    enabled: false
+                },
+                {
+                    label: 'Always on Top',
+                    type: 'checkbox',
+                    checked: global.sharedObject.alwaysOnTop,
+                    click: function() {
+                        global.sharedObject.alwaysOnTop = !global.sharedObject.alwaysOnTop;
+                        setWindowAlwaysOnTop();
+                    }
+                },
                 {
                     label: 'Hide NSFW',
                     type: 'checkbox',
