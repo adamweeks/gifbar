@@ -67,10 +67,6 @@
     "webpack-dev-server": "^1.16.3",
     "zone.js": "^0.6.12"
   },
-  "engines": {
-    "node": ">=6.0",
-    "npm": ">=3.0"
-  },
   "jest": {
     "globals": {
       "electron": {
