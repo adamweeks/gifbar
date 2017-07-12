@@ -7,6 +7,8 @@ import SearchPagination from '../../components/search-pagination';
 import GiphySearch from '../../giphy-search';
 import {getReadableFileSizeString, getGlobalElectronProperty} from '../../utils';
 
+import loadingImage from '../../images/loading.gif';
+
 const GIPHY_API_KEY = `dc6zaTOxFJmzC`;
 const SEARCH_LIMIT = 25;
 const BrowserWindow = electron.remote.BrowserWindow;
@@ -65,12 +67,20 @@ class Main extends Component {
     }
 
     searchRequest(searchTerm, offset) {
+        this.setState(initialState);
+
         if (searchTerm) {
+            const error = {
+                message: `Searching for "${searchTerm}"...`,
+                imageUrl: loadingImage,
+            };
+            this.setState({error});
+
             const rating = getGlobalElectronProperty('hideNSFW') ? 'g' : 'r';
             this.giphySearch.doSearch(searchTerm, offset, rating, SEARCH_LIMIT).then((results) => {
                 if (results.data.length === 0) {
                     const error = {
-                        message: 'Could not find any gifs for that search term.',
+                        message:  `Could not find any gifs for "${searchTerm}".`,
                         imageUrl: 'https://media3.giphy.com/media/l3V0HLYPfIKIVDyBG/giphy.gif'
                     }
                     this.setState({gifs: [], error})
@@ -111,7 +121,7 @@ class Main extends Component {
                 message: 'Please enter a search term.',
                 imageUrl: 'http://media4.giphy.com/media/12zV7u6Bh0vHpu/giphy.gif'
             }
-            this.setState({gifs: [], error})
+            this.setState({error})
         }
     }
 
