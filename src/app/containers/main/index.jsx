@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import autobind from 'autobind-decorator'
 
 import SearchBar from '../../components/search-bar';
 import SearchResults from '../../components/search-results';
@@ -26,15 +27,6 @@ class Main extends Component {
 
         this.giphySearch = new GiphySearch(GIPHY_API_KEY);
 
-        this.changeOffset = this.changeOffset.bind(this);
-        this.copyUrl = this.copyUrl.bind(this);
-        this.doClear = this.doClear.bind(this);
-        this.doSearch = this.doSearch.bind(this);
-        this.handleSearchBarFocus = this.handleSearchBarFocus.bind(this);
-        this.hideCurrentWindow = this.hideCurrentWindow.bind(this);
-        this.searchRequest = this.searchRequest.bind(this);
-        this.showModal = this.showModal.bind(this);
-
         this.state = initialState;
 
         electron.ipcRenderer.on('after-show', () => {
@@ -42,6 +34,7 @@ class Main extends Component {
         });
     }
 
+    @autobind
     doClear() {
         this.setState(initialState);
     }
@@ -54,16 +47,18 @@ class Main extends Component {
      * @memberOf Main
 
      */
-    doSearch(searchTerm) {
+    @autobind
+     doSearch(searchTerm) {
         this.searchRequest(searchTerm, this.state.offset);
     }
 
-
+    @autobind
     changeOffset(offset) {
         this.setState({offset});
         this.searchRequest(this.state.currentSearchTerm, offset);
     }
 
+    @autobind
     searchRequest(searchTerm, offset) {
         if (searchTerm) {
             const rating = getGlobalElectronProperty('hideNSFW') ? 'g' : 'r';
@@ -122,6 +117,7 @@ class Main extends Component {
      *
      * @memberOf Main
      */
+    @autobind
     showModal(gif) {
         const alwaysOnTop = getGlobalElectronProperty('alwaysOnTop');
         if (!alwaysOnTop) {
@@ -160,6 +156,7 @@ class Main extends Component {
         setGlobalElectronProperty('autoHideEnabled', !alwaysOnTop);
     }
 
+    @autobind
     hideCurrentWindow() {
         let win = BrowserWindow.getFocusedWindow();
         win.hide();
@@ -172,6 +169,7 @@ class Main extends Component {
      *
      * @memberOf Main
      */
+    @autobind
     copyUrl(image) {
         const hashTag = getGlobalElectronProperty('includeHashTag') ? ' #gifbar' : '';
         electron.clipboard.writeText(`${image.fullSizedImageUrl}${hashTag}`);
@@ -180,6 +178,7 @@ class Main extends Component {
         }
     }
 
+    @autobind
     handleSearchBarFocus() {
         this.setState({shouldFocus: false});
     }
