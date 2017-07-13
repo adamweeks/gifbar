@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import autobind from 'autobind-decorator'
 
 import ImageDisplay from '../image-display';
 
@@ -8,7 +9,7 @@ import './styles.css';
 class SearchResults extends Component {
     constructor(props) {
         super(props);
-        this.layoutImages = this.layoutImages.bind(this);
+
         const {left, right} = this.layoutImages(props.results);
         this.state = {
             searchResultsLeft: left,
@@ -63,6 +64,7 @@ class SearchResults extends Component {
         });
     }
 
+    @autobind
     layoutImages(results) {
         let left = [], right = [];
         let leftHeight = 0, rightHeight = 0;

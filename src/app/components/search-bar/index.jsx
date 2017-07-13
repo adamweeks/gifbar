@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import autobind from 'autobind-decorator'
+
 import './styles.css';
 
 const ESCAPE_KEY = 27;
@@ -11,10 +13,6 @@ class SearchBar extends Component {
     constructor(props) {
         super(props);
         this.state = {value: ''};
-        this.handleChange = this.handleChange.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleFocus = this.handleFocus.bind(this);
-        this.clearSearch = this.clearSearch.bind(this);
     }
 
     componentDidMount() {
@@ -57,14 +55,17 @@ class SearchBar extends Component {
         )
     }
 
+    @autobind
     handleChange(event) {
         this.setState({value: event.target.value});
     }
 
+    @autobind
     handleFocus(event) {
         event.target.select();
     }
 
+    @autobind
     handleKeyDown(event) {
         if (event.keyCode === ENTER_KEY) {
             this.doSearch();
@@ -84,6 +85,7 @@ class SearchBar extends Component {
         }
     }
 
+    @autobind
     clearSearch() {
         this.setState({value: ''});
         this.props.doClear();
