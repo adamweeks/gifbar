@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageActions component renders properly 1`] = `
+<div
+  className="action-items"
+>
+  <button
+    onClick={[Function]}
+    title="Click to copy the Url"
+  >
+    Copy
+  </button>
+</div>
+`;

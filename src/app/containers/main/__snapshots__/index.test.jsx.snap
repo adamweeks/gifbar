@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Main component renders properly 1`] = `
+<div>
+  <div>
+    <form>
+      <input
+        id="searchBar"
+        onChange={[Function]}
+        onFocus={[Function]}
+        onKeyDown={[Function]}
+        placeholder="Search for gifs"
+        type="text"
+        value=""
+      />
+      <button
+        className="cancel"
+        onClick={[Function]}
+        type="button"
+      >
+        X
+      </button>
+    </form>
+  </div>
+  <div
+    className="image-grid"
+  >
+    <div
+      className="col"
+    />
+    <div
+      className="col"
+    />
+  </div>
+</div>
+`;

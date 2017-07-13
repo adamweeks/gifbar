@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
+import autobind from 'autobind-decorator'
+
 import './styles.css';
 
 const ESCAPE_KEY = 27;
@@ -12,10 +13,6 @@ class SearchBar extends Component {
     constructor(props) {
         super(props);
         this.state = {value: ''};
-        this.handleChange = this.handleChange.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
-        this.handleFocus = this.handleFocus.bind(this);
-        this.clearSearch = this.clearSearch.bind(this);
     }
 
     componentDidMount() {
@@ -29,7 +26,11 @@ class SearchBar extends Component {
     }
 
     doFocus() {
-        ReactDOM.findDOMNode(this.refs.searchBar).focus();
+        // Refs don't render properly in jest
+        // TODO: https://stackoverflow.com/questions/40852131/refs-are-null-in-jest-snapshot-tests-with-react-test-renderer/40854433#40854433
+        if (this.searchBar) {
+            this.searchBar.focus();
+        }
         this.props.onFocus();
     }
 
@@ -40,7 +41,7 @@ class SearchBar extends Component {
                 <form>
                     <input
                         id="searchBar"
-                        ref="searchBar"
+                        ref={node => this.searchBar = node}
                         type="text"
                         placeholder="Search for gifs"
                         value={this.state.value}
@@ -54,14 +55,17 @@ class SearchBar extends Component {
         )
     }
 
+    @autobind
     handleChange(event) {
         this.setState({value: event.target.value});
     }
 
+    @autobind
     handleFocus(event) {
         event.target.select();
     }
 
+    @autobind
     handleKeyDown(event) {
         if (event.keyCode === ENTER_KEY) {
             this.doSearch();
@@ -81,6 +85,7 @@ class SearchBar extends Component {
         }
     }
 
+    @autobind
     clearSearch() {
         this.setState({value: ''});
         this.props.doClear();

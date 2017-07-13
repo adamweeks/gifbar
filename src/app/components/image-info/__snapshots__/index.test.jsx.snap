@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageInfo component renders properly 1`] = `
+<div
+  className="info"
+>
+  Image Info
+</div>
+`;

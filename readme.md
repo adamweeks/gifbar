@@ -1,6 +1,8 @@
 [![Stories in Ready](https://badge.waffle.io/adamweeks/gifbar.png?label=ready&title=Ready)](https://waffle.io/adamweeks/gifbar)
 # GifBar
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/adamweeks/gifbar.svg)](https://greenkeeper.io/)
+
 GifBar is an React based Electron menubar app.
 
 ## Installation

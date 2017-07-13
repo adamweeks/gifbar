@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import autobind from 'autobind-decorator'
+
 import './styles.css';
 
 import ImageActions from '../image-actions';
@@ -8,19 +10,19 @@ import ImageInfo from '../image-info';
 class ImageDisplay extends Component {
     constructor(props) {
         super(props);
-        this.handleMouseLeave = this.handleMouseLeave.bind(this);
-        this.handleMouseOver = this.handleMouseOver.bind(this);
         this.state = {
             hovered: false
         }
     }
 
+    @autobind
     handleMouseOver() {
         this.setState({
             hovered: true
         });
     }
 
+    @autobind
     handleMouseLeave() {
         this.setState({
             hovered: false

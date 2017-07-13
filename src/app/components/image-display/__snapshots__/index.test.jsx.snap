@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageDisplay component renders properly 1`] = `
+<div
+  className="image-container"
+  onMouseLeave={[Function]}
+  onMouseOver={[Function]}
+  style={
+    Object {
+      "height": "50px",
+    }
+  }
+>
+  <img
+    onClick={[Function]}
+    src="http://mycoolserver.info/kid-n-play.gif"
+  />
+</div>
+`;

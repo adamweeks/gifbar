@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import autobind from 'autobind-decorator'
 
 import SearchBar from '../../components/search-bar';
 import SearchResults from '../../components/search-results';
 import SearchPagination from '../../components/search-pagination';
 
 import GiphySearch from '../../giphy-search';
-import {getReadableFileSizeString, getGlobalElectronProperty} from '../../utils';
+import {getReadableFileSizeString, getGlobalElectronProperty, setGlobalElectronProperty} from '../../utils';
 
 import loadingImage from '../../images/loading.gif';
 
@@ -28,15 +29,6 @@ class Main extends Component {
 
         this.giphySearch = new GiphySearch(GIPHY_API_KEY);
 
-        this.changeOffset = this.changeOffset.bind(this);
-        this.copyUrl = this.copyUrl.bind(this);
-        this.doClear = this.doClear.bind(this);
-        this.doSearch = this.doSearch.bind(this);
-        this.handleSearchBarFocus = this.handleSearchBarFocus.bind(this);
-        this.hideCurrentWindow = this.hideCurrentWindow.bind(this);
-        this.searchRequest = this.searchRequest.bind(this);
-        this.showModal = this.showModal.bind(this);
-
         this.state = initialState;
 
         electron.ipcRenderer.on('after-show', () => {
@@ -44,6 +36,7 @@ class Main extends Component {
         });
     }
 
+    @autobind
     doClear() {
         this.setState(initialState);
     }
@@ -56,16 +49,18 @@ class Main extends Component {
      * @memberOf Main
 
      */
-    doSearch(searchTerm) {
+    @autobind
+     doSearch(searchTerm) {
         this.searchRequest(searchTerm, this.state.offset);
     }
 
-
+    @autobind
     changeOffset(offset) {
         this.setState({offset});
         this.searchRequest(this.state.currentSearchTerm, offset);
     }
 
+    @autobind
     searchRequest(searchTerm, offset) {
         this.setState(initialState);
 
@@ -132,7 +127,14 @@ class Main extends Component {
      *
      * @memberOf Main
      */
+    @autobind
     showModal(gif) {
+        const alwaysOnTop = getGlobalElectronProperty('alwaysOnTop');
+        if (!alwaysOnTop) {
+            // The main window shouldn't disappear when clicking to preview a gif.
+            setGlobalElectronProperty('autoHideEnabled', false);
+        }
+
         const url = gif.fullSizedImageUrl;
         const width = gif.imageSizes.fullSize.width ? gif.imageSizes.fullSize.width : 200;
         const height = gif.imageSizes.fullSize.height ? gif.imageSizes.fullSize.height : 200;
@@ -149,15 +151,22 @@ class Main extends Component {
             webPreferences: webPreferences,
             useContentSize: true
         };
+
         let win = new BrowserWindow(options);
+
         win.on('closed', () => {
             win = null;
         });
         let fileUrl = `file://${dirname}/modal.html?url=${url}&width=${width}&height=${height}`;
         win.loadURL(fileUrl);
         win.show();
+        win.setAlwaysOnTop(alwaysOnTop, 'floating');
+
+        // restore window hiding stuff.
+        setGlobalElectronProperty('autoHideEnabled', !alwaysOnTop);
     }
 
+    @autobind
     hideCurrentWindow() {
         let win = BrowserWindow.getFocusedWindow();
         win.hide();
@@ -170,6 +179,7 @@ class Main extends Component {
      *
      * @memberOf Main
      */
+    @autobind
     copyUrl(image) {
         const hashTag = getGlobalElectronProperty('includeHashTag') ? ' #gifbar' : '';
         electron.clipboard.writeText(`${image.fullSizedImageUrl}${hashTag}`);
@@ -178,6 +188,7 @@ class Main extends Component {
         }
     }
 
+    @autobind
     handleSearchBarFocus() {
         this.setState({shouldFocus: false});
     }

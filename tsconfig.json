@@ -8,9 +8,11 @@
     "sourceMap": true,
     "jsx": "react"
   },
-  "files": [
-    "src/app/index.ts",
-    "src/typings.d.ts",
-    "src/app/giphy.d.ts"
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "build/",
+    "node_modules/"
   ]
 }

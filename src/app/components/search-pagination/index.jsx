@@ -1,21 +1,22 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import autobind from 'autobind-decorator'
 
 import './styles.css';
 
 class SearchPagination extends Component {
     constructor(props) {
         super(props);
-        this.increment = this.increment.bind(this);
-        this.decrement = this.decrement.bind(this);
     }
 
+    @autobind
     decrement() {
         const {currentOffset, amount, changeOffset} = this.props;
         const offset = currentOffset >= amount ? currentOffset - amount : 0;
         changeOffset(offset);
     }
 
+    @autobind
     increment() {
         const {currentOffset, amount, changeOffset} = this.props;
         const offset = currentOffset + amount;

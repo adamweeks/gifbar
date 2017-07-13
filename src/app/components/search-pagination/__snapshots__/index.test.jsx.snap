@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchPagination component renders properly 1`] = `
+<div
+  id="pagination"
+>
+  <div
+    className="container"
+  >
+    <div
+      className="item"
+    >
+      <button
+        disabled={false}
+        onClick={[Function]}
+      >
+        Prev
+      </button>
+    </div>
+    <div
+      className="item"
+    >
+      <button
+        disabled={false}
+        onClick={[Function]}
+      >
+        Next
+      </button>
+    </div>
+    <div
+      className="item"
+    >
+      Results: 
+      200
+    </div>
+  </div>
+</div>
+`;

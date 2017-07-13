@@ -4,8 +4,6 @@ var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 
 var options = {
   devtool: 'source-map',
-  debug: true,
-
   entry: {
     'app': './src/app/index.jsx'
   },
@@ -19,25 +17,22 @@ var options = {
   },
 
   resolve: {
-    extensions: ['','.ts','.js','.jsx','.json', '.css', '.html'],
-    packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main']
+    extensions: ['.ts','.js','.jsx','.json', '.css', '.html']
   },
 
   module: {
-    loaders: [
-      {
-        test: /\.ts$/,
-        loader: 'ts',
-        exclude: [ /node_modules/ ]
-      },
+    rules: [
       {
         test: /\.jsx?$/,
-        loaders: ['babel?cacheDirectory'],
-        exclude: [ /node_modules/ ]
+        exclude: /(node_modules)/,
+        loader: 'babel-loader',
       },
       {
-         test: /\.css$/,
-         loader: "style-loader!css-loader"
+        test: /\.css$/,
+        use: [
+          "style-loader",
+          "css-loader"
+        ]
       },
       {
         test: /\.(jpg|png|svg|gif)$/,
