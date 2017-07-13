@@ -8,17 +8,19 @@ import './styles.css';
 class SearchResults extends Component {
     constructor(props) {
         super(props);
+        this.layoutImages = this.layoutImages.bind(this);
+        const {left, right} = this.layoutImages(props.results);
         this.state = {
-            searchResultsLeft: [],
-            searchResultsRight: []
-        }
+            searchResultsLeft: left,
+            searchResultsRight: right
+        };
     }
 
 
     render () {
         const {error, openModal, copyUrl} = this.props;
         let display;
-        if (error.message) {
+        if (error && error.message) {
             display = (
                 <div>
                     <p>{error.message}</p>
@@ -54,6 +56,14 @@ class SearchResults extends Component {
 
     componentWillReceiveProps(nextProps) {
         const {results} = nextProps;
+        const {left, right} = this.layoutImages(results);
+        this.setState({
+            searchResultsLeft: left,
+            searchResultsRight: right
+        });
+    }
+
+    layoutImages(results) {
         let left = [], right = [];
         let leftHeight = 0, rightHeight = 0;
         let currentSide = 0;
@@ -71,10 +81,7 @@ class SearchResults extends Component {
                 leftHeight += result.imageSizes.smallSize.height;
             }
         });
-        this.setState({
-            searchResultsLeft: left,
-            searchResultsRight: right
-        });
+        return {left, right};
     }
 
 }

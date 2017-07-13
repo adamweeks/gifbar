@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchResults component renders properly 1`] = `
+<div
+  className="image-grid"
+>
+  <div
+    className="col"
+  >
+    <div
+      className="image-container"
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      style={
+        Object {
+          "height": "50px",
+        }
+      }
+    >
+      <img
+        onClick={[Function]}
+        src="http://mycoolserver.info/kid-n-play.gif"
+      />
+    </div>
+    <div
+      className="image-container"
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      style={
+        Object {
+          "height": "50px",
+        }
+      }
+    >
+      <img
+        onClick={[Function]}
+        src="http://mycoolserver.info/kid-n-play.gif"
+      />
+    </div>
+  </div>
+  <div
+    className="col"
+  >
+    <div
+      className="image-container"
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      style={
+        Object {
+          "height": "50px",
+        }
+      }
+    >
+      <img
+        onClick={[Function]}
+        src="http://mycoolserver.info/kid-n-play.gif"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SearchResults component renders properly with error 1`] = `
+<div>
+  <p>
+    ERROR!
+  </p>
+  <p>
+    <img
+      src="http://imgerror.url/err.gif"
+    />
+  </p>
+</div>
+`;
