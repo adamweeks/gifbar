@@ -35,7 +35,7 @@ describe(`SearchResults component`, () => {
     }
   };
   const copyUrl = jest.fn();
-  const error = {
+  const status = {
     message: `ERROR!`,
     imageUrl: `http://imgerror.url/err.gif`
   };
@@ -57,11 +57,11 @@ describe(`SearchResults component`, () => {
     expect(component).toMatchSnapshot();
   });
 
-  it(`renders properly with error`, () => {
+  it(`renders properly with status`, () => {
     const component = renderer.create(
       <SearchResults
         copyUrl={copyUrl}
-        error={error}
+        status={status}
         openModal={openModal}
         results={results}
       />

@@ -17,7 +17,7 @@ const BrowserWindow = electron.remote.BrowserWindow;
 const initialState = {
     currentSearchTerm: ``,
     gifs: [],
-    error: {},
+    status: {},
     offset: 0,
     shouldFocus: false,
     totalResults: 0
@@ -65,20 +65,24 @@ class Main extends Component {
         this.setState(initialState);
 
         if (searchTerm) {
-            const error = {
-                message: `Searching for "${searchTerm}"...`,
-                imageUrl: loadingImage,
-            };
-            this.setState({error});
+            this.setState({
+                status: {
+                    message: `Searching for "${searchTerm}"...`,
+                    imageUrl: loadingImage,
+                }
+            });
 
             const rating = getGlobalElectronProperty('hideNSFW') ? 'g' : 'r';
             this.giphySearch.doSearch(searchTerm, offset, rating, SEARCH_LIMIT).then((results) => {
                 if (results.data.length === 0) {
-                    const error = {
-                        message:  `Could not find any gifs for "${searchTerm}".`,
-                        imageUrl: 'https://media3.giphy.com/media/l3V0HLYPfIKIVDyBG/giphy.gif'
-                    }
-                    this.setState({gifs: [], error})
+                    this.setState({
+                        gifs:   [],
+                        status: {
+                            message:  `Could not find any gifs for "${searchTerm}".`,
+                            imageUrl: 'https://media3.giphy.com/media/l3V0HLYPfIKIVDyBG/giphy.gif',
+                            isError:  true,
+                        },
+                    });
                 }
                 else {
                     const gifs = results.data.map((giphyObject) => {
@@ -100,23 +104,25 @@ class Main extends Component {
                             }
                         };
                     });
-                    const pagination = results.pagination;
+
                     this.setState({
                         currentSearchTerm: searchTerm,
                         gifs,
-                        error: {},
-                        totalResults: pagination.total_count
+                        status: {},
+                        totalResults: results.pagination.total_count
                     });
                 }
                 window.scrollTo(0,0);
             });
         }
         else {
-            const error = {
-                message: 'Please enter a search term.',
-                imageUrl: 'http://media4.giphy.com/media/12zV7u6Bh0vHpu/giphy.gif'
-            }
-            this.setState({error})
+            this.setState({
+                status: {
+                    message: 'Please enter a search term.',
+                    imageUrl: 'http://media4.giphy.com/media/12zV7u6Bh0vHpu/giphy.gif',
+                    isError:  true,
+                }
+            });
         }
     }
 
@@ -231,7 +237,7 @@ class Main extends Component {
                 />
                 <SearchResults
                     copyUrl={this.copyUrl}
-                    error={this.state.error}
+                    status={this.state.status}
                     openModal={this.showModal}
                     results={this.state.gifs}
                 />
