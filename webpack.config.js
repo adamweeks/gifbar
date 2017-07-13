@@ -33,6 +33,13 @@ var options = {
           "style-loader",
           "css-loader"
         ]
+      },
+      {
+        test: /\.(jpg|png|svg|gif)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+        },
       }
     ]
   },

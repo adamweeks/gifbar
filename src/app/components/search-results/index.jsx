@@ -19,13 +19,13 @@ class SearchResults extends Component {
 
 
     render () {
-        const {error, openModal, copyUrl} = this.props;
+        const {status, openModal, copyUrl} = this.props;
         let display;
-        if (error && error.message) {
+        if (status && status.message) {
             display = (
                 <div>
-                    <p>{error.message}</p>
-                    <p><img src={error.imageUrl} /></p>
+                    <p>{status.message}</p>
+                    <p><img src={status.imageUrl} /></p>
                 </div>
             )
         }
@@ -90,7 +90,7 @@ class SearchResults extends Component {
 
 SearchResults.propTypes = {
     copyUrl: PropTypes.func.isRequired,
-    error: PropTypes.object,
+    status: PropTypes.object,
     openModal: PropTypes.func.isRequired,
     results: PropTypes.array.isRequired
 }

@@ -60,7 +60,7 @@ exports[`SearchResults component renders properly 1`] = `
 </div>
 `;
 
-exports[`SearchResults component renders properly with error 1`] = `
+exports[`SearchResults component renders properly with status 1`] = `
 <div>
   <p>
     ERROR!

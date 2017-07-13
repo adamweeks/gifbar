@@ -31,6 +31,7 @@
     "es6-shim": "^0.35.3",
     "eslint": "^4.2.0",
     "eslint-plugin-react": "^7.1.0",
+    "file-loader": "~0.11.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^20.0.4",
     "minimist": "^1.2.0",
@@ -39,6 +40,7 @@
     "ts-loader": "^2.2.2",
     "typescript": "^2.0.3",
     "typings": "^2.1.1",
+    "url-loader": "~0.5.9",
     "webpack": "^3.2.0",
     "webpack-dev-server": "^2.5.1",
     "webpack-target-electron-renderer": "^0.4.0"
@@ -84,7 +86,8 @@
       "<rootDir>/node_modules/"
     ],
     "moduleNameMapper": {
-      "^.+\\.(css|less)$": "identity-obj-proxy"
+      "^.+\\.(css|less)$": "identity-obj-proxy",
+      "\\.(jpg|png|svg|gif)$": "<rootDir>/__mocks__/fileMock.js"
     },
     "verbose": true
   }
