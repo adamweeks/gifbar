@@ -62,8 +62,6 @@ class Main extends Component {
 
     @autobind
     searchRequest(searchTerm, offset) {
-        this.setState(initialState);
-
         if (searchTerm) {
             this.setState({
                 status: {
