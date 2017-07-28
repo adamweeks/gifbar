@@ -1,3 +1,6 @@
 machine:
   node:
     version: 8.0.0
+dependencies:
+  pre: greenkeeper-lockfile-update
+  post: greenkeeper-lockfile-upload
