@@ -1,5 +1,4 @@
 var webpack = require('webpack');
-var webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
 
 var options = {
@@ -50,6 +49,6 @@ var options = {
   target:'node-webkit'
 };
 
-options.target = webpackTargetElectronRenderer(options);
+options.target = 'electron-renderer';
 
 module.exports = options;
