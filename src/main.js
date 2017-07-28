@@ -11,16 +11,6 @@ var BrowserWindow = electron.BrowserWindow;
 
 var settings = require('electron-settings');
 
-global.sharedObject = {
-    alwaysOnTop:    settings.get('alwaysOnTop', false),
-    hideNSFW:       settings.get('hideNSFW', true),
-    includeHashTag: settings.get('includeHashTag', true),
-    hideOnCopy:     settings.get('hideOnCopy', true),
-    launchAtLogin:  false, // setting not necessary as the OS handles that.
-    globalShortcut: settings.get('globalShortcut', true),
-};
-global.sharedObject.autoHideEnabled = !global.sharedObject.alwaysOnTop;
-
 var extend = require('extend');
 var Positioner = require('electron-positioner');
 var AutoLaunch = require('auto-launch-patched');
@@ -70,6 +60,17 @@ function create (opts) {
     return menubar;
 
     function appReady () {
+
+        global.sharedObject = {
+            alwaysOnTop:    settings.get('alwaysOnTop', false),
+            hideNSFW:       settings.get('hideNSFW', true),
+            includeHashTag: settings.get('includeHashTag', true),
+            hideOnCopy:     settings.get('hideOnCopy', true),
+            launchAtLogin:  false, // setting not necessary as the OS handles that.
+            globalShortcut: settings.get('globalShortcut', true),
+        };
+        global.sharedObject.autoHideEnabled = !global.sharedObject.alwaysOnTop;
+
         if (app.dock && !opts['show-dock-icon']) app.dock.hide();
 
         var iconPath = opts.icon || path.join(opts.dir, 'IconTemplate.png');
