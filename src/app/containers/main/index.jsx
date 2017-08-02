@@ -38,6 +38,9 @@ class Main extends Component {
 
     @autobind
     doClear() {
+        if (this.state.currentSearchTerm === ``) {
+            this.hideCurrentWindow();
+        }
         this.setState(initialState);
     }
 
