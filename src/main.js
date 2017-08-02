@@ -3,6 +3,8 @@ var events = require('events');
 var fs = require('fs');
 
 var electron = require('electron');
+var ipcMain = electron.ipcMain;
+var notifier = require('node-notifier');
 var app = electron.app;
 var Tray = electron.Tray;
 var Menu = electron.Menu;
@@ -60,10 +62,10 @@ function create (opts) {
     return menubar;
 
     function appReady () {
-
         global.sharedObject = {
             alwaysOnTop:    settings.get('alwaysOnTop', false),
             hideNSFW:       settings.get('hideNSFW', true),
+            hideAlert:      settings.get('hideAlert', false),
             includeHashTag: settings.get('includeHashTag', true),
             hideOnCopy:     settings.get('hideOnCopy', true),
             launchAtLogin:  false, // setting not necessary as the OS handles that.
@@ -249,7 +251,16 @@ function create (opts) {
                     }
                 },
                 {
-                    label: 'Hide on copy',
+                    label: 'Show alert on copy',
+                    type: 'checkbox',
+                    checked: !global.sharedObject.hideAlert,
+                    click: function() {
+                        global.sharedObject.hideAlert = !global.sharedObject.hideAlert;
+                        settings.set('hideAlert', global.sharedObject.hideAlert);
+                    }
+                },
+                {
+                    label: 'Hide window on copy',
                     type: 'checkbox',
                     checked: global.sharedObject.hideOnCopy,
                     click: function() {
@@ -308,3 +319,12 @@ function create (opts) {
         globalShortcut.unregister(shortcut);
     }
 }
+
+ipcMain.on('notify', (event, message) => {
+    notifier.notify({
+        title: 'GIFBar',
+        message: message,
+        sound: false,
+        wait: false
+    });
+})

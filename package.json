@@ -19,8 +19,8 @@
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
-    "autobind-decorator": "^2.1.0",
     "auto-launch-patched": "~5.0.2",
+    "autobind-decorator": "^2.1.0",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
@@ -43,6 +43,7 @@
     "jest": "^20.0.4",
     "menubar": "^5.2.3",
     "minimist": "^1.2.0",
+    "node-notifier": "^5.1.2",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",

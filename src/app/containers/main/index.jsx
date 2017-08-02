@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import autobind from 'autobind-decorator'
+import autobind from 'autobind-decorator';
+import {ipcRenderer} from 'electron';
 
 import SearchBar from '../../components/search-bar';
 import SearchResults from '../../components/search-results';
@@ -193,6 +194,7 @@ class Main extends Component {
         if (getGlobalElectronProperty('hideOnCopy')) {
             this.hideCurrentWindow();
         }
+        ipcRenderer.send('notify', 'GIF Copied!');
     }
 
     @autobind
