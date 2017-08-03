@@ -46,9 +46,7 @@ var options = {
   plugins: [
     new CommonsChunkPlugin({ name: 'common',   filename: 'common.js' })
   ],
-  target:'node-webkit'
+  target: 'electron-renderer'
 };
-
-options.target = 'electron-renderer';
 
 module.exports = options;

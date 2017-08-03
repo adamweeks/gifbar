@@ -1,64 +1,39 @@
-var path = require('path');
-var events = require('events');
-var fs = require('fs');
+const path = require('path');
+const events = require('events');
 
-var electron = require('electron');
-var ipcMain = electron.ipcMain;
-var notifier = require('node-notifier');
-var app = electron.app;
-var Tray = electron.Tray;
-var Menu = electron.Menu;
-var globalShortcut = electron.globalShortcut;
-var BrowserWindow = electron.BrowserWindow;
+const notifier = require('node-notifier');
+const electron = require('electron');
+const {ipcMain, app, Tray, Menu, globalShortcut, BrowserWindow} = electron;
 
-var settings = require('electron-settings');
+const settings = require('electron-settings');
 
-var extend = require('extend');
-var Positioner = require('electron-positioner');
-var AutoLaunch = require('auto-launch-patched');
+const extend = require('extend');
+const Positioner = require('electron-positioner');
+const AutoLaunch = require('auto-launch-patched');
 
-var options = {
+const shortcut = 'CommandOrControl+Alt+G';
+
+const options = {
+    dir: app.getAppPath(),
     width: 436,
     height: 600,
     resizable: false,
     tooltip: 'GifBar',
     preloadWindow: true,
-    icon: path.join(__dirname, 'gifbar-icon.png')
+    icon: path.join(__dirname, 'gifbar-icon.png'),
+    index: 'file://' + path.join(app.getAppPath(), 'index.html')
 };
 
 create(options);
 
 function create (opts) {
-    if (typeof opts === 'undefined') opts = {dir: app.getAppPath()};
-    if (typeof opts === 'string') opts = {dir: opts};
-    if (!opts.dir) opts.dir = app.getAppPath();
-    if (!(path.isAbsolute(opts.dir))) opts.dir = path.resolve(opts.dir);
-    if (!opts.index) opts.index = 'file://' + path.join(opts.dir, 'index.html');
     if (!opts['window-position']) opts['window-position'] = (process.platform === 'win32') ? 'trayBottomCenter' : 'trayCenter';
-    if (typeof opts['show-dock-icon'] === 'undefined') opts['show-dock-icon'] = false;
-
-    // set width/height on opts to be usable before the window is created
-    opts.width = opts.width || 400;
-    opts.height = opts.height || 400;
-    opts.tooltip = opts.tooltip || '';
 
     app.on('ready', appReady);
     app.on('will-quit', willQuit);
 
-    var shortcut = 'CommandOrControl+Alt+G';
-
     var menubar = new events.EventEmitter();
     menubar.app = app;
-
-    // Set / get options
-    menubar.setOption = function (opt, val) {
-        opts[opt] = val;
-    };
-
-    menubar.getOption = function (opt) {
-        return opts[opt];
-    };
-
     return menubar;
 
     function appReady () {
@@ -73,14 +48,12 @@ function create (opts) {
         };
         global.sharedObject.autoHideEnabled = !global.sharedObject.alwaysOnTop;
 
-        if (app.dock && !opts['show-dock-icon']) app.dock.hide();
-
-        var iconPath = opts.icon || path.join(opts.dir, 'IconTemplate.png');
-        if (!fs.existsSync(iconPath)) iconPath = path.join(__dirname, 'IconTemplate.png'); // default cat icon
+        // Hide dock icon
+        if (app.dock) app.dock.hide();
 
         var cachedBounds; // cachedBounds are needed for double-clicked event
 
-        menubar.tray = opts.tray || new Tray(iconPath);
+        menubar.tray = opts.tray || new Tray(opts.icon);
         menubar.tray.on('click', clicked);
         menubar.tray.on('double-click', clicked);
         menubar.tray.on('right-click', showDetailMenu);
@@ -209,15 +182,6 @@ function create (opts) {
 
         function showDetailMenu () {
             var contextMenu = Menu.buildFromTemplate([
-                {
-                    label: 'Show GifBar',
-                    click: function() {
-                        showWindow(cachedBounds);
-                    }
-                },
-                {
-                    type: 'separator'
-                },
                 {
                     label: 'Preferences',
                     enabled: false
