@@ -289,6 +289,7 @@ ipcMain.on('notify', (event, message) => {
         title: 'GIFBar',
         message: message,
         sound: false,
-        wait: false
+        wait: false,
+        icon: path.join(__dirname, 'gifbar-icon@2x.png')
     });
 })
