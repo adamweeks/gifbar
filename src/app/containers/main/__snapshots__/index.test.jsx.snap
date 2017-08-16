@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Main component renders properly 1`] = `
-<div>
+<div
+  className="main"
+>
   <div>
     <form>
       <input
@@ -31,6 +33,16 @@ exports[`Main component renders properly 1`] = `
     <div
       className="col"
     />
+  </div>
+  <div
+    className="attribution"
+  >
+    <div>
+      <img
+        className="attribution"
+        src="test-file-stub"
+      />
+    </div>
   </div>
 </div>
 `;

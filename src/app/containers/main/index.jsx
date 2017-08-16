@@ -5,11 +5,13 @@ import {ipcRenderer} from 'electron';
 import SearchBar from '../../components/search-bar';
 import SearchResults from '../../components/search-results';
 import SearchPagination from '../../components/search-pagination';
+import Attribution from '../../components/attribution';
 
 import GiphySearch from '../../giphy-search';
 import {getReadableFileSizeString, getGlobalElectronProperty, setGlobalElectronProperty} from '../../utils';
 
 import loadingImage from '../../images/loading.gif';
+import './styles.css';
 
 const GIPHY_API_KEY = `dc6zaTOxFJmzC`;
 const SEARCH_LIMIT = 25;
@@ -230,7 +232,7 @@ class Main extends Component {
         const forwardAvailable = paginationResults.forwardAvailable;
         const showPagination = this.state.totalResults > 0;
         return (
-            <div>
+            <div className="main">
                 <SearchBar
                     doClear={this.doClear}
                     doExit={this.hideCurrentWindow}
@@ -255,6 +257,9 @@ class Main extends Component {
                         totalResults={this.state.totalResults}
                     />
                 }
+                <div className="attribution">
+                    <Attribution />
+                </div>
             </div>
         );
     }

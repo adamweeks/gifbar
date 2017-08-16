@@ -9,7 +9,7 @@ var options = {
 
   output: {
     path: __dirname + '/build/',
-    publicPath: 'build/',
+    publicPath: '',
     filename: '[name].js',
     sourceMapFilename: '[name].js.map',
     chunkFilename: '[id].chunk.js'
@@ -37,7 +37,9 @@ var options = {
         test: /\.(jpg|png|svg|gif)$/,
         loader: 'url-loader',
         options: {
+          name: 'images/[name].[ext]',
           limit: 10000,
+          // outputPath: 'images'
         },
       }
     ]

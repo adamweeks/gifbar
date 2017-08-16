@@ -1,6 +1,7 @@
 .image-grid {
     display: flex;
     flex-direction: row;
+    min-height: 450px;
 }
 .col {
     display: flex;
