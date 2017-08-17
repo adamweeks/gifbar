@@ -1,14 +1,11 @@
 .image-grid {
     display: flex;
     flex-direction: row;
-    min-height: 450px;
+    flex-grow: 1;
+    flex-shrink: 0;
+    justify-content: space-between;
 }
 .col {
     display: flex;
     flex-direction: column;
-}
-image-display {
-    display: block;
-    padding: 5px;
-    float: left;
 }

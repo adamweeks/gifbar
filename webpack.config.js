@@ -30,7 +30,16 @@ var options = {
         test: /\.css$/,
         use: [
           "style-loader",
-          "css-loader"
+          {
+            loader: "css-loader",
+            options: {
+              camelCase: true,
+              modules: true,
+              localIdentName: `[local]--[hash:base64:5]`,
+              importLoaders: 1,
+              sourceMap: true
+            }
+          }
         ]
       },
       {

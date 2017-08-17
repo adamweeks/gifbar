@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator'
 
-import './styles.css';
+import styles from './styles.css';
 
 class SearchPagination extends Component {
     constructor(props) {
@@ -26,11 +26,11 @@ class SearchPagination extends Component {
     render () {
         const {forwardAvailable, previousAvailable, totalResults} = this.props;
         return (
-            <div id="pagination">
-                <div className="container">
-                    <div className="item"><button onClick={this.decrement} disabled={!previousAvailable}>Prev</button></div>
-                    <div className="item"><button onClick={this.increment} disabled={!forwardAvailable}>Next</button></div>
-                    <div className="item">Results: {totalResults}</div>
+            <div className={styles.pagination}>
+                <div className={styles.container}>
+                    <div className={styles.item}><button onClick={this.decrement} disabled={!previousAvailable}>Prev</button></div>
+                    <div className={styles.item}><button onClick={this.increment} disabled={!forwardAvailable}>Next</button></div>
+                    <div className={styles.item}>Results: {totalResults}</div>
                 </div>
             </div>
         )

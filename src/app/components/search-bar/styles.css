@@ -1,14 +1,14 @@
-form {
+.search-bar form {
     display: flex;
     justify-content: space-between;
 }
-button {
+.search-bar button {
     flex: none;
     padding: 6px 8px;
     margin-top: 1px;
     font-size: 14px;
 }
-input {
+.search-bar input {
     flex: 1;
     padding: 5px;
     margin-right: 5px;

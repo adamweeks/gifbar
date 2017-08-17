@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import './styles.css';
+import styles from './styles.css';
 
 class ImageActions extends Component {
     render() {
         const {handleClick} = this.props;
         return (
-            <div className="action-items">
+            <div className={styles.actionItems}>
                 <button onClick={handleClick} title="Click to copy the Url">Copy</button>
             </div>
         );

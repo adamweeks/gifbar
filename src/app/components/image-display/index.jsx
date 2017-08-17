@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator'
 
-import './styles.css';
+import styles from './styles.css';
 
 import ImageActions from '../image-actions';
 import ImageInfo from '../image-info';
@@ -56,7 +56,7 @@ class ImageDisplay extends Component {
 
         return (
             <div
-                className="image-container"
+                className={styles.imageContainer}
                 style={divStyle}
                 onMouseOver={this.handleMouseOver}
                 onMouseLeave={this.handleMouseLeave}

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import './styles.css';
+import styles from './styles.css';
 
 class ImageInfo extends Component {
     render() {
         return (
-            <div className="info">
+            <div className={styles.info}>
                 { this.props.info }
             </div>
         );

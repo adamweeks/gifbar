@@ -1,9 +1,9 @@
-#pagination {
+.pagination {
     background-color: lightseagreen;
     min-height: 44px;
 }
 
-#pagination button {
+.pagination button {
     min-width: 44px;
     min-height: 44px;
     padding: 6px 8px;
@@ -11,7 +11,7 @@
     font-size: 14px;
 }
 
-#pagination .container {
+.pagination .container {
     display: flex;
     flex-direction: row;
     flex: 100;
@@ -22,6 +22,6 @@
     align-items: center;
     min-height: 44px;
 }
-#pagination .item {
+.pagination .item {
     min-width: 44px;
 }

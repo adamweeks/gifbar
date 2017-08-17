@@ -11,7 +11,7 @@ import GiphySearch from '../../giphy-search';
 import {getReadableFileSizeString, getGlobalElectronProperty, setGlobalElectronProperty} from '../../utils';
 
 import loadingImage from '../../images/loading.gif';
-import './styles.css';
+import style from './styles.css';
 
 const GIPHY_API_KEY = `dc6zaTOxFJmzC`;
 const SEARCH_LIMIT = 25;
@@ -232,7 +232,7 @@ class Main extends Component {
         const forwardAvailable = paginationResults.forwardAvailable;
         const showPagination = this.state.totalResults > 0;
         return (
-            <div className="main">
+            <div className={style.mainContainer}>
                 <SearchBar
                     doClear={this.doClear}
                     doExit={this.hideCurrentWindow}
@@ -240,24 +240,26 @@ class Main extends Component {
                     onFocus={this.handleSearchBarFocus}
                     shouldFocus={this.state.shouldFocus}
                 />
-                <SearchResults
-                    copyUrl={this.copyUrl}
-                    status={this.state.status}
-                    openModal={this.showModal}
-                    results={this.state.gifs}
-                />
-                {
-                    showPagination &&
-                    <SearchPagination
-                        amount={SEARCH_LIMIT}
-                        changeOffset={this.changeOffset}
-                        currentOffset={this.state.offset}
-                        forwardAvailable={forwardAvailable}
-                        previousAvailable={previousAvailable}
-                        totalResults={this.state.totalResults}
+                <div className={style.results}>
+                    <SearchResults
+                        copyUrl={this.copyUrl}
+                        status={this.state.status}
+                        openModal={this.showModal}
+                        results={this.state.gifs}
                     />
-                }
-                <div className="attribution">
+                    {
+                        showPagination &&
+                        <SearchPagination
+                            amount={SEARCH_LIMIT}
+                            changeOffset={this.changeOffset}
+                            currentOffset={this.state.offset}
+                            forwardAvailable={forwardAvailable}
+                            previousAvailable={previousAvailable}
+                            totalResults={this.state.totalResults}
+                        />
+                    }
+                </div>
+                <div className={style.attribution}>
                     <Attribution />
                 </div>
             </div>

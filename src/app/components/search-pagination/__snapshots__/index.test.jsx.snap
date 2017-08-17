@@ -2,7 +2,7 @@
 
 exports[`SearchPagination component renders properly 1`] = `
 <div
-  id="pagination"
+  className="pagination"
 >
   <div
     className="container"

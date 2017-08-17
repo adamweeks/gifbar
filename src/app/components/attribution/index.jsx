@@ -1,12 +1,12 @@
 import React from 'react';
 
 import image from './giphy.gif';
-import './styles.css';
+import styles from './styles.css';
 
 const Attribution = () => {
     return (
         <div>
-            <img className="attribution" src={image} />
+            <img className={styles.attribution} src={image} />
         </div>
     );
 };

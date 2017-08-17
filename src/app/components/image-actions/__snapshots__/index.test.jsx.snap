@@ -2,7 +2,7 @@
 
 exports[`ImageActions component renders properly 1`] = `
 <div
-  className="action-items"
+  className="actionItems"
 >
   <button
     onClick={[Function]}

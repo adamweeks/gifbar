@@ -2,9 +2,11 @@
 
 exports[`Main component renders properly 1`] = `
 <div
-  className="main"
+  className="mainContainer"
 >
-  <div>
+  <div
+    className="searchBar"
+  >
     <form>
       <input
         id="searchBar"
@@ -25,14 +27,18 @@ exports[`Main component renders properly 1`] = `
     </form>
   </div>
   <div
-    className="image-grid"
+    className="results"
   >
     <div
-      className="col"
-    />
-    <div
-      className="col"
-    />
+      className="imageGrid"
+    >
+      <div
+        className="col"
+      />
+      <div
+        className="col"
+      />
+    </div>
   </div>
   <div
     className="attribution"

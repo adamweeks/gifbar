@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator'
 
 import ImageDisplay from '../image-display';
 
-import './styles.css';
+import styles from './styles.css';
 
 class SearchResults extends Component {
     constructor(props) {
@@ -36,16 +36,16 @@ class SearchResults extends Component {
                             image={image}
                             key={image.id}
                             onCopy={copyUrl.bind(this, image)}
-                        />
+                       />
             };
             const displayLeft = this.state.searchResultsLeft.map(displayMap);
             const displayRight = this.state.searchResultsRight.map(displayMap);
             display = (
-                    <div className="image-grid">
-                    <div className="col">
+                    <div className={styles.imageGrid}>
+                    <div className={styles.col}>
                         {displayLeft}
                     </div>
-                    <div className="col">
+                    <div className={styles.col}>
                         {displayRight}
                     </div>
                 </div>

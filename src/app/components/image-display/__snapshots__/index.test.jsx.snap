@@ -2,7 +2,7 @@
 
 exports[`ImageDisplay component renders properly 1`] = `
 <div
-  className="image-container"
+  className="imageContainer"
   onMouseLeave={[Function]}
   onMouseOver={[Function]}
   style={

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator'
 
-import './styles.css';
+import styles from './styles.css';
 
 const ESCAPE_KEY = 27;
 const ENTER_KEY = 13;
@@ -37,7 +37,7 @@ class SearchBar extends Component {
 
     render () {
         return (
-            <div>
+            <div className={styles.searchBar}>
                 <form>
                     <input
                         id="searchBar"
