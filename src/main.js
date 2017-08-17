@@ -88,6 +88,14 @@ function create (opts) {
         menubar.hideWindow = hideWindow;
         menubar.emit('ready');
 
+        notifier.notify({
+            title: 'GIFBar',
+            message: 'GIFBar Ready!',
+            sound: false,
+            wait: false,
+            icon: path.join(__dirname, 'gifbar-icon@2x.png')
+        });
+
         function clicked (e, bounds) {
             if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) {
                 return hideWindow();
