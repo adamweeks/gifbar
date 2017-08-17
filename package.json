@@ -1,6 +1,6 @@
 {
   "name": "gifbar",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "repository": "https://github.com/adamweeks/gifbar",
   "description": "GifBar is a gif searching utility that lives in your menubar.",
   "main": "index.js",
