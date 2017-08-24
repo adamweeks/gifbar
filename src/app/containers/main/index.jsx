@@ -56,8 +56,8 @@ class Main extends Component {
 
      */
     @autobind
-     doSearch(searchTerm) {
-        this.searchRequest(searchTerm, this.state.offset);
+    doSearch(searchTerm) {
+        this.searchRequest(searchTerm, 0);
     }
 
     @autobind
@@ -81,6 +81,7 @@ class Main extends Component {
                 if (results.data.length === 0) {
                     this.setState({
                         gifs:   [],
+                        offset,
                         status: {
                             message:  `Could not find any gifs for "${searchTerm}".`,
                             imageUrl: 'https://media3.giphy.com/media/l3V0HLYPfIKIVDyBG/giphy.gif',
@@ -112,6 +113,7 @@ class Main extends Component {
                     this.setState({
                         currentSearchTerm: searchTerm,
                         gifs,
+                        offset,
                         status: {},
                         totalResults: results.pagination.total_count
                     });
