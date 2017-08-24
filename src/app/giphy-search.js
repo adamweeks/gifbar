@@ -1,14 +1,11 @@
 // Sample API Search
 // http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=<KEY>
-import dotenv from 'dotenv';
-import {getReadableFileSizeString} from './utils';
-
-dotenv.config();
+import {getReadableFileSizeString, getGlobalElectronProperty} from './utils';
 
 const baseUrl = 'http://api.giphy.com/v1/gifs/';
 const searchEndpoint = 'search';
 const trendingEndpoint = 'trending';
-const GIPHY_API_KEY = process.env.GIPHY_API_KEY;
+const GIPHY_API_KEY = getGlobalElectronProperty(`giphyAPIKey`);
 
 /**
  * Searches the giphy api

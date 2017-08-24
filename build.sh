@@ -1,5 +1,8 @@
 #!/bin/bash
+# copy env var file
+cp env.json src/
 
+# build
 mkdir build
 
 rm -rf build/*

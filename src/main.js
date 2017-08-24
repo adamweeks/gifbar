@@ -11,6 +11,9 @@ const extend = require('extend');
 const Positioner = require('electron-positioner');
 const AutoLaunch = require('auto-launch-patched');
 
+// File is generated via the build process
+const env = require('./env.json');
+
 const shortcut = 'CommandOrControl+Alt+G';
 
 const options = {
@@ -45,6 +48,7 @@ function create (opts) {
             hideOnCopy:     settings.get('hideOnCopy', true),
             launchAtLogin:  false, // setting not necessary as the OS handles that.
             globalShortcut: settings.get('globalShortcut', true),
+            giphyAPIKey:    env.GIPHY_API_KEY
         };
         global.sharedObject.autoHideEnabled = !global.sharedObject.alwaysOnTop;
 
@@ -90,7 +94,7 @@ function create (opts) {
 
         notifier.notify({
             title: 'GIFBar',
-            message: 'GIFBar Ready!',
+            message: `GIFBar Ready!`,
             sound: false,
             wait: false,
             icon: path.join(__dirname, 'gifbar-icon@2x.png')

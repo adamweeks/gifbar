@@ -17,9 +17,6 @@
   },
   "author": "Adam Weeks",
   "license": "MIT",
-  "devDependencies": {
-    "dotenv": "^4.0.0"
-  },
   "dependencies": {
     "auto-launch-patched": "~5.0.2",
     "autobind-decorator": "^2.1.0",
