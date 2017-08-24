@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import autobind from 'autobind-decorator';
 import {ipcRenderer} from 'electron';
+import dotenv from 'dotenv';
 
 import SearchBar from '../../components/search-bar';
 import SearchResults from '../../components/search-results';
@@ -13,7 +14,9 @@ import {getReadableFileSizeString, getGlobalElectronProperty, setGlobalElectronP
 import loadingImage from '../../images/loading.gif';
 import style from './styles.css';
 
-const GIPHY_API_KEY = `dc6zaTOxFJmzC`;
+dotenv.config();
+
+const GIPHY_API_KEY = process.env.GIPHY_API_KEY;
 const SEARCH_LIMIT = 25;
 const BrowserWindow = electron.remote.BrowserWindow;
 

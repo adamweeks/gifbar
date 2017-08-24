@@ -6,8 +6,12 @@ Gifbar is built on React, Webpack and Electron.
 
 ![screenshot](./media/screenshot.png)
 
-## Installation
+## Setup
 
+Giphy requires an API key. Get yours [here](https://developers.giphy.com/).
+
+Once you have one, create a `.env` file and add it (see `.env.empty` for an example).
+## Installation
 
 ```bash
 npm install
