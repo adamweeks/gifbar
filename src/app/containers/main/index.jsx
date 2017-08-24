@@ -1,22 +1,17 @@
 import React, {Component} from 'react';
 import autobind from 'autobind-decorator';
 import {ipcRenderer} from 'electron';
-import dotenv from 'dotenv';
-
 import SearchBar from '../../components/search-bar';
 import SearchResults from '../../components/search-results';
 import SearchPagination from '../../components/search-pagination';
 import Attribution from '../../components/attribution';
 
-import GiphySearch from '../../giphy-search';
-import {getReadableFileSizeString, getGlobalElectronProperty, setGlobalElectronProperty} from '../../utils';
+import {doGiphySearch, fetchGiphyTrending} from '../../giphy-search';
+import {getGlobalElectronProperty, setGlobalElectronProperty} from '../../utils';
 
 import loadingImage from '../../images/loading.gif';
 import style from './styles.css';
 
-dotenv.config();
-
-const GIPHY_API_KEY = process.env.GIPHY_API_KEY;
 const SEARCH_LIMIT = 25;
 const BrowserWindow = electron.remote.BrowserWindow;
 
@@ -26,14 +21,16 @@ const initialState = {
     status: {},
     offset: 0,
     shouldFocus: false,
-    totalResults: 0
+    totalResults: 0,
+    trendingGifs: [],
+    isTrending: true
 };
 
 class Main extends Component {
     constructor(props) {
         super(props);
 
-        this.giphySearch = new GiphySearch(GIPHY_API_KEY);
+        this.rating = getGlobalElectronProperty('hideNSFW') ? 'g' : 'r';
 
         this.state = initialState;
 
@@ -42,12 +39,16 @@ class Main extends Component {
         });
     }
 
+    componentWillMount() {
+        this.fetchTrending(0);
+    }
+
     @autobind
     doClear() {
         if (this.state.currentSearchTerm === ``) {
             this.hideCurrentWindow();
         }
-        this.setState(initialState);
+        this.setState(Object.assign({}, initialState, {trendingGifs: this.state.trendingGifs}));
     }
 
     /**
@@ -79,11 +80,11 @@ class Main extends Component {
                 }
             });
 
-            const rating = getGlobalElectronProperty('hideNSFW') ? 'g' : 'r';
-            this.giphySearch.doSearch(searchTerm, offset, rating, SEARCH_LIMIT).then((results) => {
-                if (results.data.length === 0) {
+            doGiphySearch(searchTerm, offset, this.rating, SEARCH_LIMIT).then(({gifs, pagination}) => {
+                if (gifs.length === 0) {
                     this.setState({
                         gifs:   [],
+                        isTrending: false,
                         offset,
                         status: {
                             message:  `Could not find any gifs for "${searchTerm}".`,
@@ -93,32 +94,13 @@ class Main extends Component {
                     });
                 }
                 else {
-                    const gifs = results.data.map((giphyObject) => {
-                        return {
-                            id: giphyObject.id,
-                            displayUrl: giphyObject.images.fixed_width.url,
-                            fullSizedImageUrl: giphyObject.images.original.url,
-                            fullSizedImageFileSize: getReadableFileSizeString(giphyObject.images.original.size),
-                            sourceUrl: giphyObject.url,
-                            imageSizes: {
-                                fullSize: {
-                                    width: parseInt(giphyObject.images.original.width),
-                                    height: parseInt(giphyObject.images.original.height)
-                                },
-                                smallSize: {
-                                    width: parseInt(giphyObject.images.fixed_width.width),
-                                    height: parseInt(giphyObject.images.fixed_width.height)
-                                }
-                            }
-                        };
-                    });
-
                     this.setState({
                         currentSearchTerm: searchTerm,
                         gifs,
+                        isTrending: false,
                         offset,
                         status: {},
-                        totalResults: results.pagination.total_count
+                        totalResults: pagination.total_count
                     });
                 }
                 window.scrollTo(0,0);
@@ -209,6 +191,17 @@ class Main extends Component {
         this.setState({shouldFocus: false});
     }
 
+    @autobind
+    fetchTrending(offset) {
+        fetchGiphyTrending(offset, this.rating, SEARCH_LIMIT).then(({gifs}) => {
+            this.setState({
+                trendingGifs: gifs,
+                isTrending: true,
+                offset
+            })
+        });
+    }
+
     calcPaginationAvailability(totalResults, currentResultCount, offset) {
         let result = {
             forwardAvailable: false,
@@ -235,7 +228,8 @@ class Main extends Component {
         const paginationResults = this.calcPaginationAvailability(this.state.totalResults, this.state.gifs.length, this.state.offset);
         const previousAvailable = paginationResults.previousAvailable;
         const forwardAvailable = paginationResults.forwardAvailable;
-        const showPagination = this.state.totalResults > 0;
+        const showPagination = this.state.isTrending ? false : this.state.totalResults > 0;
+        const results = this.state.isTrending ? this.state.trendingGifs : this.state.gifs;
         return (
             <div className={style.mainContainer}>
                 <SearchBar
@@ -250,7 +244,7 @@ class Main extends Component {
                         copyUrl={this.copyUrl}
                         status={this.state.status}
                         openModal={this.showModal}
-                        results={this.state.gifs}
+                        results={results}
                     />
                     {
                         showPagination &&
