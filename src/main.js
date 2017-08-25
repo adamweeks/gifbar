@@ -312,7 +312,7 @@ function create (opts) {
   }
 }
 
-ipcMain.on('notify', (event, message) => {
+ipcMain.on(`notify`, (event, message) => {
   notify(message);
 })
 

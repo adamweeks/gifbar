@@ -15,7 +15,7 @@
     "dmg": "electron-installer-dmg ./releases/gifbar-darwin-x64/gifbar.app GIFBar --out=./releases --overwrite",
     "electron": "electron build",
     "test": "jest",
-    "eslint": "eslint src"
+    "eslint": "eslint --ext .jsx --ext .js src"
   },
   "author": "Adam Weeks",
   "license": "MIT",

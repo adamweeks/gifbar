@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 
 import Main from '.';
 
-jest.mock('../../giphy-search', () => {
+jest.mock(`../../giphy-search`, () => {
   return {
     fetchGiphyTrending: jest.fn(() => Promise.resolve())
   };

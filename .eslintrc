@@ -15,7 +15,6 @@
         "dirname": true
     },
     "parserOptions": {
-        "jsx": true,
         "ecmaVersion": 6,
         "sourceType": "module",
         "ecmaFeatures": {
