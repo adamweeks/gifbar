@@ -3,7 +3,7 @@ const events = require(`events`);
 
 // const notifier = require('node-notifier');
 const electron = require(`electron`);
-const {ipcMain, app, Tray, Menu, globalShortcut, BrowserWindow} = electron;
+const {ipcMain, app, Tray, Menu, globalShortcut, BrowserWindow, Notification} = electron;
 
 const settings = require(`electron-settings`);
 
@@ -14,7 +14,7 @@ const url = require(`url`);
 
 const indexFile = require(`./index.html`);
 const gifbarIcon = require(`./gifbar-icon.png`);
-require(`./gifbar-icon@2x.png`);
+const gifbarIcon2x = require(`./gifbar-icon@2x.png`);
 require(`./Icon.icns`);
 require(`./modal.html`);
 
@@ -98,13 +98,7 @@ function create (opts) {
     menubar.hideWindow = hideWindow;
     menubar.emit(`ready`);
 
-    // notifier.notify({
-    //     title: 'GIFBar',
-    //     message: `GIFBar Ready!`,
-    //     sound: false,
-    //     wait: false,
-    //     icon: path.join(__dirname, 'gifbar-icon@2x.png')
-    // });
+    notify(`GIFBar Ready!`);
 
     function clicked (e, bounds) {
       if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) {
@@ -308,13 +302,24 @@ function create (opts) {
   }
 }
 
-// eslint-disable-next-line
 ipcMain.on('notify', (event, message) => {
-  // notifier.notify({
-  //     title: 'GIFBar',
-  //     message: message,
-  //     sound: false,
-  //     wait: false,
-  //     icon: path.join(__dirname, 'gifbar-icon@2x.png')
-  // });
+  notify(message);
 })
+
+/**
+ * Displays a system notification if supported
+ * @param {string} message
+ */
+function notify(message) {
+  if (!Notification.isSupported()) {
+    return;
+  }
+  const options = {
+    title: `GIFBar`,
+    body: message,
+    silent: true,
+    icon: path.join(__dirname, gifbarIcon2x)
+  }
+  const notification = new Notification(options);
+  notification.show();
+}
