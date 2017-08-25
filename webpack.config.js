@@ -1,6 +1,3 @@
-var webpack = require('webpack');
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
-
 var options = {
   devtool: 'source-map',
   entry: {
@@ -53,11 +50,7 @@ var options = {
       }
     ]
   },
-
-  plugins: [
-    new CommonsChunkPlugin({ name: 'common',   filename: 'common.js' })
-  ],
-  target: 'electron-renderer'
+  target: 'electron-main'
 };
 
 module.exports = options;

@@ -3,14 +3,15 @@
   "version": "1.4.0",
   "repository": "https://github.com/adamweeks/gifbar",
   "description": "GifBar is a gif searching utility that lives in your menubar.",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "build": "./build.sh",
-    "build-webpack": "webpack --progress --profile --colors --display-error-details --display-cached",
+    "build": "rimraf build; npm run webpack-app; npm run webpack-main",
+    "webpack-app": "webpack --progress --profile --colors --display-error-details --display-cached",
+    "webpack-main": "NODE_ENV=production webpack --config webpack.config.main.js --progress --profile --colors --display-error-details --display-cached",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
     "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns --no-prune",
-    "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=$npm_package_version",
-    "release": "npm run build; npm run release-mac; npm run release-win",
+    "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --tmpdir=false --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns --no-prune",
+    "release": "npm run build; npm run release-mac; open ./releases",
     "electron": "electron build",
     "test": "jest",
     "eslint": "eslint src"
@@ -36,13 +37,12 @@
     "eslint": "^4.3.0",
     "eslint-plugin-react": "^7.1.0",
     "extend": "^3.0.0",
-    "file-loader": "~1.0.0",
+    "file-loader": "^0.11.2",
     "greenkeeper-lockfile": "^1.7.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^20.0.4",
     "menubar": "^5.2.3",
     "minimist": "^1.2.0",
-    "node-notifier": "^5.1.2",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
@@ -81,5 +81,8 @@
       "\\.(jpg|png|svg|gif)$": "<rootDir>/__mocks__/fileMock.js"
     },
     "verbose": true
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.1"
   }
 }
