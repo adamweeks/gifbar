@@ -7,24 +7,28 @@ exports[`Main component renders properly 1`] = `
   <div
     className="searchBar"
   >
-    <form>
-      <input
-        id="searchBar"
-        onChange={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        placeholder="Search for gifs"
-        type="text"
-        value=""
-      />
-      <button
-        className="cancel"
-        onClick={[Function]}
-        type="button"
-      >
-        X
-      </button>
-    </form>
+    <div
+      className="searchBar"
+    >
+      <form>
+        <input
+          id="searchBar"
+          onChange={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          placeholder="Search for gifs"
+          type="text"
+          value=""
+        />
+        <button
+          className="cancel"
+          onClick={[Function]}
+          type="button"
+        >
+          X
+        </button>
+      </form>
+    </div>
   </div>
   <div
     className="results"
@@ -43,11 +47,26 @@ exports[`Main component renders properly 1`] = `
   <div
     className="attribution"
   >
-    <div>
-      <img
-        className="attribution"
-        src="test-file-stub"
-      />
+    <div
+      className="footer"
+    >
+      <div
+        className="main"
+      >
+        <div
+          className="title"
+        >
+          Top Trending GIFs!
+        </div>
+        <div
+          className="attribution"
+        >
+          <img
+            className="img"
+            src="test-file-stub"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </div>
