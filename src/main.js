@@ -1,9 +1,8 @@
 const path = require(`path`);
 const events = require(`events`);
 
-// const notifier = require('node-notifier');
 const electron = require(`electron`);
-const {ipcMain, app, Tray, Menu, globalShortcut, BrowserWindow, Notification} = electron;
+const {ipcMain, app, Tray, Menu, globalShortcut, BrowserWindow, Notification, shell} = electron;
 
 const settings = require(`electron-settings`);
 
@@ -14,12 +13,14 @@ const url = require(`url`);
 
 const indexFile = require(`./index.html`);
 const gifbarIcon = require(`./gifbar-icon.png`);
-const gifbarIcon2x = require(`./gifbar-icon@2x.png`);
+require(`./gifbar-icon@2x.png`);
 require(`./Icon.icns`);
 require(`./modal.html`);
 
-// File is generated via the build process
-const env = require(`./env.json`);
+// electron requires a basic package.json that has a main entry point
+require(`./package.json`);
+
+const env = require(`../env.json`);
 
 const shortcut = `CommandOrControl+Alt+G`;
 
@@ -276,12 +277,21 @@ function create (opts) {
           type: `separator`
         },
         {
-          label: `Toggle DevTools`,
-          accelerator: `Alt+Command+I`,
-          click: function() {
-            menubar.window.show();
-            menubar.window.toggleDevTools();
-          }
+          role: `help`,
+          submenu: [
+            {
+              label: `Github`,
+              click () { shell.openExternal(`https://github.com/adamweeks/gifbar`) }
+            },
+            {
+              label: `Toggle DevTools`,
+              accelerator: `Alt+Command+I`,
+              click: function() {
+                menubar.window.show();
+                menubar.window.toggleDevTools();
+              }
+            },
+          ]
         },
         {
           type: `separator`
@@ -317,8 +327,7 @@ function notify(message) {
   const options = {
     title: `GIFBar`,
     body: message,
-    silent: true,
-    icon: path.join(__dirname, gifbarIcon2x)
+    silent: true
   }
   const notification = new Notification(options);
   notification.show();
