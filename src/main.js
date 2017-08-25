@@ -1,7 +1,7 @@
 const path = require('path');
 const events = require('events');
 
-const notifier = require('node-notifier');
+// const notifier = require('node-notifier');
 const electron = require('electron');
 const {ipcMain, app, Tray, Menu, globalShortcut, BrowserWindow} = electron;
 
@@ -10,6 +10,13 @@ const settings = require('electron-settings');
 const extend = require('extend');
 const Positioner = require('electron-positioner');
 const AutoLaunch = require('auto-launch-patched');
+const url = require('url');
+
+const indexFile = require('./index.html');
+const gifbarIcon = require('./gifbar-icon.png');
+require('./gifbar-icon@2x.png');
+require('./Icon.icns');
+require('./modal.html');
 
 // File is generated via the build process
 const env = require('./env.json');
@@ -23,8 +30,7 @@ const options = {
     resizable: false,
     tooltip: 'GifBar',
     preloadWindow: true,
-    icon: path.join(__dirname, 'gifbar-icon.png'),
-    index: 'file://' + path.join(app.getAppPath(), 'index.html')
+    icon: path.join(__dirname, gifbarIcon)
 };
 
 create(options);
@@ -57,7 +63,7 @@ function create (opts) {
 
         var cachedBounds; // cachedBounds are needed for double-clicked event
 
-        menubar.tray = opts.tray || new Tray(opts.icon);
+        menubar.tray = new Tray(opts.icon);
         menubar.tray.on('click', clicked);
         menubar.tray.on('double-click', clicked);
         menubar.tray.on('right-click', showDetailMenu);
@@ -92,13 +98,13 @@ function create (opts) {
         menubar.hideWindow = hideWindow;
         menubar.emit('ready');
 
-        notifier.notify({
-            title: 'GIFBar',
-            message: `GIFBar Ready!`,
-            sound: false,
-            wait: false,
-            icon: path.join(__dirname, 'gifbar-icon@2x.png')
-        });
+        // notifier.notify({
+        //     title: 'GIFBar',
+        //     message: `GIFBar Ready!`,
+        //     sound: false,
+        //     wait: false,
+        //     icon: path.join(__dirname, 'gifbar-icon@2x.png')
+        // });
 
         function clicked (e, bounds) {
             if (e.altKey || e.shiftKey || e.ctrlKey || e.metaKey) {
@@ -131,7 +137,13 @@ function create (opts) {
 
             menubar.window.on('blur', autoHideWindow);
             menubar.window.on('close', windowClear);
-            menubar.window.loadURL(opts.index);
+            menubar.window.loadURL(
+                url.format({
+                    pathname: path.join(__dirname, indexFile),
+                    protocol: 'file:',
+                    slashes: true
+                })
+            );
             menubar.emit('after-create-window');
         }
 
@@ -297,11 +309,11 @@ function create (opts) {
 }
 
 ipcMain.on('notify', (event, message) => {
-    notifier.notify({
-        title: 'GIFBar',
-        message: message,
-        sound: false,
-        wait: false,
-        icon: path.join(__dirname, 'gifbar-icon@2x.png')
-    });
+    // notifier.notify({
+    //     title: 'GIFBar',
+    //     message: message,
+    //     sound: false,
+    //     wait: false,
+    //     icon: path.join(__dirname, 'gifbar-icon@2x.png')
+    // });
 })
