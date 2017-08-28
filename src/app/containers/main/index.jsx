@@ -3,8 +3,7 @@ import autobind from 'autobind-decorator';
 import {ipcRenderer} from 'electron';
 import SearchBar from '../../components/search-bar';
 import SearchResults from '../../components/search-results';
-import SearchPagination from '../../components/search-pagination';
-import Attribution from '../../components/attribution';
+import StaticFooter from '../../components/static-footer';
 
 import {doGiphySearch, fetchGiphyTrending} from '../../giphy-search';
 import {getGlobalElectronProperty, setGlobalElectronProperty} from '../../utils';
@@ -43,7 +42,7 @@ class Main extends Component {
     this.fetchTrending(0);
   }
 
-    @autobind
+  @autobind
   doClear() {
     if (this.state.currentSearchTerm === ``) {
       this.hideCurrentWindow();
@@ -51,26 +50,26 @@ class Main extends Component {
     this.setState(Object.assign({}, initialState, {trendingGifs: this.state.trendingGifs}));
   }
 
-    /**
-     * Handles the actual searching on giphy
-     *
-     * @param {any} searchTerm
-     *
-     * @memberOf Main
+  /**
+   * Handles the actual searching on giphy
+   *
+   * @param {any} searchTerm
+   *
+   * @memberOf Main
 
-     */
-    @autobind
+    */
+  @autobind
   doSearch(searchTerm) {
     this.searchRequest(searchTerm, 0);
   }
 
-    @autobind
+  @autobind
   changeOffset(offset) {
     this.setState({offset});
     this.searchRequest(this.state.currentSearchTerm, offset);
   }
 
-    @autobind
+  @autobind
   searchRequest(searchTerm, offset) {
     if (searchTerm) {
       this.setState({
@@ -117,14 +116,14 @@ class Main extends Component {
     }
   }
 
-    /**
-     * Shows the detail window
-     *
-     * @param {any} gif
-     *
-     * @memberOf Main
-     */
-    @autobind
+  /**
+   * Shows the detail window
+   *
+   * @param {any} gif
+   *
+   * @memberOf Main
+   */
+  @autobind
   showModal(gif) {
     const alwaysOnTop = getGlobalElectronProperty(`alwaysOnTop`);
     if (!alwaysOnTop) {
@@ -163,20 +162,20 @@ class Main extends Component {
     setGlobalElectronProperty(`autoHideEnabled`, !alwaysOnTop);
   }
 
-    @autobind
+  @autobind
   hideCurrentWindow() {
     let win = BrowserWindow.getFocusedWindow();
     win.hide();
   }
 
-    /**
-     * Copies image object's url to system clipboard
-     *
-     * @param {any} image
-     *
-     * @memberOf Main
-     */
-    @autobind
+  /**
+   * Copies image object's url to system clipboard
+   *
+   * @param {any} image
+   *
+   * @memberOf Main
+   */
+  @autobind
   copyUrl(image) {
     const hashTag = getGlobalElectronProperty(`includeHashTag`) ? ` #gifbar` : ``;
     electron.clipboard.writeText(`${image.fullSizedImageUrl}${hashTag}`);
@@ -186,12 +185,12 @@ class Main extends Component {
     ipcRenderer.send(`notify`, `GIF Copied!`);
   }
 
-    @autobind
+  @autobind
   handleSearchBarFocus() {
     this.setState({shouldFocus: false});
   }
 
-    @autobind
+  @autobind
   fetchTrending(offset) {
     fetchGiphyTrending(offset, this.rating, SEARCH_LIMIT).then(({gifs}) => {
       this.setState({
@@ -232,13 +231,15 @@ class Main extends Component {
     const results = this.state.isTrending ? this.state.trendingGifs : this.state.gifs;
     return (
       <div className={style.mainContainer}>
-        <SearchBar
-          doClear={this.doClear}
-          doExit={this.hideCurrentWindow}
-          doSearch={this.doSearch}
-          onFocus={this.handleSearchBarFocus}
-          shouldFocus={this.state.shouldFocus}
-        />
+        <div className={style.searchBar}>
+          <SearchBar
+            doClear={this.doClear}
+            doExit={this.hideCurrentWindow}
+            doSearch={this.doSearch}
+            onFocus={this.handleSearchBarFocus}
+            shouldFocus={this.state.shouldFocus}
+          />
+        </div>
         <div className={style.results}>
           <SearchResults
             copyUrl={this.copyUrl}
@@ -246,20 +247,18 @@ class Main extends Component {
             openModal={this.showModal}
             results={results}
           />
-          {
-            showPagination &&
-                        <SearchPagination
-                          amount={SEARCH_LIMIT}
-                          changeOffset={this.changeOffset}
-                          currentOffset={this.state.offset}
-                          forwardAvailable={forwardAvailable}
-                          previousAvailable={previousAvailable}
-                          totalResults={this.state.totalResults}
-                        />
-          }
         </div>
         <div className={style.attribution}>
-          <Attribution />
+          <StaticFooter
+            changeOffset={this.changeOffset}
+            count={SEARCH_LIMIT}
+            currentOffset={this.state.offset}
+            isTrending={this.state.isTrending}
+            navPrevEnabled={previousAvailable}
+            navForwardEnabled={forwardAvailable}
+            showNav={showPagination}
+            totalResults={this.state.totalResults}
+          />
         </div>
       </div>
     );

@@ -12,6 +12,12 @@
 .attribution {
   align-self: flex-end;
   margin-top: auto;
+  height: 45px;
+  width: 100%;
+}
+
+.search-bar {
+  height: 35px;
 }
 
 .results {
