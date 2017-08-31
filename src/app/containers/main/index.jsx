@@ -40,6 +40,11 @@ class Main extends Component {
 
   componentWillMount() {
     this.fetchTrending(0);
+    document.addEventListener(`keydown`, (event) => {
+      if (event.key === `Escape`) {
+        this.doClear();
+      }
+    });
   }
 
   @autobind
