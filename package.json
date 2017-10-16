@@ -53,7 +53,7 @@
     "rxjs": "^5.4.2",
     "style-loader": "^0.18.2",
     "systemjs": "^0.20.17",
-    "ts-loader": "^2.3.2",
+    "ts-loader": "^3.0.0",
     "typescript": "^2.4.2",
     "typings": "^2.1.1",
     "url-loader": "~0.5.9",
