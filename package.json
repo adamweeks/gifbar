@@ -85,7 +85,7 @@
     "verbose": true
   },
   "devDependencies": {
-    "appdmg": "^0.4.5",
+    "appdmg": "^0.5.0",
     "electron-installer-dmg": "^0.2.1",
     "eslint-config-standard-react": "^5.0.0",
     "rimraf": "^2.6.1"
