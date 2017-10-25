@@ -1,0 +1,8 @@
+
+.DS_Store
+.env
+node_modules
+build
+npm-debug.log
+releases
+env.json
