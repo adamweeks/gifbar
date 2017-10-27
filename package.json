@@ -46,7 +46,7 @@
     "menubar": "^5.2.3",
     "minimist": "^1.2.0",
     "prop-types": "^15.5.8",
-    "react": "^15.5.4",
+    "react": "^16.0.0",
     "react-dom": "^15.5.4",
     "react-test-renderer": "^15.6.1",
     "reflect-metadata": "^0.1.10",
