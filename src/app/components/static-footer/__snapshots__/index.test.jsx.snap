@@ -5,6 +5,9 @@ exports[`StaticFooter component renders properly trending 1`] = `
   className="footer"
 >
   <div
+    className="side"
+  />
+  <div
     className="main"
   >
     <div
@@ -17,6 +20,19 @@ exports[`StaticFooter component renders properly trending 1`] = `
     >
       <img
         className="img"
+        src="test-file-stub"
+      />
+    </div>
+  </div>
+  <div
+    className="side"
+  >
+    <div
+      className="button"
+      onClick={undefined}
+    >
+      <img
+        className="imgRefresh"
         src="test-file-stub"
       />
     </div>

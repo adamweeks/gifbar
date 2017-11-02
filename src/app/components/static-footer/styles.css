@@ -34,6 +34,10 @@
   height: 23px;
 }
 
+.img-refresh {
+  height: 100%;
+}
+
 .button {
   width: 34px;
   height: 34px;

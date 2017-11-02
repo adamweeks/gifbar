@@ -33,15 +33,15 @@ exports[`Main component renders properly 1`] = `
   <div
     className="results"
   >
-    <div
-      className="imageGrid"
-    >
-      <div
-        className="col"
-      />
-      <div
-        className="col"
-      />
+    <div>
+      <p>
+        Could not load trending gifs, giphy not found!
+      </p>
+      <p>
+        <img
+          src="https://media3.giphy.com/media/l3V0HLYPfIKIVDyBG/giphy.gif"
+        />
+      </p>
     </div>
   </div>
   <div
@@ -50,6 +50,9 @@ exports[`Main component renders properly 1`] = `
     <div
       className="footer"
     >
+      <div
+        className="side"
+      />
       <div
         className="main"
       >
@@ -63,6 +66,19 @@ exports[`Main component renders properly 1`] = `
         >
           <img
             className="img"
+            src="test-file-stub"
+          />
+        </div>
+      </div>
+      <div
+        className="side"
+      >
+        <div
+          className="button"
+          onClick={[Function]}
+        >
+          <img
+            className="imgRefresh"
             src="test-file-stub"
           />
         </div>

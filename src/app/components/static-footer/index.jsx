@@ -5,6 +5,7 @@ import autobind from 'autobind-decorator';
 
 import styles from './styles.css';
 import image from './giphy.gif';
+import refresh from '../../images/Command-Refresh-128.png';
 
 class StaticFooter extends Component {
   buildTitle(isTrending, totalResults, count, offset) {
@@ -37,7 +38,15 @@ class StaticFooter extends Component {
   }
 
   render() {
-    const {count, currentOffset, isTrending, navForwardEnabled, navPrevEnabled, showNav, totalResults} = this.props;
+    const {
+      count,
+      currentOffset,
+      isTrending,
+      navForwardEnabled,
+      navPrevEnabled,
+      showNav,
+      totalResults
+    } = this.props;
     const title = this.buildTitle(isTrending, totalResults, count, currentOffset);
     const prevClass = classNames({
       [`${styles.button}`]: true,
@@ -49,6 +58,10 @@ class StaticFooter extends Component {
     });
     return (
       <div className={styles.footer}>
+        {isTrending && (
+          // empty area to balance out the refresh button because i'm lazy
+          <div className={styles.side} />
+        )}
         {showNav && (
           <div className={styles.side}>
             <div className={prevClass} onClick={this.decrement}>
@@ -71,6 +84,13 @@ class StaticFooter extends Component {
             </div>
           </div>
         )}
+        {isTrending && (
+          <div className={styles.side}>
+            <div className={styles.button} onClick={this.props.handleRefresh}>
+              <img className={styles.imgRefresh} src={refresh} />
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -80,6 +100,7 @@ StaticFooter.propTypes = {
   count: PropTypes.number,
   changeOffset: PropTypes.func,
   currentOffset: PropTypes.number,
+  handleRefresh: PropTypes.func,
   isTrending: PropTypes.bool,
   navPrevEnabled: PropTypes.bool,
   navForwardEnabled: PropTypes.bool,

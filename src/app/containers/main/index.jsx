@@ -197,13 +197,34 @@ class Main extends Component {
 
   @autobind
   fetchTrending(offset) {
-    fetchGiphyTrending(offset, this.rating, SEARCH_LIMIT).then(({gifs}) => {
-      this.setState({
-        trendingGifs: gifs,
-        isTrending: true,
-        offset
-      })
+    this.setState({
+      status: {
+        message:  `Loading trending gifs...`,
+      },
     });
+    fetchGiphyTrending(offset, this.rating, SEARCH_LIMIT)
+      .then(({gifs}) => {
+        this.setState({
+          isTrending: true,
+          offset,
+          status: {},
+          trendingGifs: gifs
+        })
+      })
+      .catch(() => {
+        this.setState({
+          status: {
+            message:  `Could not load trending gifs, giphy not found!`,
+            imageUrl: `https://media3.giphy.com/media/l3V0HLYPfIKIVDyBG/giphy.gif`,
+            isError:  true,
+          },
+        })
+      });
+  }
+
+  @autobind
+  refreshTrending() {
+    this.fetchTrending(0);
   }
 
   calcPaginationAvailability(totalResults, currentResultCount, offset) {
@@ -258,6 +279,7 @@ class Main extends Component {
             changeOffset={this.changeOffset}
             count={SEARCH_LIMIT}
             currentOffset={this.state.offset}
+            handleRefresh={this.refreshTrending}
             isTrending={this.state.isTrending}
             navPrevEnabled={previousAvailable}
             navForwardEnabled={forwardAvailable}
