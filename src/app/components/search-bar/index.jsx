@@ -40,16 +40,16 @@ class SearchBar extends Component {
       <div className={styles.searchBar}>
         <form>
           <input
-            id="searchBar"
+            id='searchBar'
             ref={node => this.searchBar = node}
-            type="text"
-            placeholder="Search for gifs"
+            type='text'
+            placeholder='Search for gifs'
             value={this.state.value}
             onFocus={this.handleFocus}
             onKeyDown={this.handleKeyDown}
             onChange={this.handleChange}
           />
-          <button type="button" className="cancel" onClick={this.clearSearch}>X</button>
+          <button type='button' className='cancel' onClick={this.clearSearch}>X</button>
         </form>
       </div>
     )
@@ -61,39 +61,39 @@ class SearchBar extends Component {
   }
 
     @autobind
-  handleFocus(event) {
-    event.target.select();
-  }
-
-    @autobind
-  handleKeyDown(event) {
-    if (event.keyCode === ENTER_KEY) {
-      this.doSearch();
-      event.preventDefault();
-    }
-    if (event.keyCode === ESCAPE_KEY) {
-      if (this.state.value.length > 0) {
-        this.clearSearch();
-      }
-      else {
-        this.props.doExit();
-      }
-      event.preventDefault();
-    }
-    if (event.metaKey && event.keyCode === A_KEY ) {
+    handleFocus(event) {
       event.target.select();
     }
-  }
 
     @autobind
-  clearSearch() {
-    this.setState({value: ``});
-    this.props.doClear();
-  }
+    handleKeyDown(event) {
+      if (event.keyCode === ENTER_KEY) {
+        this.doSearch();
+        event.preventDefault();
+      }
+      if (event.keyCode === ESCAPE_KEY) {
+        if (this.state.value.length > 0) {
+          this.clearSearch();
+        }
+        else {
+          this.props.doExit();
+        }
+        event.preventDefault();
+      }
+      if (event.metaKey && event.keyCode === A_KEY ) {
+        event.target.select();
+      }
+    }
 
-  doSearch() {
-    this.props.doSearch(this.state.value);
-  }
+    @autobind
+    clearSearch() {
+      this.setState({value: ``});
+      this.props.doClear();
+    }
+
+    doSearch() {
+      this.props.doSearch(this.state.value);
+    }
 }
 
 export default SearchBar

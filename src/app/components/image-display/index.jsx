@@ -15,25 +15,33 @@ class ImageDisplay extends Component {
     }
   }
 
-    @autobind
+  @autobind
   handleMouseOver() {
     this.setState({
       hovered: true
     });
   }
 
-    @autobind
+  @autobind
   handleMouseLeave() {
     this.setState({
       hovered: false
     });
   }
 
+  @autobind
+  handleCopy() {
+    this.props.onCopy(this.props.image);
+  }
+
+  @autobind
+  handleOpenModal() {
+    this.props.onOpenModal(this.props.image);
+  }
+
   render () {
     const {
-      handleClick,
-      image,
-      onCopy
+      image
     } = this.props;
 
     const {
@@ -49,7 +57,7 @@ class ImageDisplay extends Component {
       info = (
         <div>
           <ImageInfo info={image.fullSizedImageFileSize} />
-          <ImageActions handleClick={onCopy} />
+          <ImageActions handleClick={this.handleCopy} />
         </div>
       );
     }
@@ -61,7 +69,7 @@ class ImageDisplay extends Component {
         onMouseOver={this.handleMouseOver}
         onMouseLeave={this.handleMouseLeave}
       >
-        <img src={image.displayUrl} onClick={handleClick} />
+        <img src={image.displayUrl} onClick={this.handleOpenModal} />
         {info}
       </div>
 
@@ -70,9 +78,9 @@ class ImageDisplay extends Component {
 }
 
 ImageDisplay.propTypes = {
-  handleClick: PropTypes.func.isRequired,
   image: PropTypes.object.isRequired,
-  onCopy: PropTypes.func.isRequired
+  onCopy: PropTypes.func.isRequired,
+  onOpenModal: PropTypes.func.isRequired
 }
 
 export default ImageDisplay

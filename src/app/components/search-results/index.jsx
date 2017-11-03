@@ -32,10 +32,10 @@ class SearchResults extends Component {
     else {
       const displayMap = (image) => {
         return <ImageDisplay
-          handleClick={openModal.bind(this, image)}
           image={image}
           key={image.id}
-          onCopy={copyUrl.bind(this, image)}
+          onCopy={copyUrl}
+          onOpenModal={openModal}
         />
       };
       const displayLeft = this.state.searchResultsLeft.map(displayMap);

@@ -8,7 +8,7 @@ class ImageActions extends Component {
     const {handleClick} = this.props;
     return (
       <div className={styles.actionItems}>
-        <button onClick={handleClick} title="Click to copy the Url">Copy</button>
+        <button onClick={handleClick} title='Click to copy the Url'>Copy</button>
       </div>
     );
   }
