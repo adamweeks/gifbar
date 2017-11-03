@@ -35,6 +35,11 @@ class ImageDisplay extends Component {
   }
 
   @autobind
+  handleFavorite() {
+    //TODO: Function
+  }
+
+  @autobind
   handleOpenModal() {
     this.props.onOpenModal(this.props.image);
   }
@@ -57,7 +62,10 @@ class ImageDisplay extends Component {
       info = (
         <div>
           <ImageInfo info={image.fullSizedImageFileSize} />
-          <ImageActions handleClick={this.handleCopy} />
+          <ImageActions
+            handleCopy={this.handleCopy}
+            handleFavorite={this.handleFavorite}
+          />
         </div>
       );
     }
@@ -69,7 +77,7 @@ class ImageDisplay extends Component {
         onMouseOver={this.handleMouseOver}
         onMouseLeave={this.handleMouseLeave}
       >
-        <img src={image.displayUrl} onClick={this.handleOpenModal} />
+        <img className={styles.image} src={image.displayUrl} onClick={this.handleOpenModal} />
         {info}
       </div>
 

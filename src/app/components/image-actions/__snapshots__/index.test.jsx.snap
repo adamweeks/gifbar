@@ -5,10 +5,24 @@ exports[`ImageActions component renders properly 1`] = `
   className="actionItems"
 >
   <button
-    onClick={[Function]}
+    className="button"
+    onClick={undefined}
+    title="Click to favorite"
+  >
+    <img
+      className="image"
+      src="test-file-stub"
+    />
+  </button>
+  <button
+    className="button"
+    onClick={undefined}
     title="Click to copy the Url"
   >
-    Copy
+    <img
+      className="image"
+      src="test-file-stub"
+    />
   </button>
 </div>
 `;
