@@ -47,7 +47,7 @@ class StaticFooter extends Component {
       showNav,
       totalResults
     } = this.props;
-    const title = this.buildTitle(isTrending, totalResults, count, currentOffset);
+    const title = this.props.title ? this.props.title : this.buildTitle(isTrending, totalResults, count, currentOffset);
     let leftNav, rightNav;
     if (isTrending) {
       leftNav = {
@@ -94,6 +94,7 @@ StaticFooter.propTypes = {
   navPrevEnabled: PropTypes.bool,
   navForwardEnabled: PropTypes.bool,
   showNav: PropTypes.bool,
+  title: PropTypes.string,
   totalResults: PropTypes.number,
 };
 
