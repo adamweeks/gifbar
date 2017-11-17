@@ -7,12 +7,18 @@ import StaticFooter from '../../components/static-footer';
 
 import {doGiphySearch, fetchGiphyTrending} from '../../giphy-search';
 import {getGlobalElectronProperty, setGlobalElectronProperty} from '../../utils';
+import {getFavorites, storeFavorite} from '../../favorites';
 
 import loadingImage from '../../images/loading.gif';
 import style from './styles.css';
 
 const SEARCH_LIMIT = 25;
 const BrowserWindow = electron.remote.BrowserWindow;
+const viewModes = {
+  searchResults: 0,
+  trending: 1,
+  favorites: 2
+};
 
 const initialState = {
   currentSearchTerm: ``,
@@ -20,9 +26,11 @@ const initialState = {
   status: {},
   offset: 0,
   shouldFocus: false,
+  title: null,
   totalResults: 0,
   trendingGifs: [],
-  isTrending: true
+  isTrending: true,
+  viewMode: viewModes.trending
 };
 
 class Main extends Component {
@@ -49,7 +57,7 @@ class Main extends Component {
 
   @autobind
   doClear() {
-    if (this.state.currentSearchTerm === ``) {
+    if (this.state.currentSearchTerm === `` && this.state.viewMode === viewModes.trending) {
       this.hideCurrentWindow();
     }
     this.setState(Object.assign({}, initialState, {trendingGifs: this.state.trendingGifs}));
@@ -81,7 +89,8 @@ class Main extends Component {
         status: {
           message: `Searching for "${searchTerm}"...`,
           imageUrl: loadingImage,
-        }
+        },
+        viewMode: viewModes.searchResults
       });
 
       doGiphySearch(searchTerm, offset, this.rating, SEARCH_LIMIT).then(({gifs, pagination}) => {
@@ -191,6 +200,24 @@ class Main extends Component {
   }
 
   @autobind
+  displayFavorites() {
+    const favorites = getFavorites();
+    this.setState({
+      gifs: favorites,
+      isTrending: false,
+      offset: 0,
+      status: {},
+      title: `Favorites`,
+      viewMode: viewModes.favorites
+    });
+  }
+
+  @autobind
+  favoriteImage(image) {
+    storeFavorite(image);
+  }
+
+  @autobind
   handleSearchBarFocus() {
     this.setState({shouldFocus: false});
   }
@@ -269,9 +296,10 @@ class Main extends Component {
         <div className={style.results}>
           <SearchResults
             copyUrl={this.copyUrl}
-            status={this.state.status}
+            favoriteImage={this.favoriteImage}
             openModal={this.showModal}
             results={results}
+            status={this.state.status}
           />
         </div>
         <div className={style.attribution}>
@@ -279,12 +307,15 @@ class Main extends Component {
             changeOffset={this.changeOffset}
             count={SEARCH_LIMIT}
             currentOffset={this.state.offset}
+            displayFavorites={this.displayFavorites}
             handleRefresh={this.refreshTrending}
             isTrending={this.state.isTrending}
             navPrevEnabled={previousAvailable}
             navForwardEnabled={forwardAvailable}
             showNav={showPagination}
+            title={this.state.title}
             totalResults={this.state.totalResults}
+            viewMode={this.viewMode}
           />
         </div>
       </div>
