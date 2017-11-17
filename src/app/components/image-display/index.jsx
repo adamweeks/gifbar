@@ -36,7 +36,7 @@ class ImageDisplay extends Component {
 
   @autobind
   handleFavorite() {
-    //TODO: Function
+    this.props.onFavorite(this.props.image);
   }
 
   @autobind
@@ -88,6 +88,7 @@ class ImageDisplay extends Component {
 ImageDisplay.propTypes = {
   image: PropTypes.object.isRequired,
   onCopy: PropTypes.func.isRequired,
+  onFavorite: PropTypes.func.isRequired,
   onOpenModal: PropTypes.func.isRequired
 }
 
