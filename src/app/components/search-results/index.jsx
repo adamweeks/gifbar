@@ -19,7 +19,7 @@ class SearchResults extends Component {
 
 
   render () {
-    const {status, openModal, copyUrl} = this.props;
+    const {favoriteImage, status, openModal, copyUrl} = this.props;
     let display;
     if (status && status.message) {
       display = (
@@ -35,6 +35,7 @@ class SearchResults extends Component {
           image={image}
           key={image.id}
           onCopy={copyUrl}
+          onFavorite={favoriteImage}
           onOpenModal={openModal}
         />
       };
@@ -90,6 +91,7 @@ class SearchResults extends Component {
 
 SearchResults.propTypes = {
   copyUrl: PropTypes.func.isRequired,
+  favoriteImage: PropTypes.func.isRequired,
   status: PropTypes.object,
   openModal: PropTypes.func.isRequired,
   results: PropTypes.array.isRequired
