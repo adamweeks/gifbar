@@ -37,3 +37,5 @@ Pronunciation: Much like how the creator of the file format has told us that it'
 Or: Pronounce it with a hard 'G' like 'goat' or 'golf'. Do whatever you like and don't let people tell you how to live.
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/adamweeks/gifbar.svg)](https://greenkeeper.io/)
+
+In-app icons courtesy of [flaticons.net/](http://flaticons.net/)

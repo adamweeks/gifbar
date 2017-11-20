@@ -45,11 +45,16 @@ describe(`SearchResults component`, () => {
     image2,
     image3
   ]
+  const favoriteImage = jest.fn();
+  const removeFavorite = jest.fn();
   const component = renderer.create(
     <SearchResults
       copyUrl={copyUrl}
+      favoriteImage={favoriteImage}
       openModal={openModal}
+      removeFavorite={removeFavorite}
       results={results}
+      viewMode={`trending`}
     />
   );
 
@@ -61,9 +66,12 @@ describe(`SearchResults component`, () => {
     const component = renderer.create(
       <SearchResults
         copyUrl={copyUrl}
+        favoriteImage={favoriteImage}
         status={status}
         openModal={openModal}
+        removeFavorite={removeFavorite}
         results={results}
+        viewMode={`trending`}
       />
     );
     expect(component).toMatchSnapshot();

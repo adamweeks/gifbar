@@ -1,3 +1,9 @@
+export const viewModes = {
+  searchResults: `searchResults`,
+  trending: `trending`,
+  favorites: `favorites`
+};
+
 export function getReadableFileSizeString(fileSize) {
   let fileSizeInBytes = parseInt(fileSize);
   let i = -1;
