@@ -15,9 +15,18 @@ storage.get(`favorites`, (error, data) => {
 
 export function storeFavorite(image) {
   favorites.push(image);
-  storage.set(`favorites`, {items: favorites});
+  saveFavorites();
 }
 
 export function getFavorites(amount=20, offset=0) {
   return favorites.slice(offset, offset+amount);
+}
+
+export function removeFavorite(image) {
+  favorites.splice(favorites.findIndex((favImage) => favImage.id === image.id), 1);
+  saveFavorites();
+}
+
+function saveFavorites() {
+  storage.set(`favorites`, {items: favorites});
 }
