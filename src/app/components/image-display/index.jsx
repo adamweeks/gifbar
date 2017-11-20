@@ -44,9 +44,16 @@ class ImageDisplay extends Component {
     this.props.onOpenModal(this.props.image);
   }
 
+  @autobind
+  handleRemoveFavorite() {
+    this.props.onRemoveFavorite(this.props.image);
+  }
+
   render () {
     const {
-      image
+      image,
+      showFavorite,
+      showRemoveFavorite
     } = this.props;
 
     const {
@@ -65,6 +72,9 @@ class ImageDisplay extends Component {
           <ImageActions
             handleCopy={this.handleCopy}
             handleFavorite={this.handleFavorite}
+            handleRemoveFavorite={this.handleRemoveFavorite}
+            showFavorite={showFavorite}
+            showRemoveFavorite={showRemoveFavorite}
           />
         </div>
       );
@@ -88,8 +98,11 @@ class ImageDisplay extends Component {
 ImageDisplay.propTypes = {
   image: PropTypes.object.isRequired,
   onCopy: PropTypes.func.isRequired,
-  onFavorite: PropTypes.func.isRequired,
-  onOpenModal: PropTypes.func.isRequired
+  onFavorite: PropTypes.func,
+  onOpenModal: PropTypes.func.isRequired,
+  onRemoveFavorite: PropTypes.func,
+  showFavorite: PropTypes.bool,
+  showRemoveFavorite: PropTypes.bool
 }
 
 export default ImageDisplay
