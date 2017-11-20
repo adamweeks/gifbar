@@ -12,6 +12,7 @@ exports[`ImageDisplay component renders properly 1`] = `
   }
 >
   <img
+    className="image"
     onClick={[Function]}
     src="http://mycoolserver.info/kid-n-play.gif"
   />

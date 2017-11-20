@@ -5,10 +5,68 @@ exports[`ImageActions component renders properly 1`] = `
   className="actionItems"
 >
   <button
+    className="button"
     onClick={[Function]}
     title="Click to copy the Url"
   >
-    Copy
+    <img
+      className="image"
+      src="test-file-stub"
+    />
+  </button>
+</div>
+`;
+
+exports[`ImageActions component renders properly with favorite 1`] = `
+<div
+  className="actionItems"
+>
+  <button
+    className="button"
+    onClick={[Function]}
+    title="Click to favorite"
+  >
+    <img
+      className="image"
+      src="test-file-stub"
+    />
+  </button>
+  <button
+    className="button"
+    onClick={[Function]}
+    title="Click to copy the Url"
+  >
+    <img
+      className="image"
+      src="test-file-stub"
+    />
+  </button>
+</div>
+`;
+
+exports[`ImageActions component renders properly with remove favorite 1`] = `
+<div
+  className="actionItems"
+>
+  <button
+    className="button"
+    onClick={[Function]}
+    title="Remove from favorite"
+  >
+    <img
+      className="image"
+      src="test-file-stub"
+    />
+  </button>
+  <button
+    className="button"
+    onClick={[Function]}
+    title="Click to copy the Url"
+  >
+    <img
+      className="image"
+      src="test-file-stub"
+    />
   </button>
 </div>
 `;

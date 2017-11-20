@@ -9,6 +9,13 @@ jest.mock(`../../giphy-search`, () => {
   };
 });
 
+jest.mock(`electron-json-storage`, () => {
+  return {
+    get: jest.fn(() => ({items: []})),
+    set: jest.fn()
+  };
+});
+
 describe(`Main component`, () => {
   electron.remote.BrowserWindow = jest.fn();
   electron.remote.getGlobal = jest.fn(() => global);

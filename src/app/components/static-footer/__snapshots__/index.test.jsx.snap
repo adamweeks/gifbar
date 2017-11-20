@@ -1,172 +1,190 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`StaticFooter component renders properly trending 1`] = `
-<div
-  className="footer"
->
+<div>
   <div
-    className="side"
-  />
-  <div
-    className="main"
+    className="footer"
   >
     <div
-      className="title"
+      className="side"
     >
-      Top Trending GIFs!
+      <div
+        className="button"
+        onClick={undefined}
+      >
+        <img
+          className="imgButton"
+          src="test-file-stub"
+        />
+      </div>
     </div>
     <div
-      className="attribution"
+      className="main"
     >
-      <img
-        className="img"
-        src="test-file-stub"
-      />
+      <div
+        className="title"
+      >
+        Top Trending GIFs!
+      </div>
+      <div
+        className="attribution"
+      >
+        <img
+          className="img"
+          src="test-file-stub"
+        />
+      </div>
     </div>
-  </div>
-  <div
-    className="side"
-  >
     <div
-      className="button"
-      onClick={undefined}
+      className="side"
     >
-      <img
-        className="imgRefresh"
-        src="test-file-stub"
-      />
+      <div
+        className="button"
+        onClick={undefined}
+      >
+        <img
+          className="imgButton"
+          src="test-file-stub"
+        />
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`StaticFooter component show nav renders properly 1`] = `
-<div
-  className="footer"
->
+<div>
   <div
-    className="side"
+    className="footer"
   >
     <div
-      className="button"
-      onClick={[Function]}
+      className="side"
     >
-      &lt;
-    </div>
-  </div>
-  <div
-    className="main"
-  >
-    <div
-      className="title"
-    >
-      Showing page 1 of 10
+      <div
+        className="button"
+        onClick={[Function]}
+      >
+        &lt;
+      </div>
     </div>
     <div
-      className="attribution"
+      className="main"
     >
-      <img
-        className="img"
-        src="test-file-stub"
-      />
+      <div
+        className="title"
+      >
+        Showing page 1 of 10
+      </div>
+      <div
+        className="attribution"
+      >
+        <img
+          className="img"
+          src="test-file-stub"
+        />
+      </div>
     </div>
-  </div>
-  <div
-    className="side"
-  >
     <div
-      className="button"
-      onClick={[Function]}
+      className="side"
     >
-      &gt;
+      <div
+        className="button"
+        onClick={[Function]}
+      >
+        &gt;
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`StaticFooter component show nav renders properly with forward disabled 1`] = `
-<div
-  className="footer"
->
+<div>
   <div
-    className="side"
+    className="footer"
   >
     <div
-      className="button"
-      onClick={[Function]}
+      className="side"
     >
-      &lt;
-    </div>
-  </div>
-  <div
-    className="main"
-  >
-    <div
-      className="title"
-    >
-      Showing page 1 of 10
+      <div
+        className="button"
+        onClick={[Function]}
+      >
+        &lt;
+      </div>
     </div>
     <div
-      className="attribution"
+      className="main"
     >
-      <img
-        className="img"
-        src="test-file-stub"
-      />
+      <div
+        className="title"
+      >
+        Showing page 1 of 10
+      </div>
+      <div
+        className="attribution"
+      >
+        <img
+          className="img"
+          src="test-file-stub"
+        />
+      </div>
     </div>
-  </div>
-  <div
-    className="side"
-  >
     <div
-      className="button buttonDisabled"
-      onClick={[Function]}
+      className="side"
     >
-      &gt;
+      <div
+        className="button buttonDisabled"
+        onClick={[Function]}
+      >
+        &gt;
+      </div>
     </div>
   </div>
 </div>
 `;
 
 exports[`StaticFooter component show nav renders properly with prev disabled 1`] = `
-<div
-  className="footer"
->
+<div>
   <div
-    className="side"
+    className="footer"
   >
     <div
-      className="button buttonDisabled"
-      onClick={[Function]}
+      className="side"
     >
-      &lt;
-    </div>
-  </div>
-  <div
-    className="main"
-  >
-    <div
-      className="title"
-    >
-      Showing page 1 of 10
+      <div
+        className="button buttonDisabled"
+        onClick={[Function]}
+      >
+        &lt;
+      </div>
     </div>
     <div
-      className="attribution"
+      className="main"
     >
-      <img
-        className="img"
-        src="test-file-stub"
-      />
+      <div
+        className="title"
+      >
+        Showing page 1 of 10
+      </div>
+      <div
+        className="attribution"
+      >
+        <img
+          className="img"
+          src="test-file-stub"
+        />
+      </div>
     </div>
-  </div>
-  <div
-    className="side"
-  >
     <div
-      className="button"
-      onClick={[Function]}
+      className="side"
     >
-      &gt;
+      <div
+        className="button"
+        onClick={[Function]}
+      >
+        &gt;
+      </div>
     </div>
   </div>
 </div>

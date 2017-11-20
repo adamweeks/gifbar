@@ -5,7 +5,7 @@
     color: black;
 }
 
-.image-container img {
+.image {
     width: 200px;
     display: block;
     z-index: 9;

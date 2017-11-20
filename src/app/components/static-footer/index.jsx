@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import autobind from 'autobind-decorator';
 
-import styles from './styles.css';
-import image from './giphy.gif';
+import FooterNav from '../footer-nav';
+
 import refresh from '../../images/Command-Refresh-128.png';
+import favoriteImage from '../../images/Shape-Star2-128.png';
 
 class StaticFooter extends Component {
   buildTitle(isTrending, totalResults, count, offset) {
@@ -47,50 +47,38 @@ class StaticFooter extends Component {
       showNav,
       totalResults
     } = this.props;
-    const title = this.buildTitle(isTrending, totalResults, count, currentOffset);
-    const prevClass = classNames({
-      [`${styles.button}`]: true,
-      [`${styles.buttonDisabled}`]: !navPrevEnabled
-    });
-    const nextClass = classNames({
-      [`${styles.button}`]: true,
-      [`${styles.buttonDisabled}`]: !navForwardEnabled
-    });
+    const title = this.props.title ? this.props.title : this.buildTitle(isTrending, totalResults, count, currentOffset);
+    let leftNav, rightNav;
+    if (isTrending) {
+      leftNav = {
+        image: favoriteImage,
+        onClick: this.props.displayFavorites
+      };
+      rightNav = {
+        image: refresh,
+        onClick: this.props.handleRefresh
+      }
+    }
+    if (showNav) {
+      leftNav = {
+        disabled: !navPrevEnabled,
+        title: `<`,
+        onClick: this.decrement
+      };
+      rightNav = {
+        disabled: !navForwardEnabled,
+        title: `>`,
+        onClick: this.increment
+      }
+    }
+
     return (
-      <div className={styles.footer}>
-        {isTrending && (
-          // empty area to balance out the refresh button because i'm lazy
-          <div className={styles.side} />
-        )}
-        {showNav && (
-          <div className={styles.side}>
-            <div className={prevClass} onClick={this.decrement}>
-              {`<`}
-            </div>
-          </div>
-        )}
-        <div className={styles.main}>
-          <div className={styles.title}>
-            {title}
-          </div>
-          <div className={styles.attribution}>
-            <img className={styles.img} src={image} />
-          </div>
-        </div>
-        {showNav && (
-          <div className={styles.side}>
-            <div className={nextClass} onClick={this.increment}>
-              {`>`}
-            </div>
-          </div>
-        )}
-        {isTrending && (
-          <div className={styles.side}>
-            <div className={styles.button} onClick={this.props.handleRefresh}>
-              <img className={styles.imgRefresh} src={refresh} />
-            </div>
-          </div>
-        )}
+      <div>
+        <FooterNav
+          leftNav={leftNav}
+          rightNav={rightNav}
+          title={title}
+        />
       </div>
     );
   }
@@ -100,11 +88,13 @@ StaticFooter.propTypes = {
   count: PropTypes.number,
   changeOffset: PropTypes.func,
   currentOffset: PropTypes.number,
+  displayFavorites: PropTypes.func,
   handleRefresh: PropTypes.func,
   isTrending: PropTypes.bool,
   navPrevEnabled: PropTypes.bool,
   navForwardEnabled: PropTypes.bool,
   showNav: PropTypes.bool,
+  title: PropTypes.string,
   totalResults: PropTypes.number,
 };
 

@@ -6,7 +6,8 @@ import SearchResults from '../../components/search-results';
 import StaticFooter from '../../components/static-footer';
 
 import {doGiphySearch, fetchGiphyTrending} from '../../giphy-search';
-import {getGlobalElectronProperty, setGlobalElectronProperty} from '../../utils';
+import {getGlobalElectronProperty, setGlobalElectronProperty, viewModes} from '../../utils';
+import {getFavorites, removeFavorite, storeFavorite} from '../../favorites';
 
 import loadingImage from '../../images/loading.gif';
 import style from './styles.css';
@@ -20,9 +21,11 @@ const initialState = {
   status: {},
   offset: 0,
   shouldFocus: false,
+  title: null,
   totalResults: 0,
   trendingGifs: [],
-  isTrending: true
+  isTrending: true,
+  viewMode: viewModes.trending
 };
 
 class Main extends Component {
@@ -49,10 +52,10 @@ class Main extends Component {
 
   @autobind
   doClear() {
-    if (this.state.currentSearchTerm === ``) {
+    if (this.state.currentSearchTerm === `` && this.state.viewMode === viewModes.trending) {
       this.hideCurrentWindow();
     }
-    this.setState(Object.assign({}, initialState, {trendingGifs: this.state.trendingGifs}));
+    this.setState(Object.assign({}, initialState, {gifs: this.state.trendingGifs, trendingGifs: this.state.trendingGifs}));
   }
 
   /**
@@ -81,7 +84,8 @@ class Main extends Component {
         status: {
           message: `Searching for "${searchTerm}"...`,
           imageUrl: loadingImage,
-        }
+        },
+        viewMode: viewModes.searchResults
       });
 
       doGiphySearch(searchTerm, offset, this.rating, SEARCH_LIMIT).then(({gifs, pagination}) => {
@@ -191,6 +195,29 @@ class Main extends Component {
   }
 
   @autobind
+  displayFavorites() {
+    const favorites = getFavorites();
+    this.setState({
+      gifs: favorites,
+      isTrending: false,
+      offset: 0,
+      status: {},
+      title: `Favorites`,
+      viewMode: viewModes.favorites
+    });
+  }
+
+  favoriteImage(image) {
+    storeFavorite(image);
+  }
+
+  @autobind
+  removeFavoriteImage(image) {
+    removeFavorite(image);
+    this.displayFavorites();
+  }
+
+  @autobind
   handleSearchBarFocus() {
     this.setState({shouldFocus: false});
   }
@@ -205,10 +232,12 @@ class Main extends Component {
     fetchGiphyTrending(offset, this.rating, SEARCH_LIMIT)
       .then(({gifs}) => {
         this.setState({
+          gifs,
           isTrending: true,
           offset,
           status: {},
-          trendingGifs: gifs
+          trendingGifs: gifs,
+          viewMode: viewModes.trending
         })
       })
       .catch(() => {
@@ -250,11 +279,8 @@ class Main extends Component {
 
   render() {
 
-    const paginationResults = this.calcPaginationAvailability(this.state.totalResults, this.state.gifs.length, this.state.offset);
-    const previousAvailable = paginationResults.previousAvailable;
-    const forwardAvailable = paginationResults.forwardAvailable;
-    const showPagination = this.state.isTrending ? false : this.state.totalResults > 0;
-    const results = this.state.isTrending ? this.state.trendingGifs : this.state.gifs;
+    const {previousAvailable, forwardAvailable} = this.calcPaginationAvailability(this.state.totalResults, this.state.gifs.length, this.state.offset);
+    const showPagination = this.state.viewMode === viewModes.searchResults && this.state.totalResults > 0;
     return (
       <div className={style.mainContainer}>
         <div className={style.searchBar}>
@@ -269,9 +295,12 @@ class Main extends Component {
         <div className={style.results}>
           <SearchResults
             copyUrl={this.copyUrl}
-            status={this.state.status}
+            favoriteImage={this.favoriteImage}
             openModal={this.showModal}
-            results={results}
+            removeFavorite={this.removeFavoriteImage}
+            results={this.state.gifs}
+            status={this.state.status}
+            viewMode={this.state.viewMode}
           />
         </div>
         <div className={style.attribution}>
@@ -279,12 +308,15 @@ class Main extends Component {
             changeOffset={this.changeOffset}
             count={SEARCH_LIMIT}
             currentOffset={this.state.offset}
+            displayFavorites={this.displayFavorites}
             handleRefresh={this.refreshTrending}
             isTrending={this.state.isTrending}
             navPrevEnabled={previousAvailable}
             navForwardEnabled={forwardAvailable}
             showNav={showPagination}
+            title={this.state.title}
             totalResults={this.state.totalResults}
+            viewMode={this.state.viewMode}
           />
         </div>
       </div>

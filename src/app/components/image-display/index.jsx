@@ -35,13 +35,25 @@ class ImageDisplay extends Component {
   }
 
   @autobind
+  handleFavorite() {
+    this.props.onFavorite(this.props.image);
+  }
+
+  @autobind
   handleOpenModal() {
     this.props.onOpenModal(this.props.image);
   }
 
+  @autobind
+  handleRemoveFavorite() {
+    this.props.onRemoveFavorite(this.props.image);
+  }
+
   render () {
     const {
-      image
+      image,
+      showFavorite,
+      showRemoveFavorite
     } = this.props;
 
     const {
@@ -57,7 +69,13 @@ class ImageDisplay extends Component {
       info = (
         <div>
           <ImageInfo info={image.fullSizedImageFileSize} />
-          <ImageActions handleClick={this.handleCopy} />
+          <ImageActions
+            handleCopy={this.handleCopy}
+            handleFavorite={this.handleFavorite}
+            handleRemoveFavorite={this.handleRemoveFavorite}
+            showFavorite={showFavorite}
+            showRemoveFavorite={showRemoveFavorite}
+          />
         </div>
       );
     }
@@ -69,7 +87,7 @@ class ImageDisplay extends Component {
         onMouseOver={this.handleMouseOver}
         onMouseLeave={this.handleMouseLeave}
       >
-        <img src={image.displayUrl} onClick={this.handleOpenModal} />
+        <img className={styles.image} src={image.displayUrl} onClick={this.handleOpenModal} />
         {info}
       </div>
 
@@ -80,7 +98,11 @@ class ImageDisplay extends Component {
 ImageDisplay.propTypes = {
   image: PropTypes.object.isRequired,
   onCopy: PropTypes.func.isRequired,
-  onOpenModal: PropTypes.func.isRequired
+  onFavorite: PropTypes.func,
+  onOpenModal: PropTypes.func.isRequired,
+  onRemoveFavorite: PropTypes.func,
+  showFavorite: PropTypes.bool,
+  showRemoveFavorite: PropTypes.bool
 }
 
 export default ImageDisplay
