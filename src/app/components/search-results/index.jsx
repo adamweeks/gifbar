@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator'
 
 import ImageDisplay from '../image-display';
+import {viewModes} from '../../utils';
 
 import styles from './styles.css';
 
@@ -19,7 +20,14 @@ class SearchResults extends Component {
 
 
   render () {
-    const {favoriteImage, status, openModal, copyUrl} = this.props;
+    const {
+      favoriteImage,
+      removeFavorite,
+      status,
+      openModal,
+      copyUrl,
+      viewMode
+    } = this.props;
     let display;
     if (status && status.message) {
       display = (
@@ -36,7 +44,10 @@ class SearchResults extends Component {
           key={image.id}
           onCopy={copyUrl}
           onFavorite={favoriteImage}
+          onRemoveFavorite={removeFavorite}
           onOpenModal={openModal}
+          showFavorite={viewMode!==viewModes.favorites}
+          showRemoveFavorite={viewMode===viewModes.favorites}
         />
       };
       const displayLeft = this.state.searchResultsLeft.map(displayMap);
@@ -92,9 +103,11 @@ class SearchResults extends Component {
 SearchResults.propTypes = {
   copyUrl: PropTypes.func.isRequired,
   favoriteImage: PropTypes.func.isRequired,
+  removeFavorite: PropTypes.func.isRequired,
   status: PropTypes.object,
   openModal: PropTypes.func.isRequired,
-  results: PropTypes.array.isRequired
+  results: PropTypes.array.isRequired,
+  viewMode: PropTypes.string.isRequired
 }
 
 export default SearchResults
