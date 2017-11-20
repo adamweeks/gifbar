@@ -60,7 +60,7 @@ class Main extends Component {
     if (this.state.currentSearchTerm === `` && this.state.viewMode === viewModes.trending) {
       this.hideCurrentWindow();
     }
-    this.setState(Object.assign({}, initialState, {trendingGifs: this.state.trendingGifs}));
+    this.setState(Object.assign({}, initialState, {gifs: this.state.trendingGifs, trendingGifs: this.state.trendingGifs}));
   }
 
   /**
@@ -232,10 +232,12 @@ class Main extends Component {
     fetchGiphyTrending(offset, this.rating, SEARCH_LIMIT)
       .then(({gifs}) => {
         this.setState({
+          gifs,
           isTrending: true,
           offset,
           status: {},
-          trendingGifs: gifs
+          trendingGifs: gifs,
+          viewMode: viewModes.trending
         })
       })
       .catch(() => {
@@ -277,11 +279,8 @@ class Main extends Component {
 
   render() {
 
-    const paginationResults = this.calcPaginationAvailability(this.state.totalResults, this.state.gifs.length, this.state.offset);
-    const previousAvailable = paginationResults.previousAvailable;
-    const forwardAvailable = paginationResults.forwardAvailable;
-    const showPagination = this.state.isTrending ? false : this.state.totalResults > 0;
-    const results = this.state.isTrending ? this.state.trendingGifs : this.state.gifs;
+    const {previousAvailable, forwardAvailable} = this.calcPaginationAvailability(this.state.totalResults, this.state.gifs.length, this.state.offset);
+    const showPagination = this.state.viewMode === viewModes.searchResults && this.state.totalResults > 0;
     return (
       <div className={style.mainContainer}>
         <div className={style.searchBar}>
@@ -298,7 +297,7 @@ class Main extends Component {
             copyUrl={this.copyUrl}
             favoriteImage={this.favoriteImage}
             openModal={this.showModal}
-            results={results}
+            results={this.state.gifs}
             status={this.state.status}
           />
         </div>
