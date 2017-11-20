@@ -1,8 +1,21 @@
-// TODO: load favorites from storage
-export const favorites = [];
+import storage from "electron-json-storage";
+
+let favorites = [];
+
+storage.get(`favorites`, (error, data) => {
+  if (error) {
+    // eslint-disable-next-line no-console
+    console.error(`Unable to load favorites: ${error}`);
+    return;
+  }
+  if (Array.isArray(data.items)) {
+    favorites = data.items;
+  }
+});
 
 export function storeFavorite(image) {
   favorites.push(image);
+  storage.set(`favorites`, {items: favorites});
 }
 
 export function getFavorites(amount=20, offset=0) {
