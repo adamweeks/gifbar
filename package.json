@@ -32,7 +32,7 @@
     "classnames": "^2.2.5",
     "css-loader": "^0.28.4",
     "electron": "^1.7.5",
-    "electron-packager": "^9.0.0",
+    "electron-packager": "^10.0.0",
     "electron-positioner": "^3.0.0",
     "electron-settings": "^3.1.1",
     "es6-shim": "^0.35.3",
