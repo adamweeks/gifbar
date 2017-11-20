@@ -6,19 +6,14 @@ import SearchResults from '../../components/search-results';
 import StaticFooter from '../../components/static-footer';
 
 import {doGiphySearch, fetchGiphyTrending} from '../../giphy-search';
-import {getGlobalElectronProperty, setGlobalElectronProperty} from '../../utils';
-import {getFavorites, storeFavorite} from '../../favorites';
+import {getGlobalElectronProperty, setGlobalElectronProperty, viewModes} from '../../utils';
+import {getFavorites, removeFavorite, storeFavorite} from '../../favorites';
 
 import loadingImage from '../../images/loading.gif';
 import style from './styles.css';
 
 const SEARCH_LIMIT = 25;
 const BrowserWindow = electron.remote.BrowserWindow;
-const viewModes = {
-  searchResults: 0,
-  trending: 1,
-  favorites: 2
-};
 
 const initialState = {
   currentSearchTerm: ``,
@@ -212,9 +207,14 @@ class Main extends Component {
     });
   }
 
-  @autobind
   favoriteImage(image) {
     storeFavorite(image);
+  }
+
+  @autobind
+  removeFavoriteImage(image) {
+    removeFavorite(image);
+    this.displayFavorites();
   }
 
   @autobind
@@ -297,8 +297,10 @@ class Main extends Component {
             copyUrl={this.copyUrl}
             favoriteImage={this.favoriteImage}
             openModal={this.showModal}
+            removeFavorite={this.removeFavoriteImage}
             results={this.state.gifs}
             status={this.state.status}
+            viewMode={this.state.viewMode}
           />
         </div>
         <div className={style.attribution}>
@@ -314,7 +316,7 @@ class Main extends Component {
             showNav={showPagination}
             title={this.state.title}
             totalResults={this.state.totalResults}
-            viewMode={this.viewMode}
+            viewMode={this.state.viewMode}
           />
         </div>
       </div>
