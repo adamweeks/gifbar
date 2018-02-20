@@ -1,6 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {render} from 'react-native';
 
 import Main from './containers/main';
 
-ReactDOM.render(<Main />, document.getElementById(`main`));
+render(<Main />, document.getElementById(`main`));

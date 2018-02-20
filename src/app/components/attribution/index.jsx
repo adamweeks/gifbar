@@ -1,12 +1,14 @@
 import React from 'react';
 
+import {Image} from 'react-native';
+
 import image from './giphy.gif';
 import styles from './styles.css';
 
 const Attribution = () => {
   return (
     <div>
-      <img className={styles.attribution} src={image} />
+      <Image source={image} />
     </div>
   );
 };

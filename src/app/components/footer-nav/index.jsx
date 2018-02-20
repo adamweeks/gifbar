@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Image, StyleSheet} from 'react-native';
+
 import classNames from 'classnames';
 import styles from './styles.css';
 import giphyImage from './giphy.gif';
+
+const rnStyles = StyleSheet.create({
+  img: {height: 23}
+});
 
 
 function footerNav({leftNav, rightNav, title}) {
@@ -31,7 +37,8 @@ function footerNav({leftNav, rightNav, title}) {
           {title}
         </div>
         <div className={styles.attribution}>
-          <img className={styles.img} src={giphyImage} />
+          <Image source={giphyImage} style={rnStyles.img} />
+
         </div>
       </div>
       <div className={styles.side}>
