@@ -43,7 +43,7 @@
     "file-loader": "^1.1.5",
     "greenkeeper-lockfile": "^1.7.2",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^21.2.1",
+    "jest": "^22.1.4",
     "menubar": "^5.2.3",
     "minimist": "^1.2.0",
     "prop-types": "^15.5.8",
