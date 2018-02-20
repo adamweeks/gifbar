@@ -6,7 +6,7 @@ exports[`ImageActions component renders properly 1`] = `
 >
   <button
     className="button"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     title="Click to copy the Url"
   >
     <img
@@ -23,7 +23,7 @@ exports[`ImageActions component renders properly with favorite 1`] = `
 >
   <button
     className="button"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     title="Click to favorite"
   >
     <img
@@ -33,7 +33,7 @@ exports[`ImageActions component renders properly with favorite 1`] = `
   </button>
   <button
     className="button"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     title="Click to copy the Url"
   >
     <img
@@ -50,7 +50,7 @@ exports[`ImageActions component renders properly with remove favorite 1`] = `
 >
   <button
     className="button"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     title="Remove from favorite"
   >
     <img
@@ -60,7 +60,7 @@ exports[`ImageActions component renders properly with remove favorite 1`] = `
   </button>
   <button
     className="button"
-    onClick={[Function]}
+    onClick={[MockFunction]}
     title="Click to copy the Url"
   >
     <img
