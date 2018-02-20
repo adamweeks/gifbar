@@ -31,7 +31,7 @@
     "babel-preset-react": "^6.24.1",
     "classnames": "^2.2.5",
     "css-loader": "^0.28.4",
-    "electron": "^1.7.5",
+    "electron": "^1.8.2",
     "electron-json-storage": "^4.0.2",
     "electron-packager": "^10.1.0",
     "electron-positioner": "^3.0.0",
