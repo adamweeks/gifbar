@@ -3,6 +3,7 @@ const events = require(`events`);
 
 const electron = require(`electron`);
 const {ipcMain, app, Tray, Menu, globalShortcut, BrowserWindow, Notification, shell} = electron;
+import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 
 const settings = require(`electron-settings`);
 
@@ -47,6 +48,8 @@ function create (opts) {
   return menubar;
 
   function appReady () {
+    installExtension(REACT_DEVELOPER_TOOLS)
+
     global.sharedObject = {
       alwaysOnTop:    settings.get(`alwaysOnTop`, false),
       hideNSFW:       settings.get(`hideNSFW`, true),
