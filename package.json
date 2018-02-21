@@ -87,7 +87,7 @@
   },
   "devDependencies": {
     "electron-devtools-installer": "^2.2.3",
-    "eslint-config-standard-react": "^5.0.0",
+    "eslint-config-standard-react": "^6.0.0",
     "rimraf": "^2.6.1"
   }
 }
