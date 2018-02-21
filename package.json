@@ -14,7 +14,7 @@
     "release": "npm run build; npm run release-mac; open ./releases",
     "dmg": "npx electron-installer-dmg ./releases/gifbar-darwin-x64/gifbar.app GIFBar --out=./releases --overwrite; open ./releases",
     "electron": "electron build",
-    "test": "jest",
+    "test": "npm run eslint && jest",
     "eslint": "eslint --ext .jsx --ext .js src"
   },
   "author": "Adam Weeks",
@@ -38,7 +38,7 @@
     "electron-settings": "^3.1.1",
     "es6-shim": "^0.35.3",
     "eslint": "^4.3.0",
-    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-react": "^7.7.0",
     "extend": "^3.0.0",
     "file-loader": "^1.1.5",
     "greenkeeper-lockfile": "^1.7.2",
