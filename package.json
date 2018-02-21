@@ -11,7 +11,8 @@
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
     "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --no-tmpdr --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns --no-prune",
     "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --no-tmpdr --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns --no-prune",
-    "release": "npm run build; npm run release-mac; open ./releases",
+    "release:build": "npm run build; npm run release-mac; open ./releases",
+    "release": "standard-version",
     "dmg": "npx electron-installer-dmg ./releases/gifbar-darwin-x64/gifbar.app GIFBar --out=./releases --overwrite; open ./releases",
     "electron": "electron build",
     "test": "npm run eslint && jest",
@@ -88,6 +89,7 @@
   "devDependencies": {
     "electron-devtools-installer": "^2.2.3",
     "eslint-config-standard-react": "^6.0.0",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "standard-version": "^4.3.0"
   }
 }
