@@ -1,11 +1,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator'
-
-import styles from './styles.css';
+import {Image, View} from 'react-native';
 
 import ImageActions from '../image-actions';
 import ImageInfo from '../image-info';
+
+const styles = {
+  image: {
+    backgroundColor: '#ccc',
+    width: 200
+  },
+  imageDisplay: {
+    marginTop: 3,
+    marginBottom: 3
+  }
+};
 
 class ImageDisplay extends Component {
   constructor(props) {
@@ -61,13 +71,13 @@ class ImageDisplay extends Component {
     } = this.state;
 
     const divStyle = {
-      height: image.imageSizes.smallSize.height + `px`
+      height: image.imageSizes.smallSize.height
     };
 
     let info;
     if (hovered) {
       info = (
-        <div>
+        <View>
           <ImageInfo info={image.fullSizedImageFileSize} />
           <ImageActions
             handleCopy={this.handleCopy}
@@ -76,20 +86,20 @@ class ImageDisplay extends Component {
             showFavorite={showFavorite}
             showRemoveFavorite={showRemoveFavorite}
           />
-        </div>
+        </View>
       );
     }
 
     return (
-      <div
+      <View
         className={styles.imageContainer}
-        style={divStyle}
         onMouseOver={this.handleMouseOver}
         onMouseLeave={this.handleMouseLeave}
+        style={styles.imageDisplay}
       >
-        <img className={styles.image} src={image.displayUrl} onClick={this.handleOpenModal} />
+        <Image resizeMode={Image.resizeMode.contain} style={[styles.image, divStyle]} source={image.displayUrl} onClick={this.handleOpenModal} />
         {info}
-      </div>
+      </View>
 
     )
   }
