@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import autobind from 'autobind-decorator';
 import {ipcRenderer} from 'electron';
+import {View} from 'react-native';
+
 import SearchBar from '../../components/search-bar';
 import SearchResults from '../../components/search-results';
 import StaticFooter from '../../components/static-footer';
@@ -10,7 +12,29 @@ import {getGlobalElectronProperty, setGlobalElectronProperty, viewModes} from '.
 import {getFavorites, removeFavorite, storeFavorite} from '../../favorites';
 
 import loadingImage from '../../images/loading.gif';
-import style from './styles.css';
+const styles = {
+  footer: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#e8e6e8',
+    borderTopColor: '#c2c0c2',
+    height: 45,
+    width: '100%'
+  },
+  main: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'white'
+  },
+  searchBar: {
+    backgroundColor: '#e8e6e8',
+    borderBottomColor: '#c2c0c2',
+    height: 35
+  },
+  searchResults: {
+    flex: 1,
+    overflow: 'scroll'
+  }
+};
 
 const SEARCH_LIMIT = 25;
 const BrowserWindow = electron.remote.BrowserWindow;
@@ -282,8 +306,8 @@ class Main extends Component {
     const {previousAvailable, forwardAvailable} = this.calcPaginationAvailability(this.state.totalResults, this.state.gifs.length, this.state.offset);
     const showPagination = this.state.viewMode === viewModes.searchResults && this.state.totalResults > 0;
     return (
-      <div className={style.mainContainer}>
-        <div className={style.searchBar}>
+      <View style={styles.main}>
+        <View style={styles.searchBar}>
           <SearchBar
             doClear={this.doClear}
             doExit={this.hideCurrentWindow}
@@ -291,8 +315,8 @@ class Main extends Component {
             onFocus={this.handleSearchBarFocus}
             shouldFocus={this.state.shouldFocus}
           />
-        </div>
-        <div className={style.results}>
+        </View>
+        <View style={styles.searchResults}>
           <SearchResults
             copyUrl={this.copyUrl}
             favoriteImage={this.favoriteImage}
@@ -302,8 +326,8 @@ class Main extends Component {
             status={this.state.status}
             viewMode={this.state.viewMode}
           />
-        </div>
-        <div className={style.attribution}>
+        </View>
+        <View style={styles.footer}>
           <StaticFooter
             changeOffset={this.changeOffset}
             count={SEARCH_LIMIT}
@@ -318,8 +342,8 @@ class Main extends Component {
             totalResults={this.state.totalResults}
             viewMode={this.state.viewMode}
           />
-        </div>
-      </div>
+        </View>
+      </View>
     );
   }
 }
