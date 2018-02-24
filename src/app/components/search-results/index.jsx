@@ -2,10 +2,22 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator'
 
+import {Image, Text, View} from 'react-native';
+
 import ImageDisplay from '../image-display';
 import {viewModes} from '../../utils';
 
-import styles from './styles.css';
+const styles = {
+  imageGrid: {
+    flexDirection: 'row',
+    flexGrow: 1,
+    flexShrink: 0,
+    justifyContent: 'space-around'
+  },
+  col: {
+    flexDirection: 'column'
+  }
+};
 
 class SearchResults extends Component {
   constructor(props) {
@@ -31,10 +43,10 @@ class SearchResults extends Component {
     let display;
     if (status && status.message) {
       display = (
-        <div>
-          <p>{status.message}</p>
-          <p><img src={status.imageUrl} /></p>
-        </div>
+        <View>
+          <Text>{status.message}</Text>
+          <Image source={status.imageUrl} />
+        </View>
       )
     }
     else {
@@ -53,14 +65,14 @@ class SearchResults extends Component {
       const displayLeft = this.state.searchResultsLeft.map(displayMap);
       const displayRight = this.state.searchResultsRight.map(displayMap);
       display = (
-        <div className={styles.imageGrid}>
-          <div className={styles.col}>
+        <View style={styles.imageGrid}>
+          <View style={styles.col}>
             {displayLeft}
-          </div>
-          <div className={styles.col}>
+          </View>
+          <View style={styles.col}>
             {displayRight}
-          </div>
-        </div>
+          </View>
+        </View>
       )
     }
     return display;
