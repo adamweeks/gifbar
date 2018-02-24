@@ -1,57 +1,62 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Image, StyleSheet} from 'react-native';
+import {Image, Text, TouchableHighlight, View} from 'react-native';
 
-import classNames from 'classnames';
-import styles from './styles.css';
-import giphyImage from './giphy.gif';
+import giphyImage from './powered-by.png';
 
-const rnStyles = StyleSheet.create({
-  img: {height: 23}
-});
+const styles = {
+  button: {
+    width: 45,
+    height: 45
+  },
+  disabled: {},
+  footer: {
+    flexDirection: 'row',
+    height: '100%'
+  },
+  image: {
+    height: 18
+  },
+  main: {
+    alignSelf: 'center',
+    flexDirection: 'column',
+    flex: 3
+  },
+  side: {
+
+  },
+  mainText: {
+    textAlign: 'center',
+    fontFamily: 'Helvetica Neue, sans-serif'
+  }
+
+};
 
 
 function footerNav({leftNav, rightNav, title}) {
-  const leftClass = classNames({
-    [`${styles.button}`]: true,
-    [`${styles.buttonDisabled}`]: leftNav && leftNav.disabled
-  });
-  const rightClass = classNames({
-    [`${styles.button}`]: true,
-    [`${styles.buttonDisabled}`]: rightNav && rightNav.disabled
-  });
   return (
-    <div className={styles.footer}>
-      <div className={styles.side}>
+    <View style={styles.footer}>
+      <View style={styles.side}>
         {leftNav && (
-          <div className={leftClass} onClick={leftNav.onClick}>
-            {leftNav.image && (
-              <img className={styles.imgButton} src={leftNav.image} />
-            )}
-            {!leftNav.image && leftNav.title}
-          </div>
+          <TouchableHighlight disabled={leftNav && leftNav.disabled} onPress={leftNav.onClick} style={styles.button}>
+            <Image source={leftNav.image} style={styles.button} />
+          </TouchableHighlight>
         )}
-      </div>
-      <div className={styles.main}>
-        <div className={styles.title}>
-          {title}
-        </div>
-        <div className={styles.attribution}>
-          <Image source={giphyImage} style={rnStyles.img} />
-
-        </div>
-      </div>
-      <div className={styles.side}>
+      </View>
+      <View style={styles.main}>
+        <Text style={styles.mainText}>{title}</Text>
+        <View style={styles.attribution}>
+          <Image draggable={false} resizeMode={Image.resizeMode.contain} source={{uri: giphyImage, height: 18}} style={styles.image} />
+        </View>
+      </View>
+      <View style={styles.side}>
         {rightNav && (
-          <div className={rightClass} onClick={rightNav.onClick}>
-            {rightNav.image && (
-              <img className={styles.imgButton} src={rightNav.image} />
-            )}
-            {!rightNav.image && rightNav.title}
-          </div>
+          <TouchableHighlight disabled={rightNav && rightNav.disabled} onPress={rightNav.onClick} style={styles.button}>
+            <Image source={rightNav.image} style={styles.button} />
+          </TouchableHighlight>
         )}
-      </div>
-    </div>
+      </View>
+    </View>
   );
 }
 
