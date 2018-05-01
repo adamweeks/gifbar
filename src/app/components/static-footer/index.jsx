@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator';
+import {View} from 'react-native';
 
 import FooterNav from '../footer-nav';
 
 import refresh from '../../images/Command-Refresh-128.png';
 import favoriteImage from '../../images/Shape-Star2-128.png';
+import nextImage from '../../images/Media-Fast-Forward-128.png';
+import previousImage from '../../images/Media-Rewind-128.png';
 
 class StaticFooter extends Component {
   buildTitle(isTrending, totalResults, count, offset) {
@@ -62,24 +65,24 @@ class StaticFooter extends Component {
     if (showNav) {
       leftNav = {
         disabled: !navPrevEnabled,
-        title: `<`,
+        image: previousImage,
         onClick: this.decrement
       };
       rightNav = {
         disabled: !navForwardEnabled,
-        title: `>`,
+        image: nextImage,
         onClick: this.increment
       }
     }
 
     return (
-      <div>
+      <View>
         <FooterNav
           leftNav={leftNav}
           rightNav={rightNav}
           title={title}
         />
-      </div>
+      </View>
     );
   }
 }

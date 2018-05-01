@@ -1,12 +1,35 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import autobind from 'autobind-decorator'
+import {StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 
-import styles from './styles.css';
-
-const ESCAPE_KEY = 27;
-const ENTER_KEY = 13;
-const A_KEY = 65;
+const styles = StyleSheet.create({
+  clearButton: {
+    borderColor: '#c2c0c2',
+    borderRadius: 4,
+    borderWidth: 1,
+    height: 25,
+    width: 25
+  },
+  text: {
+    fontFamily: 'Roboto, sans-serif',
+    lineHeight: 25,
+    textAlign: 'center'
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderColor: '#ddd',
+    borderWidth: 1,
+    flex: 1,
+    padding: 5,
+    marginRight: 5
+  },
+  main: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 5
+  }
+});
 
 class SearchBar extends Component {
 
@@ -28,8 +51,8 @@ class SearchBar extends Component {
   doFocus() {
     // Refs don't render properly in jest
     // TODO: https://stackoverflow.com/questions/40852131/refs-are-null-in-jest-snapshot-tests-with-react-test-renderer/40854433#40854433
-    if (this.searchBar) {
-      this.searchBar.focus();
+    if (this.refs.searchBar) {
+      this.refs.searchBar.focus();
     }
     this.props.onFocus();
   }
@@ -37,21 +60,25 @@ class SearchBar extends Component {
 
   render () {
     return (
-      <div className={styles.searchBar}>
-        <form>
-          <input
-            id='searchBar'
-            ref={node => this.searchBar = node}
-            type='text'
-            placeholder='Search for gifs'
-            value={this.state.value}
-            onFocus={this.handleFocus}
-            onKeyDown={this.handleKeyDown}
-            onChange={this.handleChange}
-          />
-          <button type='button' className='cancel' onClick={this.clearSearch}>X</button>
-        </form>
-      </div>
+      <View style={styles.main}>
+        <TextInput
+          autoFocus
+          id='searchBar'
+          onFocus={this.handleFocus}
+          onKeyPress={this.handleKeyDown}
+          onChange={this.handleChange}
+          placeholder='Search for gifs'
+          ref='searchBar'
+          style={styles.input}
+          value={this.state.value}
+        />
+        <TouchableOpacity
+          onPress={this.clearSearch}
+          style={styles.clearButton}
+        >
+          <Text style={styles.text}>X</Text>
+        </TouchableOpacity>
+      </View>
     )
   }
 
@@ -67,11 +94,11 @@ class SearchBar extends Component {
 
     @autobind
     handleKeyDown(event) {
-      if (event.keyCode === ENTER_KEY) {
+      if (event.nativeEvent.key === 'Enter') {
         this.doSearch();
         event.preventDefault();
       }
-      if (event.keyCode === ESCAPE_KEY) {
+      if (event.nativeEvent.key === 'Escape') {
         if (this.state.value.length > 0) {
           this.clearSearch();
         }
@@ -80,7 +107,7 @@ class SearchBar extends Component {
         }
         event.preventDefault();
       }
-      if (event.metaKey && event.keyCode === A_KEY ) {
+      if (event.nativeEvent.metaKey && event.nativeEvent.key === 'a' ) {
         event.target.select();
       }
     }

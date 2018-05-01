@@ -2,25 +2,46 @@
 
 exports[`SearchBar component renders properly 1`] = `
 <div
-  className="searchBar"
+  className="rn-alignItems-1oszu61 rn-borderTopStyle-1efd50x rn-borderRightStyle-14skgim rn-borderBottomStyle-rull8r rn-borderLeftStyle-mm0ijv rn-borderTopWidth-13yce4e rn-borderRightWidth-fnigne rn-borderBottomWidth-ndvcnb rn-borderLeftWidth-gxnn5r rn-boxSizing-deolkf rn-display-6koalj rn-flex-13awgt0 rn-flexGrow-1m1wadx rn-flexShrink-1awmn5t rn-flexDirection-18u37iz rn-marginTop-1mnahxq rn-marginRight-61z16t rn-marginBottom-p1pxzi rn-marginLeft-11wrixw rn-minHeight-ifefl9 rn-minWidth-bcqeeo rn-paddingTop-glunga rn-paddingRight-19gegkz rn-paddingBottom-1inuy60 rn-paddingLeft-qhyqy2 rn-position-bnwqim rn-zIndex-1lgpqti"
 >
-  <form>
-    <input
-      id="searchBar"
-      onChange={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      placeholder="Search for gifs"
-      type="text"
-      value=""
-    />
-    <button
-      className="cancel"
-      onClick={[Function]}
-      type="button"
+  <input
+    autoCapitalize="sentences"
+    autoComplete="on"
+    autoCorrect="on"
+    autoFocus={true}
+    className="rn-MozAppearance-97bpaa rn-appearance-30o5oe rn-backgroundColor-44z8sh rn-borderTopColor-res22y rn-borderRightColor-1m141fp rn-borderBottomColor-133gac rn-borderLeftColor-an2eso rn-borderTopLeftRadius-ou6ah9 rn-borderTopRightRadius-t12b5v rn-borderBottomRightRadius-zmljjp rn-borderBottomLeftRadius-pm2fo rn-borderTopStyle-1efd50x rn-borderRightStyle-14skgim rn-borderBottomStyle-rull8r rn-borderLeftStyle-mm0ijv rn-borderTopWidth-5kkj8d rn-borderRightWidth-13l2t4g rn-borderBottomWidth-qklmqi rn-borderLeftWidth-1ljd8xs rn-boxSizing-deolkf rn-flex-13awgt0 rn-flexGrow-1m1wadx rn-flexShrink-1awmn5t rn-fontFamily-10u92zi rn-fontSize-1b43r93 rn-marginRight-7o8qx1 rn-paddingTop-glunga rn-paddingRight-19gegkz rn-paddingBottom-1inuy60 rn-paddingLeft-qhyqy2 rn-resize-1dz5y72"
+    dir="auto"
+    id="searchBar"
+    onBlur={[Function]}
+    onChange={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onKeyPress={[Function]}
+    onSelect={[Function]}
+    placeholder="Search for gifs"
+    readOnly={false}
+    spellCheck={true}
+    type="text"
+    value=""
+  />
+  <div
+    className="rn-alignItems-1oszu61 rn-borderTopColor-tj2pst rn-borderRightColor-hqw5r0 rn-borderBottomColor-ooeisz rn-borderLeftColor-9f6811 rn-borderTopLeftRadius-kicko2 rn-borderTopRightRadius-notknq rn-borderBottomRightRadius-1dpl46z rn-borderBottomLeftRadius-6t5ypu rn-borderTopStyle-1efd50x rn-borderRightStyle-14skgim rn-borderBottomStyle-rull8r rn-borderLeftStyle-mm0ijv rn-borderTopWidth-5kkj8d rn-borderRightWidth-13l2t4g rn-borderBottomWidth-qklmqi rn-borderLeftWidth-1ljd8xs rn-boxSizing-deolkf rn-cursor-1loqt21 rn-display-6koalj rn-flexShrink-1pxmb3b rn-flexBasis-7vfszb rn-flexDirection-eqz5dr rn-height-6zzn7w rn-marginTop-1mnahxq rn-marginRight-61z16t rn-marginBottom-p1pxzi rn-marginLeft-11wrixw rn-minHeight-ifefl9 rn-minWidth-bcqeeo rn-paddingTop-wk8lta rn-paddingRight-9aemit rn-paddingBottom-1mdbw0j rn-paddingLeft-gy4na3 rn-position-bnwqim rn-touchAction-1gvxusu rn-transitionDuration-eafdt9 rn-transitionProperty-1i6wzkk rn-userSelect-lrvibr rn-width-q1j0wu rn-zIndex-1lgpqti"
+    onKeyDown={[Function]}
+    onKeyUp={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    tabIndex="0"
+  >
+    <div
+      className="rn-borderTopWidth-13yce4e rn-borderRightWidth-fnigne rn-borderBottomWidth-ndvcnb rn-borderLeftWidth-gxnn5r rn-boxSizing-deolkf rn-color-homxoj rn-display-1471scf rn-font-1lw9tu2 rn-fontFamily-14g7s25 rn-fontSize-1b43r93 rn-lineHeight-waer2z rn-marginTop-1mnahxq rn-marginRight-61z16t rn-marginBottom-p1pxzi rn-marginLeft-11wrixw rn-paddingTop-wk8lta rn-paddingRight-9aemit rn-paddingBottom-1mdbw0j rn-paddingLeft-gy4na3 rn-textAlign-q4m81j rn-textDecoration-bauka4 rn-whiteSpace-q42fyq rn-wordWrap-qvutc0"
+      dir="auto"
     >
       X
-    </button>
-  </form>
+    </div>
+  </div>
 </div>
 `;
