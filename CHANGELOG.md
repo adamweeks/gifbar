@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.8.0"></a>
+# [1.8.0](https://github.com/adamweeks/gifbar/compare/v1.7.0...v1.8.0) (2018-05-01)
+
+
+### Features
+
+* use react native web ([#141](https://github.com/adamweeks/gifbar/issues/141)) ([d41da76](https://github.com/adamweeks/gifbar/commit/d41da76))
+
+
+
 <a name="1.7.0"></a>
 # [1.7.0](https://github.com/adamweeks/gifbar/compare/v1.6.0...v1.7.0) (2018-02-21)
 
