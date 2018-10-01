@@ -33,7 +33,7 @@
     "classnames": "^2.2.5",
     "css-loader": "^0.28.4",
     "electron": "^1.8.2",
-    "electron-json-storage": "^4.0.2",
+    "electron-json-storage": "4.1.2",
     "electron-packager": "^11.0.1",
     "electron-positioner": "^3.0.0",
     "electron-settings": "^3.1.1",
