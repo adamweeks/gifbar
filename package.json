@@ -41,7 +41,7 @@
     "eslint": "^4.3.0",
     "eslint-plugin-react": "^7.7.0",
     "extend": "^3.0.0",
-    "file-loader": "^1.1.5",
+    "file-loader": "^2.0.0",
     "greenkeeper-lockfile": "^1.7.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.1.4",
