@@ -22,7 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "auto-launch-patched": "~5.0.2",
-    "autobind-decorator": "^2.1.0",
+    "autobind-decorator": "^2.3.1",
     "babel-core": "^6.24.1",
     "babel-eslint": "^8.0.1",
     "babel-jest": "^22.2.2",
