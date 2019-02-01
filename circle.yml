@@ -1,9 +1,0 @@
-machine:
-  node:
-    version: 8.9.4
-dependencies:
-  post:
-    - greenkeeper-lockfile-update
-test:
-  post:
-    - greenkeeper-lockfile-upload
