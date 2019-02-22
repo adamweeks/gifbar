@@ -56,6 +56,7 @@ function create (opts) {
       hideAlert:      settings.get(`hideAlert`, false),
       includeHashTag: settings.get(`includeHashTag`, true),
       hideOnCopy:     settings.get(`hideOnCopy`, true),
+      fetchTrending:  settings.get(`fetchTrending`, true),
       launchAtLogin:  false, // setting not necessary as the OS handles that.
       globalShortcut: settings.get(`globalShortcut`, true),
       giphyAPIKey:    env.GIPHY_API_KEY
@@ -252,6 +253,15 @@ function create (opts) {
           click: function() {
             global.sharedObject.hideOnCopy = !global.sharedObject.hideOnCopy;
             settings.set(`hideOnCopy`, global.sharedObject.hideOnCopy);
+          }
+        },
+        {
+          label: `Show trending gifs`,
+          type: `checkbox`,
+          checked: global.sharedObject.fetchTrending,
+          click: function() {
+            global.sharedObject.fetchTrending = !global.sharedObject.fetchTrending;
+            settings.set(`fetchTrending`, global.sharedObject.fetchTrending);
           }
         },
         {
