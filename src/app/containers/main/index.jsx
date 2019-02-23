@@ -98,7 +98,11 @@ class Main extends Component {
   @autobind
   changeOffset(offset) {
     this.setState({offset});
-    this.searchRequest(this.state.currentSearchTerm, offset);
+    if (this.state.viewMode === viewModes.favorites) {
+      this.displayFavorites(null, offset);
+    } else {
+      this.searchRequest(this.state.currentSearchTerm, offset);
+    }
   }
 
   @autobind
@@ -219,15 +223,16 @@ class Main extends Component {
   }
 
   @autobind
-  displayFavorites() {
-    const favorites = getFavorites();
+  displayFavorites(event, offset=0) {
+    const {favorites, totalCount} = getFavorites(SEARCH_LIMIT, offset);
     this.setState({
       gifs: favorites,
       isTrending: false,
-      offset: 0,
+      offset: offset,
       status: {},
       title: `Favorites`,
-      viewMode: viewModes.favorites
+      viewMode: viewModes.favorites,
+      totalResults: totalCount
     });
   }
 
@@ -302,9 +307,8 @@ class Main extends Component {
   }
 
   render() {
-
     const {previousAvailable, forwardAvailable} = this.calcPaginationAvailability(this.state.totalResults, this.state.gifs.length, this.state.offset);
-    const showPagination = this.state.viewMode === viewModes.searchResults && this.state.totalResults > 0;
+    const showPagination = (this.state.viewMode === viewModes.searchResults || this.state.viewMode === viewModes.favorites) && this.state.totalResults > 0;
     return (
       <View style={styles.main}>
         <View style={styles.searchBar}>
