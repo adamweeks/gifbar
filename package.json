@@ -6,8 +6,8 @@
   "main": "main.js",
   "scripts": {
     "build": "rimraf build; npm run webpack-app; npm run webpack-main",
-    "webpack-app": "webpack --progress --profile --colors --display-error-details --display-cached",
-    "webpack-main": "NODE_ENV=production webpack --config webpack.config.main.js --progress --profile --colors --display-error-details --display-cached",
+    "webpack-app": "webpack --progress --profile --colors --display-error-details --display-cached --mode=production",
+    "webpack-main": "NODE_ENV=production webpack --config webpack.config.main.js --progress --profile --colors --display-error-details --display-cached --mode=production",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
     "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --no-tmpdr --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns --no-prune",
     "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --no-tmpdr --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns --no-prune",
