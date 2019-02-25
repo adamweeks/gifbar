@@ -14,8 +14,11 @@ storage.get(`favorites`, (error, data) => {
 });
 
 export function storeFavorite(image) {
-  favorites.push(image);
-  saveFavorites();
+  const exists = favorites.some((img) => img.id === image.id);
+  if (!exists) {
+    favorites.push(image);
+    saveFavorites();
+  }
 }
 
 export function getFavorites(amount=20, offset=0) {
