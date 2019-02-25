@@ -33,7 +33,7 @@ var options = {
   module: {
     rules: [
       {
-        test: /\.(png|jpg|gif|icns|html|json)$/,
+        test: /\.(png|jpg|gif|icns|html)$/,
         exclude: path.resolve(__dirname, `env.json`),
         use: [
           {
