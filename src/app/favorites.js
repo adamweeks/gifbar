@@ -22,7 +22,10 @@ export function storeFavorite(image) {
 }
 
 export function getFavorites(amount=20, offset=0) {
-  return favorites.slice(offset, offset+amount);
+  return {
+    favorites: favorites.slice(offset, offset+amount),
+    totalCount: favorites.length,
+  };
 }
 
 export function removeFavorite(image) {
