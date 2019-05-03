@@ -10,7 +10,7 @@
     "webpack-main": "NODE_ENV=production webpack --config webpack.config.main.js --progress --profile --colors --display-error-details --display-cached --mode=production && cp src/package.json build/",
     "watch": "webpack --watch --progress --profile --colors --display-error-details --display-cached",
     "release-mac": "electron-packager build/ gifbar --platform=darwin --arch=x64 --overwrite --no-tmpdr --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns --no-prune",
-    "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --no-tmpdr --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.icns --no-prune",
+    "release-win": "electron-packager build/ gifbar --platform=win32 --arch=x64 --overwrite --no-tmpdr --out=releases/ --app-version=$npm_package_version --icon=gifbar-icon.ico --no-prune",
     "release:build": "npm run build; npm run release-mac; open ./releases",
     "release": "standard-version",
     "dmg": "npx electron-installer-dmg ./releases/gifbar-darwin-x64/gifbar.app GIFBar --out=./releases --overwrite; open ./releases",
