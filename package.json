@@ -91,7 +91,7 @@
   "devDependencies": {
     "babel-plugin-react-native-web": "^0.5.0",
     "electron-devtools-installer": "^2.2.3",
-    "eslint-config-standard-react": "^6.0.0",
+    "eslint-config-standard-react": "^9.1.0",
     "jest-react-native": "^18.0.0",
     "rimraf": "^2.6.1",
     "standard-version": "^4.3.0",
