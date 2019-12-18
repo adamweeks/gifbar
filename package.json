@@ -62,7 +62,7 @@
     "typings": "^2.1.1",
     "url-loader": "~1.1.2",
     "webpack": "^4.29.5",
-    "webpack-dev-server": "^3.2.0",
+    "webpack-dev-server": "^3.10.0",
     "zone.js": "^0.8.16"
   },
   "jest": {
