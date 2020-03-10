@@ -46,7 +46,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^22.1.4",
     "menubar": "^5.2.3",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.2",
     "prop-types": "^15.5.8",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
